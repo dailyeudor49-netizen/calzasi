@@ -3,8 +3,8 @@
 import { useEffect, useRef } from "react";
 import Script from "next/script";
 
-const GADS_ID   = "";
-const GADS_CONV = "";
+const GADS_ID   = "AW-17533430924";
+const GADS_CONV = "AW-17533430924/2tSECKu27K8cEIzZy6hB";
 
 export default function TrackingPixels() {
   const fired = useRef(false);
@@ -15,7 +15,7 @@ export default function TrackingPixels() {
 
     let raw: string | null = null;
     try {
-      raw = localStorage.getItem("cz_order_data");
+      raw = localStorage.getItem("cf_thankyou");
     } catch {}
     if (!raw) return;
 
@@ -97,7 +97,7 @@ export default function TrackingPixels() {
     }
   }, []);
 
-  if (!GADS_ID) return null;
+  if (!GADS_ID) return null; // mai true ora, ma lasciato come guardia
 
   return (
     <>
