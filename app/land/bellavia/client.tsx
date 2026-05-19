@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Script from "next/script";
 import Link from "next/link";
@@ -10,8 +10,8 @@ import { StickyOrderButton } from "@/components/StickyOrderButton";
 import type { OrderConfig } from "@/lib/order-config";
 
 /* ─── Typography ─── */
-const F = "'Manrope', 'Inter', system-ui, sans-serif";
-const SERIF = "Georgia, 'Times New Roman', serif";
+const F  = "'Poppins', system-ui, sans-serif";   /* body, label, UI */
+const FT = "'Montserrat', system-ui, sans-serif";  /* titoli h1/h2 */
 
 /* ─── Colors ─── */
 const COLORS = [
@@ -33,23 +33,24 @@ const STOCK: Record<string, Record<string, number>> = {
 
 /* ─── Benefits ─── */
 const BENEFITS = [
-  { name: "Suola curva attiva",     rest: " — oscillazione naturale, cammini con meno fatica" },
-  { name: "Effetto scolpente",      rest: " — attiva glutei e polpacci ad ogni passo" },
-  { name: "Plantare anatomico",     rest: " — arco e tallone supportati, postura allineata" },
-  { name: "Doppio ammortizzamento", rest: " — impatti assorbiti, comfort tutto il giorno" },
-  { name: "Tomaia traspirante",     rest: " — piede asciutto, fresco e senza odori" },
-  { name: "Suola anti-scivolo",     rest: " — aderenza sicura su qualsiasi superficie" },
+  { name: "Glutei attivi ad ogni passo", kicker: "Effetto scolpente", rest: "Il profilo curvo crea una lieve instabilità controllata che richiama glutei e cosce automaticamente, senza palestra." },
+  { name: "Silhouette più definita in 4 settimane", kicker: "Risultato visibile", rest: "Cammini e modelli: i muscoli profondi lavorano costantemente anche nelle attività quotidiane." },
+  { name: "Postura più alta, effetto snellente", kicker: "Slimming naturale", rest: "L'appoggio corretto raddrizza il bacino e allunga la figura: sembri più alta e proporzionata al primo sguardo." },
+  { name: "Gambe più leggere, circolazione attiva", kicker: "Anti-gonfiore", rest: "L'oscillazione della suola stimola la circolazione venosa: meno gonfiore la sera, gambe più tese." },
 ];
 
 /* ─── Tecnologie ─── */
 const TECHS = [
-  { img: "/images/land/bellavia/tech/1.webp", tags: ["Impulso in avanti","Meno stress"], title: "Suola curva attiva", body: "La suola sagomata favorisce l'oscillazione del piede e ti spinge avanti naturalmente, riducendo lo stress su ginocchia e schiena." },
-  { img: "/images/land/bellavia/tech/2.webp", tags: ["Attiva i glutei","Tonifica i polpacci"], title: "Effetto scolpente", body: "Il profilo a dondolo stimola l'estensione dell'anca: i glutei si attivano ad ogni passo, senti i muscoli lavorare." },
-  { img: "/images/land/bellavia/tech/3.webp", tags: ["Supporto arco","Tallone stabile"], title: "Plantare anatomico", body: "Supporto mirato all'arco plantare e al tallone: appoggio stabile, postura allineata, sovraccarichi ridotti." },
-  { img: "/images/land/bellavia/tech/4.webp", tags: ["Anti-urto","Comfort prolungato"], title: "Doppio ammortizzamento", body: "Doppio strato che assorbe gli impatti: comfort superiore anche durante le camminate più lunghe su asfalto." },
-  { img: "/images/land/bellavia/tech/5.webp", tags: ["Termoregolante","Antiodore"], title: "Tomaia traspirante", body: "Tomaia premium che regola la temperatura interna: piede asciutto, fresco e senza odori per tutto il giorno." },
-  { img: "/images/land/bellavia/tech/6.webp", tags: ["Aderenza bagnato","Tasselli profondi"], title: "Suola anti-scivolo", body: "Mescola con aderenza avanzata e tasselli profondi: passi sicuri su asfalto bagnato e superfici scivolose." },
+  { img: "/images/land/bellavia/tech/1.webp", metric: "01", tags: ["glutei attivi","cosce toniche"], title: "Scolpisce glutei e cosce mentre cammini", body: "La suola curva crea un'instabilità guidata che richiama i muscoli profondi di glutei e cosce a ogni passo, senza sforzo extra." },
+  { img: "/images/land/bellavia/tech/2.webp", metric: "02", tags: ["silhouette definita","4 settimane"], title: "Risultati visibili in circa 4 settimane", body: "Con 20-30 minuti di camminata quotidiana, la maggior parte delle clienti nota un cambiamento visibile nella silhouette entro il primo mese." },
+  { img: "/images/land/bellavia/tech/3.webp", metric: "03", tags: ["postura alta","effetto slimming"], title: "Postura più eretta, figura più slanciata", body: "Il plantare anatomico allinea il bacino e raddrizza la schiena: la figura appare più alta e definita senza sforzo." },
+  { img: "/images/land/bellavia/tech/4.webp", metric: "04", tags: ["calorie extra","effetto passivo"], title: "Bruci più calorie senza accorgertene", body: "La leggera destabilizzazione attiva più gruppi muscolari rispetto a una scarpa piatta: più lavoro muscolare, più calorie bruciate passivamente." },
+  { img: "/images/land/bellavia/tech/5.webp", metric: "05", tags: ["gambe leggere","circolazione"], title: "Meno gonfiore, gambe più toniche la sera", body: "Il movimento oscillante stimola la circolazione nelle gambe: arrivi a sera con meno pesantezza e gonfiore visibile." },
+  { img: "/images/land/bellavia/tech/6.webp", metric: "06", tags: ["comfort tutto il giorno","traspirante"], title: "Comode tutto il giorno, così le indossi davvero", body: "La tomaia traspirante e la suola anti-shock rendono Bellavia confortevole anche nelle giornate più lunghe." },
 ];
+
+/* ─── Carosello hero (tutte le foto) ─── */
+const HERO_GALLERY = Array.from({ length: 10 }, (_, i) => `/images/land/bellavia/carosello/${i + 1}.webp`);
 
 /* ─── FAQ ─── */
 const FAQS = [
@@ -58,13 +59,13 @@ const FAQS = [
   { q: "Cosa succede se al momento della consegna non sono in casa?", a: "Il corriere ti contatta prima di consegnare. Se non sei disponibile lascia un avviso di giacenza e riprova il giorno successivo, senza costi aggiuntivi." },
   { q: "Posso restituire il prodotto?",                             a: "Sì, hai 30 giorni dalla consegna. Il prodotto deve essere integro e nell'imballaggio originale. Scrivi a info@calzasi.com per ricevere le istruzioni di reso." },
   { q: "Come scelgo la taglia corretta?",                          a: "La calzata è regolare. Scegli la tua taglia abituale. Se sei tra due numeri o hai il piede largo, prendi la taglia superiore." },
-  { q: "In quanto tempo vedrò i benefici?",                        a: "La maggior parte delle clienti percepisce comfort immediato dal primo utilizzo. I benefici sulla postura e la tonificazione diventano visibili in circa 4 settimane camminando 20-30 minuti al giorno." },
-  { q: "Sono adatte a chi ha problemi alla schiena o alle ginocchia?", a: "La suola curva e il plantare anatomico sono progettati per ridurre lo stress su schiena e ginocchia. Non sostituiscono un parere medico: in caso di patologie consulta il tuo specialista." },
+  { q: "In quanto tempo vedrò i risultati sulla silhouette?",        a: "La maggior parte delle clienti nota i primi cambiamenti — glutei più tonici, gambe più sode — dopo 3-4 settimane camminando 20-30 minuti al giorno. L'effetto sulla silhouette diventa più evidente dopo 6-8 settimane di uso costante." },
+  { q: "Davvero si scolpisce senza andare in palestra?",             a: "Sì. La suola curva crea un'instabilità controllata che richiama i muscoli profondi di glutei, cosce e addominali ad ogni passo. Non sostituisce un allenamento intenso, ma integra l'attività quotidiana trasformandola in esercizio." },
   { q: "La suola è antiscivolo anche su bagnato?",                 a: "Sì. I tasselli profondi e la mescola antiscivolo garantiscono aderenza sicura su superfici bagnate e scivolose." },
 ];
 
 /* ─── Clienti loop ─── */
-const CLIENTI = [1,2,3,4,5,6,7].map((n) => `/images/land/bellavia/clienti/${n}.webp`);
+const CLIENTI = Array.from({ length: 10 }, (_, i) => `/images/land/bellavia/clienti/${i + 1}.webp`);
 
 /* ─── Types ─── */
 interface Review { id: number; author_name: string; rating: number; body: string; created_at: string; reply: string | null; }
@@ -86,111 +87,120 @@ function Stars({ n, size = 16 }: { n: number; size?: number }) {
 
 /* ─── BeforeAfter ─── */
 function BeforeAfter() {
-  const [pct, setPct]       = useState(50);
-  const [drag, setDrag]     = useState(false);
-  const boxRef              = useRef<HTMLDivElement>(null);
-  const clamp               = (v: number) => Math.max(5, Math.min(95, v));
-  const updateX             = useCallback((x: number) => {
-    if (!boxRef.current) return;
-    const { left, width } = boxRef.current.getBoundingClientRect();
-    setPct(clamp(((x - left) / width) * 100));
-  }, []);
-  useEffect(() => {
-    const mm = (e: MouseEvent)  => { if (drag) updateX(e.clientX); };
-    const mu = ()               => setDrag(false);
-    const tm = (e: TouchEvent)  => { if (drag) updateX(e.touches[0].clientX); };
-    window.addEventListener("mousemove", mm);
-    window.addEventListener("mouseup",   mu);
-    window.addEventListener("touchmove", tm, { passive: true });
-    window.addEventListener("touchend",  mu);
-    return () => {
-      window.removeEventListener("mousemove", mm);
-      window.removeEventListener("mouseup",   mu);
-      window.removeEventListener("touchmove", tm);
-      window.removeEventListener("touchend",  mu);
-    };
-  }, [drag, updateX]);
-
+  const weeks = [
+    { n: "Settimana 1", body: "Il corpo si adatta alla suola curva: il passo diventa più fluido e si percepisce subito il comfort in più." },
+    { n: "Settimana 2", body: "La postura migliora progressivamente. Glutei e cosce iniziano ad attivarsi in modo più consapevole." },
+    { n: "Settimana 3", body: "I glutei si attivano regolarmente durante ogni camminata. La silhouette inizia a definirsi." },
+    { n: "Settimana 4", body: "Glutei più tonici, cosce più sode, postura più dritta. I risultati si vedono allo specchio." },
+  ];
   return (
-    <section style={{ backgroundColor: "#FAF6F0", padding: "72px 20px" }}>
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
-        <p style={{ textAlign: "center", fontSize: 13, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#7B2238", fontFamily: F, marginBottom: 16 }}>
-          LA TRASFORMAZIONE BELLAVIA
-        </p>
-        <h2 style={{ textAlign: "center", fontFamily: SERIF, fontSize: "clamp(28px,5vw,48px)", fontWeight: 700, color: "#1E1B18", marginBottom: 16, lineHeight: 1.2 }}>
-          Da silhouette rilassata a silhouette modellata
-        </h2>
-        <p style={{ textAlign: "center", fontSize: 19, color: "#6B655E", fontFamily: F, maxWidth: 600, margin: "0 auto 40px" }}>
-          Cammina 20-30 minuti al giorno con Bellavia.{" "}
-          <strong style={{ color: "#C9813A" }}>Risultati visibili in circa 4 settimane.</strong>
-        </p>
+    <section className="bv-ba-section" style={{ background: "#F8FAFF", padding: "72px 20px 80px" }}>
+      <div style={{ maxWidth: 1120, margin: "0 auto" }}>
 
-        {/* Slider */}
-        <div
-          ref={boxRef}
-          style={{ position: "relative", borderRadius: 12, overflow: "hidden", aspectRatio: "4/3", userSelect: "none", cursor: "ew-resize", touchAction: "none" }}
-          onMouseDown={(e) => { setDrag(true); updateX(e.clientX); }}
-          onTouchStart={(e) => { setDrag(true); updateX(e.touches[0].clientX); }}
-        >
-          {/* AFTER */}
-          <Image src="/images/land/bellavia/after.webp" alt="Dopo Bellavia — silhouette modellata" fill className="object-cover" sizes="90vw" loading="lazy" />
-          <div style={{ position: "absolute", top: 12, right: 12, backgroundColor: "rgba(45,106,79,0.9)", borderRadius: 6, padding: "4px 12px", color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: F }}>DOPO</div>
-
-          {/* BEFORE */}
-          <div style={{ position: "absolute", inset: 0, clipPath: `inset(0 ${100 - pct}% 0 0)` }}>
-            <Image src="/images/land/bellavia/before.webp" alt="Prima di Bellavia" fill className="object-cover" sizes="90vw" loading="lazy" />
-            <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(42,38,34,0.22)" }} />
-          </div>
-          <div style={{ position: "absolute", top: 12, left: 12, backgroundColor: "rgba(42,38,34,0.75)", borderRadius: 6, padding: "4px 12px", color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: F }}>PRIMA</div>
-
-          {/* Handle */}
-          <div style={{ position: "absolute", top: 0, bottom: 0, left: `${pct}%`, transform: "translateX(-50%)", width: 4, backgroundColor: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div style={{ width: 40, height: 40, borderRadius: "50%", backgroundColor: "#C9813A", border: "3px solid #fff", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.28)", color: "#fff", fontSize: 14, fontWeight: 700 }}>↔</div>
-          </div>
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: 48 }}>
+          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#2563EB", fontFamily: F, marginBottom: 12 }}>
+            La trasformazione Bellavia
+          </p>
+          <h2 style={{ fontFamily: FT, fontSize: "clamp(26px,4vw,44px)", fontWeight: 700, color: "#1B3A5C", marginBottom: 14, lineHeight: 1.1, letterSpacing: "-0.01em" }}>
+            Da silhouette rilassata a silhouette modellata.
+          </h2>
+          <p style={{ fontSize: "clamp(15px,2vw,17px)", fontWeight: 400, color: "#4B5563", fontFamily: F, maxWidth: 560, lineHeight: 1.65, margin: "0 auto" }}>
+            Cammina 20-30 minuti al giorno con Bellavia. Glutei attivi, cosce più sode, postura più alta. Risultati visibili in circa 4 settimane.
+          </p>
         </div>
 
-        {/* Pillole */}
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12, marginTop: 20 }}>
-          {["Foto reali — senza ritocchi", "Benefici visibili in 4 settimane"].map((p) => (
-            <span key={p} style={{ backgroundColor: "#7B2238", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: F, padding: "8px 16px", borderRadius: 999 }}>{p}</span>
-          ))}
-        </div>
+        {/* Grid: immagine + timeline */}
+        <div className="bv-before-after-grid" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)", gap: 40, alignItems: "start" }}>
 
-        {/* Bullets */}
-        <ul style={{ margin: "24px auto 0", maxWidth: 480, display: "flex", flexDirection: "column", gap: 8, padding: 0, listStyle: "none" }}>
-          {["Oscillazione guidata, cammini meglio", "Attivazione dei glutei ad ogni passo", "Meno stress su ginocchia e schiena"].map((b) => (
-            <li key={b} style={{ display: "flex", alignItems: "center", gap: 14, fontFamily: F, fontSize: 16, fontWeight: 600, color: "#1E1B18", backgroundColor: "#F0F7F4", border: "1px solid #C6E8D8", borderRadius: 10, padding: "11px 16px" }}>
-              <div style={{ width: 28, height: 28, borderRadius: "50%", backgroundColor: "#2D6A4F", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+          {/* Immagine */}
+          <div style={{ position: "relative" }}>
+            <div style={{ position: "relative", borderRadius: 12, overflow: "hidden", boxShadow: "0 20px 60px rgba(27,58,92,0.15)" }}>
+              <div className="bv-fade-frame" style={{ position: "relative" }}>
+                <img src="/images/land/bellavia/before.webp" alt="Prima di Bellavia" className="bv-before-img" style={{ width: "100%", height: "auto", display: "block" }} loading="lazy" />
+                <img src="/images/land/bellavia/after.webp" alt="Dopo Bellavia" className="bv-after-img" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain" }} loading="lazy" />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.72) 100%)" }} />
               </div>
-              {b}
-            </li>
-          ))}
-        </ul>
 
-        {/* Timeline settimane */}
-        <div style={{ marginTop: 48, paddingTop: 40, borderTop: "1px solid #E8DFD1" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginBottom: 16 }}>
-            {[
-              "Settimana 1",
-              "Settimana 2",
-              "Settimana 3",
-              "Settimana 4",
-            ].map((w, i) => (
-              <motion.div key={w} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.12 }} style={{ textAlign: "center" }}>
-                <p style={{ fontSize: i === 3 ? 18 : 16, fontWeight: i === 3 ? 700 : 400, color: i === 3 ? "#C9813A" : "#6B655E", fontFamily: F }}>{w}</p>
-              </motion.div>
-            ))}
+              {/* Etichette PRIMA / DOPO */}
+              <div style={{ position: "absolute", top: 16, left: 16, right: 16, display: "flex", justifyContent: "space-between" }}>
+                <span style={{ fontFamily: F, backgroundColor: "rgba(0,0,0,0.65)", color: "#fff", borderRadius: 4, padding: "7px 12px", fontSize: 12, fontWeight: 700, letterSpacing: "0.08em" }}>PRIMA</span>
+                <span style={{ fontFamily: F, backgroundColor: "#16A34A", color: "#fff", borderRadius: 4, padding: "7px 12px", fontSize: 12, fontWeight: 700, letterSpacing: "0.08em" }}>DOPO</span>
+              </div>
+
+              {/* Caption glutei */}
+              <div style={{ position: "absolute", left: 16, right: 16, bottom: 16 }}>
+                <div style={{ height: 5, borderRadius: 999, backgroundColor: "rgba(255,255,255,0.25)", overflow: "hidden", marginBottom: 12 }}>
+                  <div className="bv-progress-loop" style={{ height: "100%", borderRadius: 999, background: "linear-gradient(90deg, #22C55E, #86EFAC)" }} />
+                </div>
+                <div style={{ backgroundColor: "rgba(0,0,0,0.72)", borderRadius: 8, padding: "14px 16px" }}>
+                  <p style={{ fontFamily: F, fontSize: 15, fontWeight: 700, color: "#22C55E", marginBottom: 4 }}>
+                    Glutei attivi. Silhouette definita.
+                  </p>
+                  <p style={{ fontFamily: F, fontSize: 13, fontWeight: 400, color: "rgba(255,255,255,0.85)", lineHeight: 1.45 }}>
+                    La suola curva coinvolge glutei e cosce ad ogni passo — senza palestra, senza esercizi separati.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <p style={{ textAlign: "center", fontSize: 12, color: "#9CA3AF", fontStyle: "italic", fontFamily: F, marginTop: 12 }}>
+              Risultati individuali. Variano in base a costanza d&apos;uso e stile di vita.
+            </p>
           </div>
-          <div style={{ height: 6, borderRadius: 999, backgroundColor: "#E8DFD1", overflow: "hidden", marginBottom: 10 }}>
-            <motion.div initial={{ width: 0 }} whileInView={{ width: "100%" }} viewport={{ once: true }} transition={{ duration: 1.2, ease: "easeOut" }} style={{ height: "100%", background: "linear-gradient(to right, #6B655E, #C9813A)", borderRadius: 999 }} />
+
+          {/* Timeline settimane */}
+          <div>
+            <p style={{ fontFamily: F, fontSize: 13, fontWeight: 700, color: "#2563EB", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 20 }}>
+              Cosa succede settimana per settimana
+            </p>
+            <div style={{ display: "grid", gap: 12 }}>
+              {weeks.map((w, i) => (
+                <div key={w.n} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: "50%", backgroundColor: i === 3 ? "#22C55E" : "#DBEAFE", color: i === 3 ? "#fff" : "#1D4ED8", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F, fontSize: 13, fontWeight: 600, flexShrink: 0 }}>
+                      {i + 1}
+                    </div>
+                    {i < 3 && <div style={{ width: 2, height: 20, backgroundColor: "#DBEAFE", marginTop: 4 }} />}
+                  </div>
+                  <div style={{ paddingTop: 6, paddingBottom: i < 3 ? 0 : 0 }}>
+                    <p style={{ fontFamily: F, fontSize: 14, fontWeight: 700, color: i === 3 ? "#16A34A" : "#1B3A5C", marginBottom: 4 }}>{w.n}</p>
+                    <p style={{ fontFamily: F, fontSize: 14, fontWeight: 400, color: "#4B5563", lineHeight: 1.55 }}>{w.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Bullet risultati */}
+            <ul style={{ margin: "24px 0 0", padding: 0, listStyle: "none", display: "grid", gap: 8 }}>
+              {[
+                "Glutei e cosce più tonici dopo 4 settimane",
+                "Silhouette più definita senza esercizi aggiuntivi",
+                "Postura più alta, effetto snellente visibile subito",
+              ].map((b) => (
+                <li key={b} style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: F, fontSize: 14, fontWeight: 400, color: "#1B3A5C", backgroundColor: "#F0FDF4", border: "1px solid #BBF7D0", borderLeft: "4px solid #22C55E", borderRadius: 8, padding: "11px 14px" }}>
+                  <span style={{ width: 20, height: 20, borderRadius: "50%", backgroundColor: "#22C55E", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1.5" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </span>
+                  {b}
+                </li>
+              ))}
+            </ul>
+
+            {/* Stats */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginTop: 20 }}>
+              {[
+                { n: "4", t: "settimane per vedere i risultati", c: "#DBEAFE", a: "#1D4ED8" },
+                { n: "+20%", t: "attivazione glutei vs scarpa piatta", c: "#DCFCE7", a: "#16A34A" },
+                { n: "0", t: "ore di palestra aggiuntive", c: "#FEF9C3", a: "#CA8A04" },
+              ].map((s) => (
+                <div key={s.t} style={{ borderRadius: 8, backgroundColor: s.c, padding: "14px 12px" }}>
+                  <p style={{ fontFamily: F, fontSize: 26, fontWeight: 600, color: s.a, lineHeight: 1, marginBottom: 4 }}>{s.n}</p>
+                  <p style={{ fontFamily: F, fontSize: 12, fontWeight: 500, color: "#374151", lineHeight: 1.3 }}>{s.t}</p>
+                </div>
+              ))}
+            </div>
           </div>
-          <p style={{ textAlign: "center", fontSize: 15, fontStyle: "italic", color: "#6B655E", fontFamily: F }}>Inizio ──────► Risultati visibili</p>
         </div>
-
-        <p style={{ textAlign: "center", fontSize: 13, color: "#6B655E", fontStyle: "italic", fontFamily: F, marginTop: 24 }}>
-          *Tempi indicativi. I risultati variano in base a costanza d&apos;uso, peso, intensità della camminata e stile di vita.
-        </p>
       </div>
     </section>
   );
@@ -230,29 +240,73 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
 
       {/* CSS vars + animations */}
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap');`}
+      </style>
+      <style>{`
         .bv-size-pulse { animation: bvPulse 0.6s ease 4; }
         @keyframes bvPulse { 0%,100%{box-shadow:none}50%{box-shadow:0 0 0 4px rgba(201,129,58,0.45)} }
         @keyframes bvTopBar { from{transform:translateX(0)} to{transform:translateX(-50%)} }
         @keyframes bvClienti { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+        @keyframes bvFadeAfter { 0%,38%{opacity:0} 50%,88%{opacity:1} 100%{opacity:0} }
+        @keyframes bvProgress { from{transform:translateX(-100%)} to{transform:translateX(0)} }
+        .bv-after-img { opacity:0; animation:bvFadeAfter 5.4s ease-in-out infinite; }
+        .bv-before-img { filter:saturate(0.82) contrast(0.95); }
+        .bv-progress-loop { width:100%; transform:translateX(-100%); animation:bvProgress 5.4s linear infinite; }
+        .bv-tech-card { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+        .bv-tech-card:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(55,38,20,0.16); border-color: rgba(201,129,58,0.45) !important; }
+        .bv-proof-grid { grid-template-columns: 1.05fr 0.95fr; }
+        .bv-final-grid { grid-template-columns: 0.95fr 1.05fr; }
+        .bv-fineprint-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        @media (max-width: 860px) {
+          .bv-before-after-grid { grid-template-columns: 1fr !important; }
+          .bv-tech-grid { grid-template-columns: 1fr !important; }
+          .bv-tech-card-featured { grid-column: auto !important; }
+          .bv-tech-card { grid-column: auto !important; }
+          .bv-proof-grid, .bv-final-grid, .bv-fineprint-grid { grid-template-columns: 1fr !important; }
+          .bv-mobile-stack { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 640px) {
+          .bv-hero-info h1 { font-size: 28px !important; margin-bottom: 12px !important; }
+          .bv-hero-info p { font-size: 15px !important; }
+          .bv-hero-section { padding: 18px 16px 40px !important; }
+          .bv-hero-grid { gap: 20px !important; }
+          .bv-size-grid { grid-template-columns: repeat(5, 1fr) !important; gap: 6px !important; }
+          .bv-size-btn { height: 48px !important; font-size: 14px !important; }
+          .bv-step-grid { grid-template-columns: 1fr !important; }
+          .bv-topbar { font-size: 12px !important; gap: 32px !important; }
+          .bv-price-big { font-size: 44px !important; }
+          .bv-stats-grid { grid-template-columns: 1fr !important; }
+          .bv-tech-section { padding: 48px 16px !important; }
+          .bv-ba-section { padding: 48px 16px !important; }
+          .bv-cod-section { padding: 48px 16px !important; }
+          .bv-final-section { padding: 48px 16px !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .bv-after-img, .bv-progress-loop, .bv-tech-card { animation: none !important; transition: none !important; }
+          .bv-after-img { opacity: 0.72; }
+        }
       `}</style>
 
       {/* JSON-LD */}
       <Script id="bellavia-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "Product",
-        "name": "Bellavia — Scarpe ortopediche con suola attiva",
+        "name": "Bellavia - Scarpe ortopediche con suola attiva",
         "brand": { "@type": "Brand", "name": "Calzasi" },
         "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": "49.99", "priceValidUntil": "2026-12-31", "availability": "https://schema.org/InStock" },
         ...(stats.count > 0 ? { "aggregateRating": { "@type": "AggregateRating", "ratingValue": String(stats.avg), "reviewCount": String(stats.count), "bestRating": "5", "worstRating": "1" } } : {}),
       }) }} />
 
       {/* ── 1. TopBar ── */}
-      <div style={{ backgroundColor: "#1B3A5C", color: "#fff", padding: "9px 0", overflow: "hidden", whiteSpace: "nowrap" }}>
-        <div style={{ display: "inline-flex", gap: 56, animation: "bvTopBar 28s linear infinite", willChange: "transform" }}>
+      <div style={{ backgroundColor: "#F0FDF4", color: "#166534", padding: "8px 0", overflow: "hidden", whiteSpace: "nowrap", borderBottom: "1px solid #BBF7D0" }}>
+        <div style={{ display: "inline-flex", gap: 48, animation: "bvTopBar 28s linear infinite", willChange: "transform" }}>
           {[...Array(3)].flatMap(() =>
-            ["Pagamento alla consegna", "Spedizione 2-5 giorni", "Reso 30 giorni gratuito", "Calzasi — boutique calzature"].map((t) => (
-              <span key={`${Math.random()}-${t}`} style={{ fontFamily: F, fontSize: 13, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 8 }}>
-                <span style={{ color: "#C9813A", fontSize: 10 }}>✦</span> {t}
+            ["Pagamento alla consegna", "Spedizione 2-5 giorni", "Reso 30 giorni", "Assistenza italiana"].map((t) => (
+              <span key={`${Math.random()}-${t}`} style={{ fontFamily: F, fontSize: 13, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 8, letterSpacing: "0.01em" }}>
+                <span style={{ width: 16, height: 16, borderRadius: "50%", backgroundColor: "#22C55E", display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </span>
+                {t}
               </span>
             ))
           )}
@@ -260,28 +314,28 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
       </div>
 
       {/* ── 2. Header ── */}
-      <header style={{ borderBottom: "1px solid #E8DFD1", padding: "14px 20px", backgroundColor: "#fff", position: "sticky", top: 0, zIndex: 100, boxShadow: "0 1px 10px rgba(30,27,24,0.07)" }}>
+      <header style={{ borderBottom: "1px solid #E9DED0", padding: "14px 20px", backgroundColor: "rgba(255,252,247,0.96)", position: "sticky", top: 0, zIndex: 100, boxShadow: "0 10px 30px rgba(46,31,20,0.06)", backdropFilter: "blur(14px)" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/">
             <Image src="/images/shop/logo.webp" alt="Calzasi" width={120} height={40} style={{ height: 34, width: "auto", objectFit: "contain" }} />
           </Link>
-          <button onClick={handleCTA} style={{ fontFamily: F, fontSize: 14, fontWeight: 700, backgroundColor: "#C9813A", color: "#fff", padding: "10px 22px", borderRadius: 10, border: "none", cursor: "pointer", whiteSpace: "nowrap" }}>
+          <button onClick={handleCTA} style={{ fontFamily: F, fontSize: 14, fontWeight: 600, background: "linear-gradient(180deg, #FFB347 0%, #FF9900 100%)", color: "#111", padding: "11px 24px", borderRadius: 8, border: "1px solid #E68A00", cursor: "pointer", whiteSpace: "nowrap", boxShadow: "0 4px 10px rgba(255,153,0,0.35)" }}>
             Ordina ora
           </button>
         </div>
       </header>
 
       {/* ── 3. HERO ── */}
-      <section style={{ backgroundColor: "#fff", padding: "28px 20px 52px" }}>
+      <section className="bv-hero-section" style={{ background: "#FFFFFF", padding: "28px 20px 62px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "24px 56px", alignItems: "start" }}>
+          <div className="bv-hero-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "24px 56px", alignItems: "start" }}>
 
-            {/* Gallery — sticky */}
+            {/* Sticky gallery */}
             <div style={{ position: "sticky", top: 76 }}>
               {/* Main image */}
-              <div style={{ position: "relative", aspectRatio: "4/5", borderRadius: 16, overflow: "hidden", backgroundColor: "#F5F0EA" }}>
-                <Image src={heroImg} alt={`Bellavia — ${selColor}`} fill className="object-cover" sizes="(min-width:1024px) 50vw, 100vw" priority />
-                <span style={{ position: "absolute", top: 14, left: 14, backgroundColor: "#C9813A", color: "#fff", fontSize: 11, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", padding: "5px 12px", borderRadius: 6 }}>−67%</span>
+              <div style={{ position: "relative", aspectRatio: "4/5", borderRadius: 6, overflow: "hidden", backgroundColor: "#F5F0EA", boxShadow: "0 26px 70px rgba(52,35,21,0.14)" }}>
+                <Image src={heroImg} alt={`Bellavia - ${selColor}`} fill className="object-cover" sizes="(min-width:1024px) 50vw, 100vw" priority />
+                <span style={{ position: "absolute", top: 14, left: 14, backgroundColor: "#211914", color: "#fff", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", padding: "6px 12px", borderRadius: 4 }}>-67%</span>
               </div>
               {/* Thumbnail colori */}
               <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
@@ -289,13 +343,13 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
                   const sel = selColor === c.name;
                   return (
                     <button key={c.name} onClick={() => setSelColor(c.name)} aria-label={`Colore ${c.name}`}
-                      style={{ flex: 1, borderRadius: 10, border: sel ? "2.5px solid #C9813A" : "2px solid #E8DFD1", overflow: "hidden", padding: 0, backgroundColor: "transparent", cursor: "pointer", boxShadow: sel ? "0 0 0 3px rgba(201,129,58,0.2)" : "none", transition: "border 0.2s, box-shadow 0.2s" }}>
+                      style={{ flex: 1, borderRadius: 6, border: sel ? "2px solid #211914" : "1px solid #E3D8CA", overflow: "hidden", padding: 0, backgroundColor: "#fff", cursor: "pointer", boxShadow: sel ? "0 10px 26px rgba(33,25,20,0.16)" : "none", transition: "border 0.2s, box-shadow 0.2s" }}>
                       <div style={{ aspectRatio: "4/3", position: "relative", backgroundColor: "#F5F0EA" }}>
                         <Image src={c.img} alt={c.name} fill className="object-cover" sizes="100px" />
                       </div>
-                      <div style={{ padding: "6px 4px", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 5, backgroundColor: sel ? "#FFF3E8" : "#fff" }}>
+                      <div style={{ padding: "7px 4px", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 5, backgroundColor: sel ? "#1B3A5C" : "#fff" }}>
                         <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: c.swatch, border: `1.5px solid ${c.border}`, flexShrink: 0 }} />
-                        <span style={{ fontSize: 12, fontWeight: 600, color: "#1E1B18", fontFamily: F }}>{c.name}</span>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: sel ? "#fff" : "#1E1B18", fontFamily: F }}>{c.name}</span>
                       </div>
                     </button>
                   );
@@ -304,23 +358,21 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
             </div>
 
             {/* Info column */}
-            <div>
+            <div className="bv-hero-info">
               {/* Badges */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 18 }}>
-                <span style={{ backgroundColor: "#FEF3C7", color: "#92400E", fontSize: 13, fontWeight: 600, fontFamily: F, padding: "5px 12px", borderRadius: 999 }}>Bestseller 2026</span>
-                <span style={{ backgroundColor: "#F0F7F4", color: "#2D6A4F", fontSize: 13, fontWeight: 600, fontFamily: F, padding: "5px 12px", borderRadius: 999 }}>Novità</span>
+                <span style={{ backgroundColor: "#DC2626", color: "#fff", fontSize: 12, fontWeight: 700, fontFamily: F, padding: "7px 12px", borderRadius: 4, letterSpacing: "0.06em", textTransform: "uppercase" }}>Promo attiva oggi</span>
+                <span style={{ backgroundColor: "#16A34A", color: "#fff", fontSize: 12, fontWeight: 700, fontFamily: F, padding: "7px 12px", borderRadius: 4, letterSpacing: "0.04em" }}>Pagamento alla consegna</span>
               </div>
 
               {/* H1 */}
-              <h1 style={{ fontFamily: F, fontSize: "clamp(30px,4.5vw,48px)", fontWeight: 800, lineHeight: 1.08, color: "#1E1B18", marginBottom: 18, letterSpacing: "-0.028em" }}>
-                <span style={{ color: "#C9813A" }}>Bellavia</span>{" "}— Scarpe ortopediche con suola attiva
+              <h1 style={{ fontFamily: FT, fontSize: "clamp(30px,4.5vw,50px)", fontWeight: 700, lineHeight: 1.1, color: "#17120E", marginBottom: 18, letterSpacing: "-0.01em" }}>
+                <span style={{ color: "#A9692D" }}>Bellavia.</span>{" "}Cammini, attivi i glutei, vedi la differenza.
               </h1>
 
               {/* Subheadline */}
-              <p style={{ fontFamily: F, fontSize: "clamp(17px,2.5vw,19px)", color: "#6B655E", lineHeight: 1.65, marginBottom: 20 }}>
-                Suola <strong style={{ color: "#1E1B18", fontWeight: 700 }}>curva attiva</strong> che ti spinge in avanti: cammini con meno fatica,{" "}
-                <strong style={{ color: "#1E1B18", fontWeight: 700 }}>attivi i glutei</strong> ad ogni passo,{" "}
-                <strong style={{ color: "#1E1B18", fontWeight: 700 }}>migliori la postura</strong>.
+              <p style={{ fontFamily: F, fontSize: "clamp(16px,2vw,18px)", fontWeight: 400, color: "#554B43", lineHeight: 1.65, marginBottom: 20, maxWidth: 620 }}>
+                Cammini, attivi i glutei ad ogni passo, scolpisci la silhouette. Risultati visibili in circa 4 settimane — senza palestra, senza esercizi separati.
               </p>
 
               {/* Rating */}
@@ -332,31 +384,34 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
                 </a>
               )}
 
-              <div style={{ height: 1, backgroundColor: "#E8DFD1", margin: "4px 0 22px" }} />
+              <div style={{ height: 1, backgroundColor: "#DDD0BF", margin: "4px 0 22px" }} />
 
               {/* Price */}
               <div style={{ marginBottom: 6, display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
-                <span style={{ fontFamily: F, fontSize: 18, fontWeight: 500, color: "#6B655E", textDecoration: "line-through" }}>€149,99</span>
-                <span style={{ fontFamily: F, fontSize: "clamp(36px,5.5vw,52px)", fontWeight: 800, color: "#1E1B18", lineHeight: 1, letterSpacing: "-0.03em" }}>€49,99</span>
-                <span style={{ backgroundColor: "#D4693E", color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: F, padding: "5px 12px", borderRadius: 999 }}>−67%</span>
+                <span style={{ fontFamily: F, fontSize: 18, fontWeight: 600, color: "#7C7065", textDecoration: "line-through" }}>€149,99</span>
+                <span style={{ fontFamily: F, fontSize: "clamp(42px,6vw,60px)", fontWeight: 700, color: "#17120E", lineHeight: 1, letterSpacing: "-0.045em" }}>€49,99</span>
+                <span style={{ backgroundColor: "#211914", color: "#fff", fontSize: 13, fontWeight: 600, fontFamily: F, padding: "6px 12px", borderRadius: 4 }}>-67%</span>
               </div>
               <p style={{ fontFamily: F, fontSize: 14, color: "#6B655E", marginBottom: 14 }}>+ €4,99 spedizione · Paghi tutto alla consegna</p>
 
-              <div style={{ height: 1, backgroundColor: "#E8DFD1", margin: "4px 0 24px" }} />
+              <div style={{ height: 1, backgroundColor: "#DDD0BF", margin: "4px 0 24px" }} />
 
               {/* Benefits */}
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 28px", display: "flex", flexDirection: "column", gap: 8 }}>
+              <ul style={{ margin: "0 0 28px", padding: 0, listStyle: "none", display: "grid", gap: 8 }}>
                 {BENEFITS.map((b) => (
-                  <li key={b.name} style={{ display: "flex", alignItems: "center", gap: 14, fontFamily: F, fontSize: "clamp(14px,2vw,15px)", fontWeight: 500, color: "#1E1B18", lineHeight: 1.4, backgroundColor: "#F0F7F4", border: "1px solid #C6E8D8", borderRadius: 10, padding: "10px 14px" }}>
-                    <div style={{ width: 28, height: 28, borderRadius: "50%", backgroundColor: "#2D6A4F", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round"><path d="M5 13l4 4L19 7"/></svg>
-                    </div>
-                    <span><strong>{b.name}</strong>{b.rest}</span>
+                  <li key={b.name} style={{ display: "flex", alignItems: "flex-start", gap: 12, fontFamily: F, fontSize: 15, backgroundColor: "#fff", borderRadius: 10, border: "1px solid #E5E7EB", borderLeft: "4px solid #22C55E", padding: "13px 16px", boxShadow: "0 2px 6px rgba(0,0,0,0.04)" }}>
+                    <span style={{ width: 22, height: 22, borderRadius: "50%", backgroundColor: "#22C55E", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                      <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1.5 4.5L5 8L10.5 1.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </span>
+                    <span style={{ lineHeight: 1.5 }}>
+                      <span style={{ fontWeight: 600, color: "#17120E" }}>{b.name}</span>
+                      <span style={{ fontWeight: 400, color: "#6B655E" }}> — {b.rest}</span>
+                    </span>
                   </li>
                 ))}
               </ul>
 
-              <div style={{ height: 1, backgroundColor: "#E8DFD1", margin: "0 0 24px" }} />
+              <div style={{ height: 1, backgroundColor: "#DDD0BF", margin: "0 0 24px" }} />
 
               {/* Color selector */}
               <div style={{ marginBottom: 22 }}>
@@ -368,13 +423,13 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
                     const sel = selColor === c.name;
                     return (
                       <button key={c.name} onClick={() => setSelColor(c.name)} aria-label={`Colore ${c.name}`}
-                        style={{ flex: 1, borderRadius: 12, border: sel ? "2.5px solid #C9813A" : "2px solid #E8DFD1", overflow: "hidden", padding: 0, backgroundColor: "transparent", cursor: "pointer", boxShadow: sel ? "0 0 0 3px rgba(201,129,58,0.18)" : "none", transition: "border 0.2s, box-shadow 0.2s" }}>
+                        style={{ flex: 1, borderRadius: 6, border: sel ? "2px solid #211914" : "1px solid #E2D4C3", overflow: "hidden", padding: 0, backgroundColor: "#fff", cursor: "pointer", boxShadow: sel ? "0 14px 28px rgba(33,25,20,0.14)" : "none", transition: "border 0.2s, box-shadow 0.2s" }}>
                         <div style={{ aspectRatio: "4/3", position: "relative", backgroundColor: "#F5F0EA" }}>
                           <Image src={c.img} alt={c.name} fill className="object-cover" sizes="120px" />
                         </div>
-                        <div style={{ padding: "7px 6px", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, backgroundColor: sel ? "#FFF3E8" : "#fff" }}>
+                        <div style={{ padding: "8px 6px", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, backgroundColor: sel ? "#211914" : "#fff" }}>
                           <div style={{ width: 12, height: 12, borderRadius: "50%", backgroundColor: c.swatch, border: `1.5px solid ${c.border}`, flexShrink: 0 }} />
-                          <span style={{ fontFamily: F, fontSize: 13, fontWeight: 600, color: "#1E1B18" }}>{c.name}</span>
+                          <span style={{ fontFamily: F, fontSize: 13, fontWeight: 600, color: sel ? "#fff" : "#1E1B18" }}>{c.name}</span>
                         </div>
                       </button>
                     );
@@ -387,13 +442,13 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
                 <p style={{ fontFamily: F, fontSize: 15, fontWeight: 600, color: "#6B655E", marginBottom: 12 }}>
                   Taglia: <strong style={{ color: "#1E1B18", fontWeight: 700 }}>{selSize || "non selezionata"}</strong>
                 </p>
-                <div className={pulseSize ? "bv-size-pulse" : ""} style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 8, borderRadius: 10, padding: 2 }}>
+                <div className={`bv-size-grid${pulseSize ? " bv-size-pulse" : ""}`} style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 8, borderRadius: 10, padding: 2 }}>
                   {SIZES.map((s) => {
                     const so  = SOLDOUT.includes(s);
                     const sel = selSize === s;
                     return (
                       <button key={s} onClick={() => !so && setSelSize(s)} disabled={so}
-                        style={{ height: 56, borderRadius: 10, fontSize: "clamp(16px,2vw,18px)", fontWeight: 700, fontFamily: F, border: sel ? "2.5px solid #1E1B18" : "2px solid #E8DFD1", backgroundColor: sel ? "#1E1B18" : "#fff", color: sel ? "#fff" : so ? "#C9B89C" : "#1E1B18", opacity: so ? 0.38 : 1, position: "relative", overflow: "hidden", cursor: so ? "not-allowed" : "pointer", transition: "background 0.15s, border 0.15s, color 0.15s" }}>
+                        style={{ height: 56, borderRadius: 6, fontSize: "clamp(16px,2vw,18px)", fontWeight: 700, fontFamily: F, border: sel ? "2px solid #1D4ED8" : "1px solid #D1D5DB", backgroundColor: sel ? "#2563EB" : "#fff", color: sel ? "#fff" : so ? "#C9B89C" : "#1B3A5C", opacity: so ? 0.38 : 1, position: "relative", overflow: "hidden", cursor: so ? "not-allowed" : "pointer", transition: "background 0.15s, border 0.15s, color 0.15s" }}>
                         {s}
                         {so && <span style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, color: "#888", backgroundColor: "rgba(200,190,180,0.35)" }}>esaurita</span>}
                       </button>
@@ -408,17 +463,17 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
                 {(() => {
                   const visible = !!selSize && !SOLDOUT.includes(selSize);
                   const qty     = STOCK[selColor]?.[selSize] ?? 5;
-                  const color   = qty <= 2 ? "#C53030" : qty <= 4 ? "#B45309" : "#2D6A4F";
-                  const bg      = qty <= 2 ? "#FFF5F5" : qty <= 4 ? "#FFFBEB" : "#F0F7F4";
-                  const brd     = qty <= 2 ? "#FED7D7" : qty <= 4 ? "#FDE68A" : "#C6E8D8";
+                  const color   = qty <= 2 ? "#8E2D23" : qty <= 4 ? "#8B4A13" : "#2B4C3A";
+                  const bg      = qty <= 2 ? "#FFF2EE" : qty <= 4 ? "#FFF4E2" : "#F1F4EC";
+                  const brd     = qty <= 2 ? "#E8B9AE" : qty <= 4 ? "#EBCB8E" : "#CBD9C3";
                   return (
                     <div style={{ overflow: "hidden", maxHeight: visible ? 80 : 0, marginTop: visible ? 14 : 0, transition: "max-height 0.3s ease, margin-top 0.3s ease" }}>
                       <div style={{ borderRadius: 10, border: `1.5px solid ${brd}`, backgroundColor: bg, padding: "10px 14px", display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                         <span style={{ fontFamily: F, fontSize: "clamp(13px,1.8vw,14px)", fontWeight: 700, color }}>
-                          Solo {qty} {qty === 1 ? "paio rimasto" : "paia rimaste"} — {selColor} taglia {selSize || "—"}
+                          Solo {qty} {qty === 1 ? "paio rimasto" : "paia rimaste"} per {selColor}, taglia {selSize || ""}
                         </span>
                         <span style={{ fontFamily: F, fontSize: 13, color: "#6B655E" }}>
-                          — aggiornato pochi minuti fa
+                          Disponibilità aggiornata da poco
                         </span>
                       </div>
                     </div>
@@ -430,18 +485,21 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
 
               {/* CTA */}
               <button onClick={handleCTA}
-                style={{ width: "100%", height: 68, borderRadius: 14, background: "linear-gradient(135deg, #E8922A 0%, #C47818 100%)", color: "#fff", fontSize: "clamp(17px,2.5vw,19px)", fontWeight: 800, letterSpacing: "0.02em", fontFamily: F, border: "none", boxShadow: "0 6px 20px rgba(232,146,42,0.35)", cursor: "pointer", marginBottom: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                style={{ width: "100%", height: 70, borderRadius: 8, background: "linear-gradient(180deg, #FFB347 0%, #FF9900 100%)", color: "#111", fontSize: "clamp(16px,2.5vw,18px)", fontWeight: 600, letterSpacing: "0.02em", fontFamily: F, border: "1px solid #E68A00", boxShadow: "0 4px 12px rgba(255,153,0,0.40)", cursor: "pointer", marginBottom: 10, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, textTransform: "uppercase" }}>
                 ORDINA ORA → PAGHI ALLA CONSEGNA
               </button>
 
               {/* Microcopy */}
-              <div style={{ display: "flex", justifyContent: "center", gap: 14, flexWrap: "wrap", marginBottom: 20 }}>
+              <div style={{ display: "flex", justifyContent: "center", gap: 14, flexWrap: "wrap", marginBottom: 8 }}>
                 {["Spedizione €4,99", "Paghi al corriere", "Reso 30 giorni"].map((t) => (
-                  <span key={t} style={{ fontFamily: F, fontSize: "clamp(13px,1.8vw,15px)", fontWeight: 500, color: "#6B655E" }}>{t}</span>
+                  <span key={t} style={{ fontFamily: F, fontSize: "clamp(13px,1.8vw,14px)", fontWeight: 500, color: "#6B7280" }}>{t}</span>
                 ))}
               </div>
+              <p style={{ textAlign: "center", fontFamily: F, fontSize: 13, color: "#16A34A", fontWeight: 600, marginBottom: 20 }}>
+                Puoi cancellare prima della spedizione — senza domande.
+              </p>
 
-              {/* OrderSection (sorgente del modal — invisibile nella pagina) */}
+              {/* OrderSection source for the hidden modal trigger */}
               <div style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }} aria-hidden="true">
                 <OrderSection config={orderConfig} image={heroImg} />
               </div>
@@ -450,79 +508,60 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
         </div>
       </section>
 
-      {/* ── 4. Come ordinare (3 step) ── */}
-      <section style={{ backgroundColor: "#fff", padding: "36px 20px" }}>
-        <div style={{ maxWidth: 640, margin: "0 auto" }}>
-          <h2 style={{ textAlign: "center", fontFamily: F, fontSize: "clamp(18px,3vw,24px)", fontWeight: 800, color: "#1E1B18", marginBottom: 4, lineHeight: 1.2, letterSpacing: "-0.02em" }}>
-            Semplice, sicuro, senza pagamento anticipato
-          </h2>
-          <p style={{ textAlign: "center", fontFamily: F, fontSize: 14, color: "#6B655E", marginBottom: 20, lineHeight: 1.5 }}>
-            Ordini in 30 secondi. Paghi solo quando il pacco è nelle tue mani.
+      {/* ── 4. Come ordinare (3 step compact) ── */}
+      <section style={{ background: "#EEF4FF", padding: "32px 20px" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <p style={{ textAlign: "center", fontFamily: F, fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#2563EB", marginBottom: 20 }}>
+            Ordine protetto · Prenoti ora, paghi solo quando arriva
           </p>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
             {[
-              { n: "01", title: "Seleziona colore, taglia e inserisci i dati",  body: "Compila il modulo in 30 secondi. Nessuna carta, nessun anticipo richiesto." },
-              { n: "02", title: "Ti contattiamo per confermare l'ordine",        body: "Entro poche ore ricevi una chiamata o un messaggio per confermare prima della spedizione." },
-              { n: "03", title: "Paghi al corriere in contanti",                  body: "Il corriere arriva a casa tua. Paghi solo quando il pacco è in mano. Nessuna sorpresa." },
+              { n: "1", title: "Scegli taglia e colore", icon: "👟" },
+              { n: "2", title: "Ti richiamiamo per confermare", icon: "📞" },
+              { n: "3", title: "Paghi al corriere all'arrivo", icon: "✅" },
             ].map((s, i) => (
-              <motion.div key={s.n} initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.08 }}
-                style={{ borderRadius: 10, border: "1.5px solid #E8DFD1", padding: "12px 16px", backgroundColor: "#fff", display: "flex", gap: 14, alignItems: "center", borderLeft: "4px solid #C9813A" }}>
-                <div style={{ fontFamily: F, fontSize: 22, fontWeight: 800, color: "#C9813A", lineHeight: 1, flexShrink: 0, letterSpacing: "-0.03em", minWidth: 32 }}>{s.n}</div>
-                <div>
-                  <h3 style={{ fontFamily: F, fontSize: 15, fontWeight: 700, color: "#1E1B18", marginBottom: 2, letterSpacing: "-0.01em" }}>{s.title}</h3>
-                  <p style={{ fontFamily: F, fontSize: 13, color: "#6B655E", lineHeight: 1.5 }}>{s.body}</p>
-                </div>
-              </motion.div>
+              <div key={s.n} style={{ borderRadius: 8, backgroundColor: i === 2 ? "#1B3A5C" : "#fff", border: i === 2 ? "none" : "1px solid #C7DCF7", padding: "18px 16px", display: "flex", alignItems: "center", gap: 12, boxShadow: "0 4px 14px rgba(27,58,92,0.08)" }}>
+                <span style={{ width: 36, height: 36, borderRadius: "50%", backgroundColor: i === 2 ? "#22C55E" : "#DBEAFE", color: i === 2 ? "#fff" : "#1D4ED8", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F, fontSize: 16, fontWeight: 600, flexShrink: 0 }}>{s.n}</span>
+                <span style={{ fontFamily: F, fontSize: 15, fontWeight: 600, color: i === 2 ? "#fff" : "#1B3A5C", lineHeight: 1.3 }}>{s.title}</span>
+              </div>
             ))}
-          </div>
-
-          {/* Founder block */}
-          <div style={{ marginTop: 20, borderRadius: 12, overflow: "hidden", border: "1.5px solid #E8DFD1", display: "flex" }}>
-            <div style={{ position: "relative", width: 96, height: 96, flexShrink: 0 }}>
-              <Image src="/images/shop/store-counter.webp" alt="Calzasi — boutique calzature" fill style={{ objectFit: "cover" }} sizes="96px" />
-            </div>
-            <div style={{ padding: "14px 16px", backgroundColor: "#FAF6F0", display: "flex", flexDirection: "column", justifyContent: "center", gap: 6 }}>
-              <Link href="/" style={{ lineHeight: 0, display: "inline-block", marginBottom: 2 }}>
-                <Image src="/images/shop/logo.webp" alt="Calzasi" width={72} height={28} style={{ height: 22, width: "auto", objectFit: "contain", opacity: 0.80 }} />
-              </Link>
-              <p style={{ fontFamily: F, fontSize: 13, color: "#6B655E", lineHeight: 1.6, fontStyle: "italic" }}>
-                &ldquo;Selezioniamo calzature che fanno bene al piede e alla postura. Bellavia è il nostro modello più innovativo.&rdquo;{" "}
-                <strong style={{ color: "#1E1B18", fontStyle: "normal" }}>— Team Calzasi</strong>
-              </p>
-            </div>
           </div>
         </div>
       </section>
 
       {/* ── 5. 6 Tecnologie ── */}
-      <section id="tecnologie" style={{ backgroundColor: "#fff", padding: "64px 20px" }}>
+      <section id="tecnologie" style={{ backgroundColor: "#FFFCF7", padding: "78px 20px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <p style={{ textAlign: "center", fontFamily: F, fontSize: 12, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "#6B655E", marginBottom: 14 }}>
-            LE 6 CARATTERISTICHE BELLAVIA
-          </p>
-          <h2 style={{ textAlign: "center", fontFamily: F, fontSize: "clamp(26px,4.5vw,40px)", fontWeight: 800, color: "#1E1B18", marginBottom: 12, lineHeight: 1.1, letterSpacing: "-0.02em" }}>
-            Sei ragioni per cui Bellavia è diversa da qualsiasi altra scarpa
-          </h2>
-          <p style={{ textAlign: "center", fontFamily: F, fontSize: 18, color: "#6B655E", marginBottom: 48, lineHeight: 1.6 }}>
-            Non è marketing. Sono i sei elementi che fanno funzionare ogni componente.
-          </p>
+          <div style={{ maxWidth: 760, marginBottom: 38 }}>
+            <p style={{ fontFamily: F, fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#2563EB", marginBottom: 12 }}>
+              come funziona
+            </p>
+            <h2 style={{ fontFamily: FT, fontSize: "clamp(26px,4vw,42px)", fontWeight: 700, color: "#1B3A5C", marginBottom: 14, lineHeight: 1.1, letterSpacing: "-0.01em" }}>
+              Non è una scarpa qualunque. È costruita per scolpire mentre la indossi.
+            </h2>
+            <p style={{ fontFamily: F, fontSize: "clamp(15px,2vw,18px)", fontWeight: 400, color: "#4B5563", lineHeight: 1.65 }}>
+              Ogni dettaglio ha uno scopo preciso: attivare i glutei, modellare la silhouette, bruciare più calorie e migliorare la postura — tutto camminando.
+            </p>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{ gap: 24 }}>
+          <div className="bv-tech-grid" style={{ display: "grid", gridTemplateColumns: "repeat(6, minmax(0, 1fr))", gap: 16 }}>
             {TECHS.map((t, i) => (
               <motion.div key={t.title} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: i * 0.07 }}
-                style={{ borderRadius: 16, border: "1.5px solid #E8DFD1", backgroundColor: "#FAF6F0", overflow: "hidden" }}>
-                <div style={{ position: "relative", aspectRatio: "4/3", backgroundColor: "#ECE3D6" }}>
-                  <Image src={t.img} alt={t.title} fill className="object-cover" sizes="(min-width:1024px) 380px, (min-width:768px) 50vw, 100vw" loading="lazy" />
+                className={i < 2 ? "bv-tech-card bv-tech-card-featured" : "bv-tech-card"}
+                style={{ gridColumn: i < 2 ? "span 3" : "span 2", borderRadius: 8, border: "1px solid #DBEAFE", background: i === 0 ? "#EEF4FF" : i === 1 ? "#F0FDF4" : "#fff", overflow: "hidden", boxShadow: "0 8px 24px rgba(27,58,92,0.07)" }}>
+                <div style={{ position: "relative", backgroundColor: "#E8F0FA" }}>
+                  <img src={t.img} alt={t.title} style={{ width: "100%", height: "auto", display: "block" }} loading="lazy" />
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.28) 100%)" }} />
+                  <span style={{ position: "absolute", left: 16, bottom: 14, fontFamily: F, fontSize: 34, fontWeight: 600, color: "rgba(255,255,255,0.96)", letterSpacing: "-0.04em", lineHeight: 1 }}>{t.metric}</span>
                 </div>
-                <div style={{ padding: 24 }}>
+                <div style={{ padding: i < 2 ? 26 : 22 }}>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 14 }}>
                     {t.tags.map((tag) => (
-                      <span key={tag} style={{ backgroundColor: "#fff", color: "#1E1B18", fontSize: 13, fontWeight: 600, fontFamily: F, padding: "4px 10px", borderRadius: 999 }}>{tag}</span>
+                      <span key={tag} style={{ backgroundColor: i === 0 ? "#DBEAFE" : i === 1 ? "#DCFCE7" : "#F3F4F6", color: i === 0 ? "#1D4ED8" : i === 1 ? "#16A34A" : "#374151", fontSize: 12, fontWeight: 700, fontFamily: F, padding: "5px 10px", borderRadius: 4 }}>{tag}</span>
                     ))}
                   </div>
-                  <h3 style={{ fontFamily: SERIF, fontSize: 22, fontWeight: 700, color: "#1E1B18", marginBottom: 10, lineHeight: 1.2 }}>{t.title}</h3>
-                  <p style={{ fontFamily: F, fontSize: 16, color: "#6B655E", lineHeight: 1.55 }}>{t.body}</p>
+                  <h3 style={{ fontFamily: F, fontSize: i < 2 ? "clamp(20px,2.8vw,26px)" : 19, fontWeight: 700, color: "#1B3A5C", marginBottom: 10, lineHeight: 1.2 }}>{t.title}</h3>
+                  <p style={{ fontFamily: F, fontSize: i < 2 ? 16 : 14, fontWeight: 400, color: "#4B5563", lineHeight: 1.6 }}>{t.body}</p>
                 </div>
               </motion.div>
             ))}
@@ -534,37 +573,58 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
       <BeforeAfter />
 
       {/* ── 7. COD block ── */}
-      <section style={{ backgroundColor: "#1B3A5C", padding: "52px 20px" }}>
-        <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
-          <p style={{ fontFamily: F, fontSize: 13, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.65)", marginBottom: 16 }}>ACQUISTO SENZA RISCHIO</p>
-          <h2 style={{ fontFamily: F, fontSize: "clamp(24px,4vw,38px)", fontWeight: 800, color: "#fff", marginBottom: 20, lineHeight: 1.15, letterSpacing: "-0.02em" }}>
-            Nessuna carta. Nessun anticipo. Paghi solo quando il pacco è tuo.
-          </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 16, marginBottom: 32 }}>
+      <section style={{ backgroundColor: "#EEF4FF", padding: "68px 20px" }}>
+        <div className="bv-proof-grid" style={{ maxWidth: 1120, margin: "0 auto", display: "grid", gap: 22, alignItems: "stretch" }}>
+          <div style={{ backgroundColor: "#1B3A5C", color: "#fff", borderRadius: 8, padding: "34px clamp(24px,4vw,44px)", minHeight: 380, display: "flex", flexDirection: "column", justifyContent: "space-between", boxShadow: "0 24px 70px rgba(27,58,92,0.28)" }}>
+            <div>
+              <p style={{ fontFamily: F, fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#93C5FD", marginBottom: 18 }}>Acquisto protetto</p>
+              <h2 style={{ fontFamily: FT, fontSize: "clamp(26px,4vw,44px)", fontWeight: 700, color: "#fff", marginBottom: 18, lineHeight: 1.1, letterSpacing: "-0.01em" }}>
+                Inizia a scolpire oggi. Paghi solo quando arriva.
+              </h2>
+              <p style={{ fontFamily: F, fontSize: "clamp(15px,2vw,18px)", fontWeight: 400, color: "rgba(255,255,255,0.80)", lineHeight: 1.65, maxWidth: 520 }}>
+                Ordina Bellavia adesso e inizia il tuo percorso di tonificazione. Noi ti contattiamo per confermare — paghi solo al corriere quando tieni il pacco in mano.
+              </p>
+            </div>
+            <div>
+              <button onClick={handleCTA} style={{ marginTop: 30, width: "100%", minHeight: 64, fontFamily: F, fontSize: "clamp(16px,2.4vw,18px)", fontWeight: 700, backgroundColor: "#22C55E", color: "#fff", padding: "18px 28px", borderRadius: 6, border: "none", cursor: "pointer", boxShadow: "0 12px 30px rgba(34,197,94,0.35)", letterSpacing: "0.02em" }}>
+                Ordina ora, paga alla consegna
+              </button>
+              {/* Blocco negozio */}
+              <div style={{ marginTop: 16, borderRadius: 6, backgroundColor: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)", padding: "14px 18px", display: "flex", alignItems: "center", gap: 14 }}>
+                <div style={{ position: "relative", width: 54, height: 54, borderRadius: 6, overflow: "hidden", flexShrink: 0 }}>
+                  <Image src="/images/shop/store-counter.webp" alt="Calzasi" fill style={{ objectFit: "cover" }} sizes="54px" />
+                </div>
+                <div>
+                  <Image src="/images/shop/logo.webp" alt="Calzasi" width={70} height={24} style={{ height: 18, width: "auto", objectFit: "contain", opacity: 0.9, marginBottom: 4, filter: "brightness(0) invert(1)" }} />
+                  <p style={{ fontFamily: F, fontSize: 13, fontWeight: 400, color: "rgba(255,255,255,0.72)", lineHeight: 1.4, fontStyle: "italic" }}>
+                    &ldquo;Bellavia è pensata per chi vuole sentirsi più stabile e leggera ogni giorno.&rdquo;
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bv-fineprint-grid" style={{ display: "grid", gap: 12 }}>
             {[
-              { icon: "💳", title: "Pagamento alla consegna", sub: "Nessun pagamento anticipato" },
-              { icon: "📦", title: "Spedizione 2-5 giorni",   sub: "Tracking incluso" },
-              { icon: "↩️", title: "Reso 30 giorni",          sub: "Soddisfatta o rimborsata" },
-              { icon: "📞", title: "Supporto reale",           sub: "Risposta entro 24h" },
+              { n: "01", title: "Conferma prima della spedizione", sub: "Ti chiamiamo o scriviamo prima che il pacco parta.", color: "#DBEAFE", accent: "#1D4ED8" },
+              { n: "02", title: "Pagamento solo alla consegna", sub: "Non inserisci carte e non versi anticipi online.", color: "#DCFCE7", accent: "#16A34A" },
+              { n: "03", title: "Reso entro 30 giorni", sub: "Hai tempo per provarle con calma a casa.", color: "#FEF9C3", accent: "#CA8A04" },
             ].map((b) => (
-              <div key={b.title} style={{ backgroundColor: "rgba(255,255,255,0.1)", borderRadius: 12, padding: "20px 16px" }}>
-                <div style={{ fontSize: 28, marginBottom: 8 }}>{b.icon}</div>
-                <p style={{ fontFamily: F, fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 4 }}>{b.title}</p>
-                <p style={{ fontFamily: F, fontSize: 12, color: "rgba(255,255,255,0.65)" }}>{b.sub}</p>
+              <div key={b.n} style={{ borderRadius: 8, backgroundColor: "#fff", border: `1px solid ${b.color}`, padding: "24px 22px", display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: 118, boxShadow: "0 8px 24px rgba(27,58,92,0.08)" }}>
+                <p style={{ fontFamily: F, fontSize: 11, fontWeight: 700, color: b.accent, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 14 }}>{b.n}</p>
+                <h3 style={{ fontFamily: F, fontSize: 18, fontWeight: 700, color: "#1B3A5C", lineHeight: 1.2, marginBottom: 8 }}>{b.title}</h3>
+                <p style={{ fontFamily: F, fontSize: 14, fontWeight: 400, color: "#4B5563", lineHeight: 1.5 }}>{b.sub}</p>
               </div>
             ))}
           </div>
-          <button onClick={handleCTA} style={{ fontFamily: F, fontSize: 18, fontWeight: 800, backgroundColor: "#C9813A", color: "#fff", padding: "18px 44px", borderRadius: 12, border: "none", cursor: "pointer", boxShadow: "0 6px 20px rgba(201,129,58,0.4)" }}>
-            ORDINA ORA → PAGHI ALLA CONSEGNA
-          </button>
         </div>
       </section>
 
       {/* ── 8. Foto clienti loop ── */}
       <section style={{ backgroundColor: "#F2EDE4", padding: "56px 0", overflow: "hidden" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", paddingInline: 20, marginBottom: 40 }}>
-          <p style={{ textAlign: "center", fontSize: 13, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#6B655E", fontFamily: F, marginBottom: 16 }}>LE NOSTRE CLIENTI</p>
-          <h2 style={{ textAlign: "center", fontFamily: F, fontSize: "clamp(26px,4.5vw,40px)", fontWeight: 800, color: "#1E1B18", marginBottom: 10, lineHeight: 1.15 }}>
+          <p style={{ textAlign: "center", fontSize: 13, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "#6B4D2F", fontFamily: F, marginBottom: 16 }}>LE NOSTRE CLIENTI</p>
+          <h2 style={{ textAlign: "center", fontFamily: FT, fontSize: "clamp(24px,4vw,38px)", fontWeight: 700, color: "#1B3A5C", marginBottom: 10, lineHeight: 1.15 }}>
             Le storie di chi indossa Bellavia ogni giorno
           </h2>
           <p style={{ textAlign: "center", fontSize: 17, color: "#6B655E", fontFamily: F }}>Donne reali, città reali, momenti veri.</p>
@@ -584,13 +644,13 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
           <p style={{ textAlign: "center", fontSize: 13, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#6B655E", fontFamily: F, marginBottom: 16 }}>
             OLTRE {Math.max(stats.count, 500)} CLIENTI SODDISFATTE
           </p>
-          <h2 style={{ textAlign: "center", fontFamily: F, fontSize: "clamp(26px,4.5vw,40px)", fontWeight: 800, color: "#1E1B18", marginBottom: 16, lineHeight: 1.15 }}>
+          <h2 style={{ textAlign: "center", fontFamily: FT, fontSize: "clamp(24px,4vw,38px)", fontWeight: 700, color: "#1B3A5C", marginBottom: 16, lineHeight: 1.15 }}>
             Cosa dicono le clienti che le indossano
           </h2>
           {stats.count > 0 && (
             <div style={{ textAlign: "center", marginBottom: 48, display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
               <Stars n={5} />
-              <span style={{ fontFamily: F, fontSize: 19, fontWeight: 800, color: "#1E1B18" }}>{stats.avg}/5</span>
+              <span style={{ fontFamily: F, fontSize: 19, fontWeight: 600, color: "#1E1B18" }}>{stats.avg}/5</span>
               <span style={{ fontFamily: F, fontSize: 16, color: "#6B655E" }}>{stats.count} recensioni verificate</span>
             </div>
           )}
@@ -617,8 +677,8 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
                   </div>
                 )}
                 <div style={{ marginTop: 14 }}>
-                  <span style={{ backgroundColor: "#F0F7F4", color: "#2D6A4F", fontSize: 12, fontWeight: 600, fontFamily: F, padding: "4px 10px", borderRadius: 999, border: "1px solid #C6E8D8" }}>
-                    ✓ Acquisto verificato
+                  <span style={{ backgroundColor: "#F7EFE5", color: "#5D3D1E", fontSize: 12, fontWeight: 600, fontFamily: F, padding: "5px 10px", borderRadius: 4, border: "1px solid #E2D4C3" }}>
+                    Acquisto verificato
                   </span>
                 </div>
               </motion.div>
@@ -640,7 +700,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
       <section id="faq" style={{ backgroundColor: "#fff", padding: "56px 20px" }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
           <p style={{ textAlign: "center", fontSize: 13, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#6B655E", fontFamily: F, marginBottom: 16 }}>DOMANDE FREQUENTI</p>
-          <h2 style={{ textAlign: "center", fontFamily: F, fontSize: "clamp(26px,4.5vw,40px)", fontWeight: 800, color: "#1E1B18", marginBottom: 48, lineHeight: 1.15 }}>
+          <h2 style={{ textAlign: "center", fontFamily: FT, fontSize: "clamp(24px,4vw,38px)", fontWeight: 700, color: "#1B3A5C", marginBottom: 48, lineHeight: 1.15 }}>
             Le risposte che ci chiedono ogni giorno
           </h2>
           {FAQS.map((f, i) => (
@@ -661,61 +721,73 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
             <p style={{ fontFamily: F, fontSize: 16, color: "#6B655E", lineHeight: 1.6 }}>
               Hai un&apos;altra domanda? Scrivici a{" "}
               <a href={`mailto:${shopEmail}`} style={{ color: "#C9813A", fontWeight: 600 }}>{shopEmail}</a>
-              {" "}— rispondiamo entro 24 ore.
+              {" "}Rispondiamo entro 24 ore.
             </p>
           </div>
         </div>
       </section>
 
       {/* ── 11. Resi & Assistenza ── */}
-      <div style={{ backgroundColor: "#FAF6F0", padding: "48px 20px" }}>
-        <div style={{ maxWidth: 640, margin: "0 auto", textAlign: "center" }}>
-          <div style={{ borderRadius: 16, overflow: "hidden", boxShadow: "0 6px 28px rgba(30,27,24,0.12)", marginBottom: 28 }}>
-            <Image src="/images/shop/store-interior.webp" alt="Calzasi — il nostro negozio" width={640} height={360} style={{ width: "100%", height: "auto", display: "block", objectFit: "cover" }} />
+      <div style={{ backgroundColor: "#FFFCF7", padding: "58px 20px" }}>
+        <div className="bv-proof-grid" style={{ maxWidth: 1080, margin: "0 auto", display: "grid", gap: 26, alignItems: "center" }}>
+          <div style={{ borderRadius: 8, overflow: "hidden", boxShadow: "0 18px 54px rgba(30,27,24,0.12)" }}>
+            <Image src="/images/shop/store-interior.webp" alt="Calzasi - il nostro negozio" width={640} height={360} style={{ width: "100%", height: "auto", display: "block", objectFit: "cover" }} />
           </div>
-          <p style={{ fontFamily: F, fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6B655E", marginBottom: 10 }}>RESI &amp; ASSISTENZA</p>
-          <h3 style={{ fontFamily: F, fontSize: "clamp(22px,3.5vw,32px)", fontWeight: 800, color: "#1E1B18", marginBottom: 14, letterSpacing: "-0.02em", lineHeight: 1.2 }}>
-            C&rsquo;è una persona reale dietro ogni ordine
-          </h3>
-          <p style={{ fontFamily: F, fontSize: 16, color: "#6B655E", lineHeight: 1.7, marginBottom: 16, maxWidth: 520, margin: "0 auto 16px" }}>
-            Siamo un team appassionato di calzature. Se qualcosa non va, scrivi a{" "}
-            <a href={`mailto:${shopEmail}`} style={{ color: "#C9813A", fontWeight: 600 }}>{shopEmail}</a>
-            {" "}con numero ordine e motivo — risposta in 24h, rimborso in 3-5 giorni lavorativi.
-          </p>
-          <p style={{ fontFamily: F, fontSize: 14, fontWeight: 700, color: "#1E1B18" }}>
-            Hai 30 giorni dalla consegna per restituire il prodotto, senza domande.
-          </p>
+          <div>
+            <p style={{ fontFamily: F, fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#9B5A22", marginBottom: 12 }}>Resi e assistenza</p>
+            <h3 style={{ fontFamily: F, fontSize: "clamp(28px,4vw,44px)", fontWeight: 700, color: "#17120E", marginBottom: 16, letterSpacing: "-0.035em", lineHeight: 1.06 }}>
+              Non spariamo dopo l'ordine. Rispondiamo davvero.
+            </h3>
+            <p style={{ fontFamily: F, fontSize: 17, color: "#5F554C", lineHeight: 1.7, marginBottom: 18, maxWidth: 560 }}>
+              Se qualcosa non va, scrivi a{" "}
+              <a href={`mailto:${shopEmail}`} style={{ color: "#9B5A22", fontWeight: 600 }}>{shopEmail}</a>
+              {" "}con numero ordine e motivo. Ricevi risposta entro 24 ore e, se serve, rimborso in 3-5 giorni lavorativi.
+            </p>
+            <p style={{ fontFamily: F, fontSize: 15, fontWeight: 600, color: "#17120E", backgroundColor: "#F0E2CF", border: "1px solid #DFD0BD", borderRadius: 6, padding: "14px 16px", display: "inline-flex" }}>
+              Hai 30 giorni dalla consegna per restituire il prodotto.
+            </p>
+          </div>
         </div>
       </div>
 
       {/* ── 12. Final CTA ── */}
-      <section style={{ backgroundColor: "#C9813A", padding: "88px 20px" }}>
-        <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
-          <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,252,248,0.75)", fontFamily: F, marginBottom: 20 }}>
-            ULTIMI 7 PAIA A QUESTO PREZZO
-          </p>
-          <h2 style={{ fontFamily: F, fontSize: "clamp(30px,5.5vw,52px)", fontWeight: 800, color: "#fff", lineHeight: 1.1, marginBottom: 20, letterSpacing: "-0.02em" }}>
-            Cammina più leggera. Attiva i glutei. Paga solo quando il pacco è in mano.
-          </h2>
-          <p style={{ fontFamily: F, fontSize: 18, color: "rgba(255,252,248,0.88)", marginBottom: 36, maxWidth: 500, margin: "0 auto 36px" }}>
-            Spedizione 2-5 giorni. Reso 30 giorni. Boutique reale.
-          </p>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 8, flexWrap: "wrap" }}>
-            <span style={{ fontFamily: F, fontSize: 22, color: "rgba(255,252,248,0.65)", textDecoration: "line-through" }}>€149,99</span>
-            <span style={{ fontFamily: F, fontSize: "clamp(44px,7vw,68px)", fontWeight: 800, color: "#fff", lineHeight: 1, letterSpacing: "-0.03em" }}>€49,99</span>
-            <span style={{ backgroundColor: "#FDEDB5", color: "#9B5A00", fontSize: 15, fontWeight: 700, fontFamily: F, padding: "6px 14px", borderRadius: 999 }}>−67%</span>
+      <section style={{ backgroundColor: "#1B3A5C", padding: "72px 20px 80px", color: "#fff" }}>
+        <div className="bv-final-grid" style={{ maxWidth: 1120, margin: "0 auto", display: "grid", gap: 28, alignItems: "center" }}>
+          <div>
+            <span style={{ display: "inline-block", backgroundColor: "#DC2626", color: "#fff", fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", padding: "5px 12px", borderRadius: 4, marginBottom: 18 }}>Ultime disponibilità in promo</span>
+            <h2 style={{ fontFamily: FT, fontSize: "clamp(26px,4vw,46px)", fontWeight: 700, color: "#fff", lineHeight: 1.1, marginBottom: 20, letterSpacing: "-0.01em" }}>
+              Scolpisci la silhouette.<br />Cammina più leggera.<br />Paga solo quando il pacco è in mano.
+            </h2>
+            <p style={{ fontFamily: F, fontSize: "clamp(14px,2vw,17px)", fontWeight: 400, color: "rgba(255,255,255,0.75)", lineHeight: 1.65, maxWidth: 500 }}>
+              Spedizione in 2-5 giorni. Reso 30 giorni. Puoi cancellare prima della spedizione senza domande.
+            </p>
           </div>
-          <p style={{ fontFamily: F, fontSize: 14, color: "rgba(255,252,248,0.70)", marginBottom: 32 }}>
-            + €4,99 spedizione · Paghi tutto alla consegna
-          </p>
-          <button onClick={handleCTA}
-            style={{ display: "inline-flex", alignItems: "center", gap: 10, backgroundColor: "#fff", color: "#C9813A", fontSize: 20, fontWeight: 800, fontFamily: F, letterSpacing: "0.01em", padding: "22px 48px", borderRadius: 14, border: "none", boxShadow: "0 8px 32px rgba(30,27,24,0.22)", cursor: "pointer" }}>
-            ORDINA ORA → PAGHI ALLA CONSEGNA
-          </button>
-          <div style={{ marginTop: 24, display: "flex", justifyContent: "center", flexWrap: "wrap", gap: 16 }}>
-            {["Paghi al corriere", "Reso 30 giorni", "Soddisfatta o rimborsata"].map((t) => (
-              <span key={t} style={{ fontFamily: F, fontSize: 14, fontWeight: 500, color: "rgba(255,252,248,0.78)" }}>{t}</span>
-            ))}
+
+          <div style={{ borderRadius: 8, backgroundColor: "#fff", color: "#17120E", padding: "28px", boxShadow: "0 28px 80px rgba(0,0,0,0.22)" }}>
+            <div style={{ borderBottom: "1px solid #E5E7EB", paddingBottom: 20, marginBottom: 22 }}>
+              <p style={{ fontFamily: F, fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#DC2626", marginBottom: 10 }}>Prezzo promozionale</p>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
+                <span style={{ fontFamily: F, fontSize: 20, color: "#9CA3AF", textDecoration: "line-through", fontWeight: 500 }}>€149,99</span>
+                <span style={{ fontFamily: F, fontSize: "clamp(48px,7vw,68px)", fontWeight: 600, color: "#111827", lineHeight: 1, letterSpacing: "-0.04em" }}>€49,99</span>
+                <span style={{ backgroundColor: "#DC2626", color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: F, padding: "6px 11px", borderRadius: 4 }}>-67%</span>
+              </div>
+              <p style={{ fontFamily: F, fontSize: 14, fontWeight: 400, color: "#6B7280", marginTop: 8 }}>
+                Spedizione €4,99 · Pagamento completo alla consegna
+              </p>
+            </div>
+            <button onClick={handleCTA}
+              style={{ width: "100%", minHeight: 64, background: "linear-gradient(180deg, #FFB347 0%, #FF9900 100%)", color: "#111", fontSize: "clamp(15px,2.4vw,18px)", fontWeight: 600, fontFamily: F, letterSpacing: "0.02em", padding: "18px 28px", borderRadius: 6, border: "1px solid #E68A00", boxShadow: "0 8px 24px rgba(255,153,0,0.40)", cursor: "pointer", textTransform: "uppercase" }}>
+              ORDINA ORA → PAGHI ALLA CONSEGNA
+            </button>
+            <div className="bv-fineprint-grid" style={{ marginTop: 16, display: "grid", gap: 8 }}>
+              {[
+                { t: "Conferma telefonica", c: "#DBEAFE", tc: "#1D4ED8" },
+                { t: "Reso 30 giorni", c: "#DCFCE7", tc: "#16A34A" },
+                { t: "Nessuna carta richiesta", c: "#DCFCE7", tc: "#16A34A" },
+              ].map((b) => (
+                <span key={b.t} style={{ fontFamily: F, fontSize: 13, fontWeight: 600, color: b.tc, backgroundColor: b.c, borderRadius: 4, padding: "9px 12px", textAlign: "center" }}>{b.t}</span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -725,31 +797,31 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "space-between", marginBottom: 32 }}>
             <div>
-              <Image src="/images/shop/logo.webp" alt="Calzasi" width={100} height={36} style={{ height: 30, width: "auto", objectFit: "contain", filter: "brightness(10)", marginBottom: 12 }} />
-              <p style={{ fontFamily: F, fontSize: 13, color: "rgba(255,255,255,0.60)", lineHeight: 1.6, maxWidth: 220 }}>
-                Calzasi.com — scarpe ortopediche e comfort online.
+              <Image src="/images/shop/logo.webp" alt="Calzasi" width={100} height={36} style={{ height: 30, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: 12 }} />
+              <p style={{ fontFamily: F, fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.6, maxWidth: 220 }}>
+                Calzasi.com. Scarpe ortopediche e comfort online.
               </p>
             </div>
             <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
               <div>
-                <p style={{ fontFamily: F, fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.50)", marginBottom: 12 }}>Shop</p>
+                <p style={{ fontFamily: F, fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#93C5FD", marginBottom: 12 }}>Shop</p>
                 {[["Catalogo", "/catalogo"], ["Spedizioni", "/spedizioni"], ["Resi", "/politica-resi"]].map(([l, h]) => (
-                  <Link key={l} href={h} style={{ display: "block", fontFamily: F, fontSize: 14, color: "rgba(255,255,255,0.75)", textDecoration: "none", marginBottom: 8 }}>{l}</Link>
+                  <Link key={l} href={h} style={{ display: "block", fontFamily: F, fontSize: 14, color: "rgba(255,255,255,0.80)", textDecoration: "none", marginBottom: 8 }}>{l}</Link>
                 ))}
               </div>
               <div>
-                <p style={{ fontFamily: F, fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.50)", marginBottom: 12 }}>Legale</p>
+                <p style={{ fontFamily: F, fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#93C5FD", marginBottom: 12 }}>Legale</p>
                 {[["Privacy", "/privacy-policy"], ["Cookie", "/cookie-policy"], ["Termini", "/termini-e-condizioni"]].map(([l, h]) => (
-                  <Link key={l} href={h} style={{ display: "block", fontFamily: F, fontSize: 14, color: "rgba(255,255,255,0.75)", textDecoration: "none", marginBottom: 8 }}>{l}</Link>
+                  <Link key={l} href={h} style={{ display: "block", fontFamily: F, fontSize: 14, color: "rgba(255,255,255,0.80)", textDecoration: "none", marginBottom: 8 }}>{l}</Link>
                 ))}
               </div>
             </div>
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.12)", paddingTop: 20, display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", paddingTop: 20, display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "space-between", alignItems: "center" }}>
             <p style={{ fontFamily: F, fontSize: 13, color: "rgba(255,255,255,0.45)" }}>© 2026 Calzasi. Tutti i diritti riservati.</p>
             <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-              <span style={{ fontFamily: F, fontSize: 20, fontWeight: 800, color: "#fff" }}>€49,99</span>
-              <button onClick={handleCTA} style={{ fontFamily: F, fontSize: 14, fontWeight: 700, backgroundColor: "#C9813A", color: "#fff", padding: "10px 22px", borderRadius: 10, border: "none", cursor: "pointer" }}>
+              <span style={{ fontFamily: F, fontSize: 18, fontWeight: 700, color: "#fff" }}>€49,99</span>
+              <button onClick={handleCTA} style={{ fontFamily: F, fontSize: 14, fontWeight: 700, background: "linear-gradient(180deg, #FFB347 0%, #FF9900 100%)", color: "#111", padding: "10px 22px", borderRadius: 8, border: "1px solid #E68A00", cursor: "pointer", boxShadow: "0 4px 10px rgba(255,153,0,0.35)" }}>
                 Ordina ora
               </button>
             </div>
