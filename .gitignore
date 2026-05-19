@@ -1,0 +1,7 @@
+node_modules/
+.next/
+.env.local
+.env.war-room
+guida-order-modal.md
+guida-recensioni.md
+tsconfig.tsbuildinfo

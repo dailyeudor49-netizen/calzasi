@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="60" viewBox="0 0 280 60">
+  <defs>
+    <style>
+      .brand-purple { fill: #7B5CF0; }
+      .brand-dark   { fill: #1a1a1a; }
+      .brand-font   { font-family: 'Georgia', 'Times New Roman', serif; font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+    </style>
+  </defs>
+  <!-- La -->
+  <text x="0" y="42" class="brand-font brand-purple">La</text>
+  <!-- Calzol -->
+  <text x="36" y="42" class="brand-font brand-dark">Calzol</text>
+  <!-- E -->
+  <text x="161" y="42" class="brand-font brand-purple">E</text>
+  <!-- ria -->
+  <text x="179" y="42" class="brand-font brand-dark">ria</text>
+</svg>
