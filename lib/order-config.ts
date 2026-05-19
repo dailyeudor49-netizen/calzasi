@@ -158,6 +158,16 @@ const ORDER_CONFIGS: Record<string, OrderConfig> = {
     sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5921, upsellPrice: 4.99, upsellFullshipId: 5932,
     accentColor: "#9B7BC8",
   },
+  "bellavia": {
+    title: "Bellavia", slug: "bellavia", price: 49.99, comparePrice: 149.99,
+    colors: [
+      { name: "Tortora", bg: "#C4A882", border: "#A68B5E", dot: "#C4A882", image: "/images/land/bellavia/carosello/1.webp" },
+      { name: "Bianco",  bg: "#F0EDE8", border: "#D0C8BE", dot: "#FFFFFF", image: "/images/land/bellavia/carosello/2.webp" },
+      { name: "Nero",    bg: "#1A1A1A", border: "#000000", dot: "#1A1A1A", image: "/images/land/bellavia/carosello/3.webp" },
+    ],
+    sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5901, upsellPrice: 4.99, upsellFullshipId: 5932,
+    accentColor: "#C9813A",
+  },
 };
 
 export function getOrderConfig(slug: string): OrderConfig {
