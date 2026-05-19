@@ -18,6 +18,7 @@ const COLORS = [
   { name: "Tortora", img: "/images/land/bellavia/carosello/1.webp", swatch: "#C4A882", border: "#A68B5E" },
   { name: "Bianco",  img: "/images/land/bellavia/carosello/2.webp", swatch: "#FFFFFF", border: "#D0C8BE" },
   { name: "Nero",    img: "/images/land/bellavia/carosello/3.webp", swatch: "#1A1A1A", border: "#333333" },
+  { name: "Verde",   img: "/images/land/bellavia/carosello/extra.webp", swatch: "#4A7C59", border: "#2D5A3D" },
 ];
 
 /* ─── Sizes ─── */
@@ -29,6 +30,7 @@ const STOCK: Record<string, Record<string, number>> = {
   "Tortora": { "36": 3, "37": 5, "38": 2, "39": 4, "40": 6, "41": 3, "42": 5, "43": 2 },
   "Bianco":  { "36": 5, "37": 2, "38": 4, "39": 1, "40": 3, "41": 6, "42": 2, "43": 4 },
   "Nero":    { "36": 2, "37": 4, "38": 6, "39": 3, "40": 5, "41": 2, "42": 4, "43": 3 },
+  "Verde":   { "36": 4, "37": 3, "38": 5, "39": 2, "40": 4, "41": 3, "42": 5, "43": 2 },
 };
 
 /* ─── Benefits ─── */
@@ -298,14 +300,11 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
       }) }} />
 
       {/* ── 1. TopBar ── */}
-      <div style={{ backgroundColor: "#F0FDF4", color: "#166534", padding: "8px 0", overflow: "hidden", whiteSpace: "nowrap", borderBottom: "1px solid #BBF7D0" }}>
-        <div style={{ display: "inline-flex", gap: 48, animation: "bvTopBar 28s linear infinite", willChange: "transform" }}>
+      <div style={{ backgroundColor: "#1A3D28", color: "#E8F5EE", padding: "9px 0", overflow: "hidden", whiteSpace: "nowrap" }}>
+        <div style={{ display: "inline-flex", gap: 56, animation: "bvTopBar 28s linear infinite", willChange: "transform" }}>
           {[...Array(3)].flatMap(() =>
             ["Pagamento alla consegna", "Spedizione 2-5 giorni", "Reso 30 giorni", "Assistenza italiana"].map((t) => (
-              <span key={`${Math.random()}-${t}`} style={{ fontFamily: F, fontSize: 13, fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 8, letterSpacing: "0.01em" }}>
-                <span style={{ width: 16, height: 16, borderRadius: "50%", backgroundColor: "#22C55E", display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                </span>
+              <span key={`${Math.random()}-${t}`} style={{ fontFamily: F, fontSize: 13, fontWeight: 600, letterSpacing: "0.03em" }}>
                 {t}
               </span>
             ))
@@ -333,20 +332,29 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
             {/* Sticky gallery */}
             <div style={{ position: "sticky", top: 76 }}>
               {/* Main image */}
-              <div style={{ position: "relative", aspectRatio: "4/5", borderRadius: 6, overflow: "hidden", backgroundColor: "#F5F0EA", boxShadow: "0 26px 70px rgba(52,35,21,0.14)" }}>
-                <Image src={heroImg} alt={`Bellavia - ${selColor}`} fill className="object-cover" sizes="(min-width:1024px) 50vw, 100vw" priority />
-                <span style={{ position: "absolute", top: 14, left: 14, backgroundColor: "#211914", color: "#fff", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", padding: "6px 12px", borderRadius: 4 }}>-67%</span>
+              <div style={{ borderRadius: 6, overflow: "hidden", backgroundColor: "#F5F0EA", boxShadow: "0 26px 70px rgba(52,35,21,0.14)", position: "relative" }}>
+                <img src={heroImg} alt={`Bellavia - ${selColor}`} style={{ width: "100%", height: "auto", display: "block" }} fetchPriority="high" />
+                <span style={{ position: "absolute", top: 14, left: 14, backgroundColor: "#FF7A00", color: "#fff", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "6px 12px", borderRadius: 4 }}>-67%</span>
               </div>
-              {/* Thumbnail colori */}
+
+              {/* Carosello scrollabile — tutte le foto */}
+              <div style={{ overflowX: "auto", display: "flex", gap: 8, marginTop: 10, paddingBottom: 4, scrollbarWidth: "none" }}>
+                {HERO_GALLERY.map((src, i) => (
+                  <button key={src} onClick={() => {}} aria-label={`Foto ${i + 1}`}
+                    style={{ flexShrink: 0, width: 72, borderRadius: 6, border: "1px solid #E3D8CA", overflow: "hidden", padding: 0, backgroundColor: "#F5F0EA", cursor: "pointer" }}>
+                    <img src={src} alt={`Bellavia foto ${i + 1}`} style={{ width: "100%", height: "auto", display: "block" }} loading="lazy" />
+                  </button>
+                ))}
+              </div>
+
+              {/* Thumbnail varianti colore */}
               <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
                 {COLORS.map((c) => {
                   const sel = selColor === c.name;
                   return (
                     <button key={c.name} onClick={() => setSelColor(c.name)} aria-label={`Colore ${c.name}`}
-                      style={{ flex: 1, borderRadius: 6, border: sel ? "2px solid #211914" : "1px solid #E3D8CA", overflow: "hidden", padding: 0, backgroundColor: "#fff", cursor: "pointer", boxShadow: sel ? "0 10px 26px rgba(33,25,20,0.16)" : "none", transition: "border 0.2s, box-shadow 0.2s" }}>
-                      <div style={{ aspectRatio: "4/3", position: "relative", backgroundColor: "#F5F0EA" }}>
-                        <Image src={c.img} alt={c.name} fill className="object-cover" sizes="100px" />
-                      </div>
+                      style={{ flex: 1, borderRadius: 6, border: sel ? "2px solid #211914" : "1px solid #E3D8CA", overflow: "hidden", padding: 0, backgroundColor: "#F5F0EA", cursor: "pointer", boxShadow: sel ? "0 10px 26px rgba(33,25,20,0.16)" : "none", transition: "border 0.2s, box-shadow 0.2s" }}>
+                      <img src={c.img} alt={c.name} style={{ width: "100%", height: "auto", display: "block" }} loading="lazy" />
                       <div style={{ padding: "7px 4px", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 5, backgroundColor: sel ? "#1B3A5C" : "#fff" }}>
                         <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: c.swatch, border: `1.5px solid ${c.border}`, flexShrink: 0 }} />
                         <span style={{ fontSize: 12, fontWeight: 700, color: sel ? "#fff" : "#1E1B18", fontFamily: F }}>{c.name}</span>
@@ -388,9 +396,9 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
 
               {/* Price */}
               <div style={{ marginBottom: 6, display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
-                <span style={{ fontFamily: F, fontSize: 18, fontWeight: 600, color: "#7C7065", textDecoration: "line-through" }}>€149,99</span>
-                <span style={{ fontFamily: F, fontSize: "clamp(42px,6vw,60px)", fontWeight: 700, color: "#17120E", lineHeight: 1, letterSpacing: "-0.045em" }}>€49,99</span>
-                <span style={{ backgroundColor: "#211914", color: "#fff", fontSize: 13, fontWeight: 600, fontFamily: F, padding: "6px 12px", borderRadius: 4 }}>-67%</span>
+                <span style={{ fontFamily: F, fontSize: 18, fontWeight: 600, color: "#8B1A1A", textDecoration: "line-through" }}>€149,99</span>
+                <span style={{ fontFamily: F, fontSize: "clamp(42px,6vw,60px)", fontWeight: 700, color: "#16A34A", lineHeight: 1, letterSpacing: "-0.045em" }}>€49,99</span>
+                <span style={{ backgroundColor: "#FF7A00", color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: F, padding: "6px 12px", borderRadius: 4 }}>-67%</span>
               </div>
               <p style={{ fontFamily: F, fontSize: 14, color: "#6B655E", marginBottom: 14 }}>+ €4,99 spedizione · Paghi tutto alla consegna</p>
 
@@ -423,10 +431,8 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
                     const sel = selColor === c.name;
                     return (
                       <button key={c.name} onClick={() => setSelColor(c.name)} aria-label={`Colore ${c.name}`}
-                        style={{ flex: 1, borderRadius: 6, border: sel ? "2px solid #211914" : "1px solid #E2D4C3", overflow: "hidden", padding: 0, backgroundColor: "#fff", cursor: "pointer", boxShadow: sel ? "0 14px 28px rgba(33,25,20,0.14)" : "none", transition: "border 0.2s, box-shadow 0.2s" }}>
-                        <div style={{ aspectRatio: "4/3", position: "relative", backgroundColor: "#F5F0EA" }}>
-                          <Image src={c.img} alt={c.name} fill className="object-cover" sizes="120px" />
-                        </div>
+                        style={{ flex: 1, borderRadius: 6, border: sel ? "2px solid #211914" : "1px solid #E2D4C3", overflow: "hidden", padding: 0, backgroundColor: "#F5F0EA", cursor: "pointer", boxShadow: sel ? "0 14px 28px rgba(33,25,20,0.14)" : "none", transition: "border 0.2s, box-shadow 0.2s" }}>
+                        <img src={c.img} alt={c.name} style={{ width: "100%", height: "auto", display: "block" }} loading="lazy" />
                         <div style={{ padding: "8px 6px", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, backgroundColor: sel ? "#211914" : "#fff" }}>
                           <div style={{ width: 12, height: 12, borderRadius: "50%", backgroundColor: c.swatch, border: `1.5px solid ${c.border}`, flexShrink: 0 }} />
                           <span style={{ fontFamily: F, fontSize: 13, fontWeight: 600, color: sel ? "#fff" : "#1E1B18" }}>{c.name}</span>
@@ -591,8 +597,8 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
               </button>
               {/* Blocco negozio */}
               <div style={{ marginTop: 16, borderRadius: 6, backgroundColor: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)", padding: "14px 18px", display: "flex", alignItems: "center", gap: 14 }}>
-                <div style={{ position: "relative", width: 54, height: 54, borderRadius: 6, overflow: "hidden", flexShrink: 0 }}>
-                  <Image src="/images/shop/store-counter.webp" alt="Calzasi" fill style={{ objectFit: "cover" }} sizes="54px" />
+                <div style={{ position: "relative", width: 80, height: 80, borderRadius: 8, overflow: "hidden", flexShrink: 0 }}>
+                  <Image src="/images/shop/store-counter.webp" alt="Calzasi" fill style={{ objectFit: "cover" }} sizes="80px" />
                 </div>
                 <div>
                   <Image src="/images/shop/logo.webp" alt="Calzasi" width={70} height={24} style={{ height: 18, width: "auto", objectFit: "contain", opacity: 0.9, marginBottom: 4, filter: "brightness(0) invert(1)" }} />
@@ -767,9 +773,9 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
             <div style={{ borderBottom: "1px solid #E5E7EB", paddingBottom: 20, marginBottom: 22 }}>
               <p style={{ fontFamily: F, fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#DC2626", marginBottom: 10 }}>Prezzo promozionale</p>
               <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
-                <span style={{ fontFamily: F, fontSize: 20, color: "#9CA3AF", textDecoration: "line-through", fontWeight: 500 }}>€149,99</span>
-                <span style={{ fontFamily: F, fontSize: "clamp(48px,7vw,68px)", fontWeight: 600, color: "#111827", lineHeight: 1, letterSpacing: "-0.04em" }}>€49,99</span>
-                <span style={{ backgroundColor: "#DC2626", color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: F, padding: "6px 11px", borderRadius: 4 }}>-67%</span>
+                <span style={{ fontFamily: F, fontSize: 20, color: "#8B1A1A", textDecoration: "line-through", fontWeight: 500 }}>€149,99</span>
+                <span style={{ fontFamily: F, fontSize: "clamp(48px,7vw,68px)", fontWeight: 600, color: "#16A34A", lineHeight: 1, letterSpacing: "-0.04em" }}>€49,99</span>
+                <span style={{ backgroundColor: "#FF7A00", color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: F, padding: "6px 11px", borderRadius: 4 }}>-67%</span>
               </div>
               <p style={{ fontFamily: F, fontSize: 14, fontWeight: 400, color: "#6B7280", marginTop: 8 }}>
                 Spedizione €4,99 · Pagamento completo alla consegna

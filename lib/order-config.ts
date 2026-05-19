@@ -164,6 +164,7 @@ const ORDER_CONFIGS: Record<string, OrderConfig> = {
       { name: "Tortora", bg: "#C4A882", border: "#A68B5E", dot: "#C4A882", image: "/images/land/bellavia/carosello/1.webp" },
       { name: "Bianco",  bg: "#F0EDE8", border: "#D0C8BE", dot: "#FFFFFF", image: "/images/land/bellavia/carosello/2.webp" },
       { name: "Nero",    bg: "#1A1A1A", border: "#000000", dot: "#1A1A1A", image: "/images/land/bellavia/carosello/3.webp" },
+      { name: "Verde",   bg: "#4A7C59", border: "#2D5A3D", dot: "#4A7C59", image: "/images/land/bellavia/carosello/extra.webp" },
     ],
     sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5901, upsellPrice: 4.99, upsellFullshipId: 5932,
     accentColor: "#C9813A",
