@@ -161,10 +161,10 @@ const ORDER_CONFIGS: Record<string, OrderConfig> = {
   "bellavia": {
     title: "Bellavia", slug: "bellavia", price: 49.99, comparePrice: 149.99,
     colors: [
-      { name: "Tortora", bg: "#C4A882", border: "#A68B5E", dot: "#C4A882", image: "/images/land/bellavia/carosello/1.webp" },
-      { name: "Bianco",  bg: "#F0EDE8", border: "#D0C8BE", dot: "#FFFFFF", image: "/images/land/bellavia/carosello/2.webp" },
-      { name: "Nero",    bg: "#1A1A1A", border: "#000000", dot: "#1A1A1A", image: "/images/land/bellavia/carosello/3.webp" },
-      { name: "Verde",   bg: "#4A7C59", border: "#2D5A3D", dot: "#4A7C59", image: "/images/land/bellavia/carosello/extra.webp" },
+      { name: "Panna Bordeaux", bg: "#F0E4D8", border: "#7A1F35", dot: "#7A1F35", image: "/images/land/bellavia/carosello/1.webp" },
+      { name: "Panna Cacao",    bg: "#F0E4D8", border: "#3D2314", dot: "#3D2314", image: "/images/land/bellavia/carosello/2.webp" },
+      { name: "Greige Rosa",    bg: "#C8BAA8", border: "#8B6E78", dot: "#8B6E78", image: "/images/land/bellavia/carosello/3.webp" },
+      { name: "Verde Oliva",    bg: "#7A8A5A", border: "#4A5635", dot: "#7A8A5A", image: "/images/land/bellavia/carosello/extra.webp" },
     ],
     sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5901, upsellPrice: 4.99, upsellFullshipId: 5932,
     accentColor: "#C9813A",
