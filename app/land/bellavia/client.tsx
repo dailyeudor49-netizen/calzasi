@@ -35,10 +35,12 @@ const STOCK: Record<string, Record<string, number>> = {
 
 /* ─── Benefits ─── */
 const BENEFITS = [
-  { name: "Glutei attivi ad ogni passo", kicker: "Effetto scolpente", rest: "Il profilo curvo crea una lieve instabilità controllata che richiama glutei e cosce automaticamente, senza palestra." },
-  { name: "Silhouette più definita in 4 settimane", kicker: "Risultato visibile", rest: "Cammini e modelli: i muscoli profondi lavorano costantemente anche nelle attività quotidiane." },
-  { name: "Postura più alta, effetto snellente", kicker: "Slimming naturale", rest: "L'appoggio corretto raddrizza il bacino e allunga la figura: sembri più alta e proporzionata al primo sguardo." },
-  { name: "Gambe più leggere, circolazione attiva", kicker: "Anti-gonfiore", rest: "L'oscillazione della suola stimola la circolazione venosa: meno gonfiore la sera, gambe più tese." },
+  { name: "Glutei attivi ad ogni passo", rest: "La suola curva forza i muscoli profondi a lavorare — senza palestra, senza sforzo aggiuntivo." },
+  { name: "Silhouette definita in 4 settimane", rest: "20 minuti al giorno bastano. I risultati arrivano, e si vedono allo specchio." },
+  { name: "Postura dritta, figura più slanciata", rest: "Il bacino si allinea, la schiena si raddrizza. Sembri più alta senza fare niente." },
+  { name: "Gambe leggere, gonfiore azzerato", rest: "Arrivi a sera senza pesantezza. La circolazione lavora mentre cammini." },
+  { name: "Zero palestra. Zero scuse.", rest: "Indossi una scarpa. Eppure i muscoli lavorano lo stesso — ogni singolo giorno." },
+  { name: "Bruci più calorie senza accorgertene", rest: "Più muscoli attivi ad ogni passo = più calorie bruciate. Passivamente. Sempre." },
 ];
 
 /* ─── Tecnologie ─── */
@@ -216,6 +218,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
   const [pulseSize, setPulseSize]     = useState(false);
   const [faqOpen,  setFaqOpen]        = useState<number>(0);
   const [showMore, setShowMore]       = useState(false);
+  const [activeStep, setActiveStep]   = useState(0);
   const sizeRef                       = useRef<HTMLDivElement>(null);
 
   const colorImg = COLORS.find((c) => c.name === selColor)?.img || COLORS[0].img;
@@ -225,6 +228,12 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
   useEffect(() => {
     window.dispatchEvent(new CustomEvent("hero-variant", { detail: { color: selColor, size: selSize } }));
   }, [selColor, selSize]);
+
+  /* Step animation — cicla 0→1→2 */
+  useEffect(() => {
+    const iv = setInterval(() => setActiveStep((p) => (p + 1) % 3), 1400);
+    return () => clearInterval(iv);
+  }, []);
 
   const handleCTA = () => {
     if (!selSize) {
@@ -337,21 +346,6 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
               <div style={{ borderRadius: 6, overflow: "hidden", backgroundColor: "#F5F0EA", boxShadow: "0 26px 70px rgba(52,35,21,0.14)", position: "relative" }}>
                 <img src={heroImg} alt={`Bellavia - ${selColor}`} style={{ width: "100%", height: "auto", display: "block" }} fetchPriority="high" />
                 <span style={{ position: "absolute", top: 14, left: 14, backgroundColor: "#7A5535", color: "#fff", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "6px 12px", borderRadius: 4 }}>-67%</span>
-              </div>
-
-              {/* Carosello scrollabile — tutte le foto */}
-              <div style={{ overflowX: "auto", display: "flex", gap: 8, marginTop: 10, paddingBottom: 4, scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}>
-                {HERO_GALLERY.map((src, i) => {
-                  const active = heroImg === src;
-                  return (
-                    <div key={src} role="button" tabIndex={0} aria-label={`Foto ${i + 1}`}
-                      onClick={() => setSelPhoto(src)}
-                      onKeyDown={(e) => e.key === "Enter" && setSelPhoto(src)}
-                      style={{ flexShrink: 0, width: 72, borderRadius: 6, border: active ? "2px solid #1B3A5C" : "1px solid #E3D8CA", overflow: "hidden", backgroundColor: "#F5F0EA", cursor: "pointer", touchAction: "manipulation" }}>
-                      <img src={src} alt={`Bellavia foto ${i + 1}`} style={{ width: "100%", height: "auto", display: "block", pointerEvents: "none" }} loading="lazy" />
-                    </div>
-                  );
-                })}
               </div>
 
             </div>
@@ -492,8 +486,8 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
                   <span key={t} style={{ fontFamily: F, fontSize: "clamp(13px,1.8vw,14px)", fontWeight: 500, color: "#6B7280" }}>{t}</span>
                 ))}
               </div>
-              <p style={{ textAlign: "center", fontFamily: F, fontSize: 13, color: "#4D6E58", fontWeight: 600, marginBottom: 20 }}>
-                Puoi cancellare prima della spedizione — senza domande.
+              <p style={{ textAlign: "center", fontFamily: F, fontSize: 13, color: "#6B655E", marginBottom: 20 }}>
+                Nessun pagamento anticipato — paghi solo al momento della consegna.
               </p>
 
               {/* OrderSection source for the hidden modal trigger */}
@@ -521,12 +515,15 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
               { n: "1", title: "Scegli taglia e colore" },
               { n: "2", title: "Ti richiamiamo per confermare" },
               { n: "3", title: "Paghi al corriere all'arrivo" },
-            ].map((s, i) => (
-              <div key={s.n} style={{ borderRadius: 8, backgroundColor: i === 2 ? "#1B3A5C" : "#fff", border: i === 2 ? "none" : "1px solid #C4CDD8", padding: "18px 16px", display: "flex", alignItems: "center", gap: 14, boxShadow: "0 4px 14px rgba(27,58,92,0.08)" }}>
-                <span style={{ width: 26, height: 26, borderRadius: "50%", backgroundColor: i === 2 ? "#5A7D65" : "#DDE2E8", color: i === 2 ? "#fff" : "#7A8898", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F, fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{s.n}</span>
-                <span style={{ fontFamily: F, fontSize: "clamp(14px,2vw,16px)", fontWeight: 700, color: i === 2 ? "#fff" : "#1B3A5C", lineHeight: 1.3 }}>{s.title}</span>
-              </div>
-            ))}
+            ].map((s, i) => {
+              const lit = activeStep === i;
+              return (
+                <div key={s.n} style={{ borderRadius: 8, backgroundColor: lit ? "#1B3A5C" : "#fff", border: lit ? "none" : "1px solid #C4CDD8", padding: "18px 16px", display: "flex", alignItems: "center", gap: 14, boxShadow: lit ? "0 8px 24px rgba(27,58,92,0.18)" : "0 4px 14px rgba(27,58,92,0.06)", transition: "background 0.35s, box-shadow 0.35s" }}>
+                  <span style={{ width: 26, height: 26, borderRadius: "50%", backgroundColor: lit ? "#C9813A" : "#DDE2E8", color: lit ? "#fff" : "#7A8898", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F, fontSize: 12, fontWeight: 700, flexShrink: 0, transition: "background 0.35s, color 0.35s" }}>{s.n}</span>
+                  <span style={{ fontFamily: F, fontSize: "clamp(14px,2vw,16px)", fontWeight: 700, color: lit ? "#fff" : "#1B3A5C", lineHeight: 1.3, transition: "color 0.35s" }}>{s.title}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
