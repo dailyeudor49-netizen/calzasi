@@ -7,12 +7,12 @@ import { BellaviaPage } from "./client";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Bellavia — Scarpe ortopediche con suola attiva | Calzasi",
-  description: "Suola curva attiva che ti spinge in avanti: cammini più leggera, attivi i glutei ad ogni passo, migliori la postura. €49,99 — Pagamento alla consegna — Reso 30 giorni.",
+  title: "Bellavia - Scarpe ortopediche con suola attiva | Calzasi",
+  description: "Bellavia accompagna il passo e sostiene la postura: cammini più leggera, coinvolgi glutei e polpacci e paghi solo alla consegna. €49,99. Reso 30 giorni.",
   openGraph: {
-    title: "Bellavia — Scarpe ortopediche con suola attiva | Calzasi",
-    description: "Suola curva, effetto scolpente, plantare anatomico. €49,99 — Paghi solo alla consegna.",
-    images: [{ url: "/images/land/bellavia/carosello/1.webp", width: 1200, height: 630, alt: "Bellavia — Calzasi" }],
+    title: "Bellavia - Scarpe ortopediche con suola attiva | Calzasi",
+    description: "Passo guidato, appoggio stabile, comfort anti-urto. €49,99. Paghi solo alla consegna.",
+    images: [{ url: "/images/categories/tabacca.webp", width: 1200, height: 630, alt: "Bellavia - Calzasi" }],
     type: "website",
     locale: "it_IT",
   },
