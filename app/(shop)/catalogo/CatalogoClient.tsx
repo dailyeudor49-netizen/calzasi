@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { getVariantImages } from "@/lib/order-config";
+import { getVariantImages, getProductHref } from "@/lib/order-config";
 
 interface Product {
   id: number;
@@ -194,7 +194,7 @@ function CatalogCard({
   const [mainImg, setMainImg] = useState(image);
 
   return (
-    <Link href={`/p/${slug}`} className="group block">
+    <Link href={getProductHref(slug)} className="group block">
       <div
         className="rounded-xl border overflow-hidden bg-white transition-shadow duration-300 hover:shadow-lg"
         style={{ borderColor: "var(--color-border, #E5E5E5)" }}

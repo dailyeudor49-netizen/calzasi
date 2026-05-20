@@ -20,6 +20,7 @@ export interface OrderConfig {
   upsellPrice: number;
   upsellFullshipId: number;
   accentColor?: string;
+  landingPath?: string;
 }
 
 /* ─── Shared constants ─── */
@@ -158,16 +159,17 @@ const ORDER_CONFIGS: Record<string, OrderConfig> = {
     sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5921, upsellPrice: 4.99, upsellFullshipId: 5932,
     accentColor: "#9B7BC8",
   },
-  "bellavia": {
-    title: "Bellavia", slug: "bellavia", price: 44.99, comparePrice: 149.99,
+  "belliva": {
+    title: "Belliva", slug: "belliva", price: 44.99, comparePrice: 149.99,
     colors: [
-      { name: "Panna Bordeaux", bg: "#F0E4D8", border: "#7A1F35", dot: "#7A1F35", image: "/images/land/bellavia/carosello/1.webp" },
-      { name: "Panna Cacao",    bg: "#F0E4D8", border: "#3D2314", dot: "#3D2314", image: "/images/land/bellavia/carosello/2.webp" },
-      { name: "Greige Rosa",    bg: "#C8BAA8", border: "#8B6E78", dot: "#8B6E78", image: "/images/land/bellavia/carosello/3.webp" },
-      { name: "Verde Oliva",    bg: "#7A8A5A", border: "#4A5635", dot: "#7A8A5A", image: "/images/land/bellavia/carosello/extra.webp" },
+      { name: "Panna Bordeaux", bg: "#F0E4D8", border: "#7A1F35", dot: "#7A1F35", image: "/images/land/belliva/carosello/1.webp" },
+      { name: "Panna Cacao",    bg: "#F0E4D8", border: "#3D2314", dot: "#3D2314", image: "/images/land/belliva/carosello/2.webp" },
+      { name: "Greige Rosa",    bg: "#C8BAA8", border: "#8B6E78", dot: "#8B6E78", image: "/images/land/belliva/carosello/3.webp" },
+      { name: "Verde Oliva",    bg: "#7A8A5A", border: "#4A5635", dot: "#7A8A5A", image: "/images/land/belliva/carosello/extra.webp" },
     ],
     sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5901, upsellPrice: 4.99, upsellFullshipId: 5932,
     accentColor: "#C9813A",
+    landingPath: "/land/belliva",
   },
 };
 
@@ -175,6 +177,12 @@ export function getOrderConfig(slug: string): OrderConfig {
   const cfg = ORDER_CONFIGS[slug];
   if (!cfg) throw new Error(`OrderConfig not found for slug: ${slug}`);
   return cfg;
+}
+
+export function getProductHref(slug: string): string {
+  const cfg = ORDER_CONFIGS[slug];
+  if (cfg?.landingPath) return cfg.landingPath;
+  return `/p/${slug}`;
 }
 
 export function getVariantImages(slug: string): string[] {

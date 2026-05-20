@@ -15,10 +15,10 @@ const FT = "'Montserrat', system-ui, sans-serif";  /* titoli h1/h2 */
 
 /* ─── Colors ─── */
 const COLORS = [
-  { name: "Panna Bordeaux", img: "/images/land/bellavia/carosello/1.webp",     swatch: "#F0E4D8", border: "#7A1F35" },
-  { name: "Panna Cacao",    img: "/images/land/bellavia/carosello/2.webp",     swatch: "#F0E4D8", border: "#3D2314" },
-  { name: "Greige Rosa",    img: "/images/land/bellavia/carosello/3.webp",     swatch: "#C8BAA8", border: "#8B6E78" },
-  { name: "Verde Oliva",    img: "/images/land/bellavia/carosello/extra.webp", swatch: "#7A8A5A", border: "#4A5635" },
+  { name: "Panna Bordeaux", img: "/images/land/belliva/carosello/1.webp",     swatch: "#F0E4D8", border: "#7A1F35" },
+  { name: "Panna Cacao",    img: "/images/land/belliva/carosello/2.webp",     swatch: "#F0E4D8", border: "#3D2314" },
+  { name: "Greige Rosa",    img: "/images/land/belliva/carosello/3.webp",     swatch: "#C8BAA8", border: "#8B6E78" },
+  { name: "Verde Oliva",    img: "/images/land/belliva/carosello/extra.webp", swatch: "#7A8A5A", border: "#4A5635" },
 ];
 
 /* ─── Sizes ─── */
@@ -45,16 +45,16 @@ const BENEFITS = [
 
 /* ─── Tecnologie ─── */
 const TECHS = [
-  { img: "/images/land/bellavia/tech/1.webp", metric: "01", tags: ["glutei attivi","cosce toniche"], title: "Scolpisce glutei e cosce ad ogni passo", body: "La suola curva crea un'instabilità guidata che richiama i muscoli profondi di glutei e cosce automaticamente — senza palestra, senza sforzo." },
-  { img: "/images/land/bellavia/tech/2.webp", metric: "02", tags: ["ammortizzazione","protezione tallone"], title: "Tallone protetto ad ogni atterraggio", body: "Il sistema di cushioning al tallone assorbe gli impatti e distribuisce il carico uniformemente: meno stress sulle articolazioni, più energia ad ogni passo." },
-  { img: "/images/land/bellavia/tech/3.webp", metric: "03", tags: ["tomaia traspirante","piede asciutto"], title: "Piede asciutto e fresco tutto il giorno", body: "La tomaia in mesh tecnico lascia respirare il piede, evacuando calore e umidità: niente sfregamenti, niente fastidi, anche nelle giornate più lunghe." },
-  { img: "/images/land/bellavia/tech/4.webp", metric: "04", tags: ["antiscivolo","resistente all'acqua"], title: "Suola sicura: tiene sul bagnato e sul liscio", body: "I tasselli profondi e la mescola resistente garantiscono aderenza sicura su asfalto bagnato, piastrelle e superfici scivolose — in ogni stagione." },
-  { img: "/images/land/bellavia/tech/5.webp", metric: "05", tags: ["suola rocker","postura corretta"], title: "Postura dritta: la suola lavora per te", body: "La base curva oscillante bilancia il bacino e raddrizza la colonna vertebrale ad ogni passo: meno tensione alla schiena, figura più slanciata." },
-  { img: "/images/land/bellavia/tech/6.webp", metric: "06", tags: ["comfort prolungato","plantare morbido"], title: "Comfort al primo passo, e all'ultimo", body: "Il plantare sagomato distribuisce il peso su tutta la pianta del piede: zero punti di pressione, zero stanchezza, anche dopo ore di camminata." },
+  { img: "/images/land/belliva/tech/1.webp", metric: "01", tags: ["glutei attivi","cosce toniche"], title: "Scolpisce glutei e cosce ad ogni passo", body: "La suola curva crea un'instabilità guidata che richiama i muscoli profondi di glutei e cosce automaticamente — senza palestra, senza sforzo." },
+  { img: "/images/land/belliva/tech/2.webp", metric: "02", tags: ["ammortizzazione","protezione tallone"], title: "Tallone protetto ad ogni atterraggio", body: "Il sistema di cushioning al tallone assorbe gli impatti e distribuisce il carico uniformemente: meno stress sulle articolazioni, più energia ad ogni passo." },
+  { img: "/images/land/belliva/tech/3.webp", metric: "03", tags: ["tomaia traspirante","piede asciutto"], title: "Piede asciutto e fresco tutto il giorno", body: "La tomaia in mesh tecnico lascia respirare il piede, evacuando calore e umidità: niente sfregamenti, niente fastidi, anche nelle giornate più lunghe." },
+  { img: "/images/land/belliva/tech/4.webp", metric: "04", tags: ["antiscivolo","resistente all'acqua"], title: "Suola sicura: tiene sul bagnato e sul liscio", body: "I tasselli profondi e la mescola resistente garantiscono aderenza sicura su asfalto bagnato, piastrelle e superfici scivolose — in ogni stagione." },
+  { img: "/images/land/belliva/tech/5.webp", metric: "05", tags: ["suola rocker","postura corretta"], title: "Postura dritta: la suola lavora per te", body: "La base curva oscillante bilancia il bacino e raddrizza la colonna vertebrale ad ogni passo: meno tensione alla schiena, figura più slanciata." },
+  { img: "/images/land/belliva/tech/6.webp", metric: "06", tags: ["comfort prolungato","plantare morbido"], title: "Comfort al primo passo, e all'ultimo", body: "Il plantare sagomato distribuisce il peso su tutta la pianta del piede: zero punti di pressione, zero stanchezza, anche dopo ore di camminata." },
 ];
 
 /* ─── Carosello hero (tutte le foto) ─── */
-const HERO_GALLERY = Array.from({ length: 10 }, (_, i) => `/images/land/bellavia/carosello/${i + 1}.webp`);
+const HERO_GALLERY = Array.from({ length: 10 }, (_, i) => `/images/land/belliva/carosello/${i + 1}.webp`);
 
 /* ─── FAQ ─── */
 const FAQS = [
@@ -69,7 +69,7 @@ const FAQS = [
 ];
 
 /* ─── Clienti loop ─── */
-const CLIENTI = Array.from({ length: 10 }, (_, i) => `/images/land/bellavia/clienti/${i + 1}.webp`);
+const CLIENTI = Array.from({ length: 10 }, (_, i) => `/images/land/belliva/clienti/${i + 1}.webp`);
 
 /* ─── Types ─── */
 interface Review { id: number; author_name: string; rating: number; body: string; created_at: string; reply: string | null; }
@@ -104,13 +104,13 @@ function BeforeAfter() {
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 48 }}>
           <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#5A6E8A", fontFamily: F, marginBottom: 12 }}>
-            La trasformazione Bellavia
+            La trasformazione Belliva
           </p>
           <h2 style={{ fontFamily: FT, fontSize: "clamp(26px,4vw,44px)", fontWeight: 700, color: "#1B3A5C", marginBottom: 14, lineHeight: 1.1, letterSpacing: "-0.01em" }}>
             Da silhouette rilassata a silhouette modellata.
           </h2>
           <p style={{ fontSize: "clamp(15px,2vw,17px)", fontWeight: 400, color: "#4B5563", fontFamily: F, maxWidth: 560, lineHeight: 1.65, margin: "0 auto" }}>
-            Cammina 20-30 minuti al giorno con Bellavia. Glutei attivi, cosce più sode, postura più alta. Risultati visibili in circa 4 settimane.
+            Cammina 20-30 minuti al giorno con Belliva. Glutei attivi, cosce più sode, postura più alta. Risultati visibili in circa 4 settimane.
           </p>
         </div>
 
@@ -121,8 +121,8 @@ function BeforeAfter() {
           <div style={{ position: "relative" }}>
             <div style={{ position: "relative", borderRadius: 12, overflow: "hidden", boxShadow: "0 20px 60px rgba(27,58,92,0.15)" }}>
               <div className="bv-fade-frame" style={{ position: "relative" }}>
-                <img src="/images/land/bellavia/before.webp" alt="Prima di Bellavia" className="bv-before-img" style={{ width: "100%", height: "auto", display: "block" }} loading="lazy" />
-                <img src="/images/land/bellavia/after.webp" alt="Dopo Bellavia" className="bv-after-img" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain" }} loading="lazy" />
+                <img src="/images/land/belliva/before.webp" alt="Prima di Belliva" className="bv-before-img" style={{ width: "100%", height: "auto", display: "block" }} loading="lazy" />
+                <img src="/images/land/belliva/after.webp" alt="Dopo Belliva" className="bv-after-img" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain" }} loading="lazy" />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.72) 100%)" }} />
               </div>
 
@@ -220,11 +220,11 @@ function formatItalianDate(iso: string): string {
 }
 
 /* ─── Recensioni statiche (fallback) ─── */
-const BELLAVIA_REVIEWS: Review[] = [
+const BELLIVA_REVIEWS: Review[] = [
   { id: -1,  author_name: "Federica M.",       rating: 5, body: "Tre settimane e i glutei si sentono già più tonici. La suola curva si percepisce subito al passo. Pagamento alla consegna, zero pensieri.",                                      created_at: "2026-05-10T10:00:00Z", reply: "Grazie Federica! I risultati arrivano e si vedono. Continua così!" },
   { id: -2,  author_name: "carmela rosario",    rating: 5, body: "consegnata in 3 giorni. molto comode, ho problemi alla schiena e da quando le uso sto decisamente meglio",                                                                         created_at: "2026-05-07T14:00:00Z", reply: null },
   { id: -3,  author_name: "Valentina S.",       rating: 4, body: "Bella scarpa, comodissima per tutto il giorno. Devo ancora valutare i risultati sulla silhouette ma il comfort è già al top.",                                                     created_at: "2026-05-04T09:00:00Z", reply: "Ciao Valentina! Dai un mese e ci fai sapere. I risultati arrivano con costanza." },
-  { id: -4,  author_name: "M. Gentile",         rating: 5, body: "Ne ho già preso un secondo paio. Pago sempre alla consegna, comodissimo come sistema. Le Bellavia sono diventate le mie scarpe quotidiane.",                                       created_at: "2026-04-29T11:00:00Z", reply: null },
+  { id: -4,  author_name: "M. Gentile",         rating: 5, body: "Ne ho già preso un secondo paio. Pago sempre alla consegna, comodissimo come sistema. Le Belliva sono diventate le mie scarpe quotidiane.",                                       created_at: "2026-04-29T11:00:00Z", reply: null },
   { id: -5,  author_name: "Giuseppina R.",      rating: 5, body: "Ho 62 anni e lavoro tutto il giorno in piedi. Con queste arrivo a sera senza gambe pesanti. Consiglio a tutte.",                                                                    created_at: "2026-04-22T08:00:00Z", reply: "Grazie di cuore Giuseppina, proprio il risultato che volevamo sentire!" },
   { id: -6,  author_name: "giada",              rating: 4, body: "carine e comode ma la taglia viene un filo larga, consiglio di prendere la stessa che usate di solito e non di più",                                                               created_at: "2026-04-17T16:00:00Z", reply: null },
   { id: -7,  author_name: "Rosa Pellegrini",    rating: 5, body: "Acquistata dopo aver visto i risultati di un'amica. Non me ne pento! Glutei e cosce si notano dopo un mese di uso quotidiano.",                                                    created_at: "2026-04-10T13:00:00Z", reply: "Grazie Rosa! Il passaparola è la nostra pubblicità migliore." },
@@ -235,7 +235,7 @@ const BELLAVIA_REVIEWS: Review[] = [
 
 /* ─── ReviewsSection ─── */
 function ReviewsSection({ reviews }: { reviews: Review[] }) {
-  const allReviews = reviews.length > 0 ? reviews : BELLAVIA_REVIEWS;
+  const allReviews = reviews.length > 0 ? reviews : BELLIVA_REVIEWS;
   const [page, setPage] = useState(0);
   const [fading, setFading] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -267,7 +267,7 @@ function ReviewsSection({ reviews }: { reviews: Review[] }) {
       await fetch("/api/reviews/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug: "bellavia", authorName: rvName, rating: rvRating, body: rvBody }),
+        body: JSON.stringify({ slug: "belliva", authorName: rvName, rating: rvRating, body: rvBody }),
       });
     } catch {}
     setSubmitting(false);
@@ -410,7 +410,7 @@ function ReviewsSection({ reviews }: { reviews: Review[] }) {
                   <label style={{ display: "block", fontFamily: F, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: rv.textMuted, marginBottom: 6 }}>
                     Recensione *
                   </label>
-                  <textarea value={rvBody} onChange={e => setRvBody(e.target.value)} placeholder="Raccontaci la tua esperienza con le Bellavia..." required
+                  <textarea value={rvBody} onChange={e => setRvBody(e.target.value)} placeholder="Raccontaci la tua esperienza con le Belliva..." required
                     style={{ width: "100%", border: `1px solid ${rv.border}`, borderRadius: 8, padding: "10px 14px", fontSize: 14, fontFamily: F, color: rv.text, outline: "none", minHeight: 90, resize: "vertical", boxSizing: "border-box" }} />
                 </div>
                 <button type="submit" disabled={submitting}
@@ -434,7 +434,7 @@ function ReviewsSection({ reviews }: { reviews: Review[] }) {
 }
 
 /* ─── Main Page ─── */
-export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) {
+export function BellivaPage({ orderConfig, reviews, stats, shopEmail }: Props) {
   const [selColor, setSelColor]       = useState("Panna Bordeaux");
   const [selPhoto, setSelPhoto]       = useState<string | null>(null);
   const [selSize,  setSelSize]        = useState("");
@@ -525,10 +525,10 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
       `}</style>
 
       {/* JSON-LD */}
-      <Script id="bellavia-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+      <Script id="belliva-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "Product",
-        "name": "Bellavia - Scarpe ortopediche con suola attiva",
+        "name": "Belliva - Scarpe ortopediche con suola attiva",
         "brand": { "@type": "Brand", "name": "Calzasi" },
         "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": "44.99", "priceValidUntil": "2026-12-31", "availability": "https://schema.org/InStock" },
         ...(stats.count > 0 ? { "aggregateRating": { "@type": "AggregateRating", "ratingValue": String(stats.avg), "reviewCount": String(stats.count), "bestRating": "5", "worstRating": "1" } } : {}),
@@ -568,7 +568,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
             <div style={{ position: "sticky", top: 76 }}>
               {/* Main image */}
               <div style={{ borderRadius: 6, overflow: "hidden", backgroundColor: "#F5F0EA", boxShadow: "0 26px 70px rgba(52,35,21,0.14)", position: "relative" }}>
-                <img src={heroImg} alt={`Bellavia - ${selColor}`} style={{ width: "100%", height: "auto", display: "block" }} fetchPriority="high" />
+                <img src={heroImg} alt={`Belliva - ${selColor}`} style={{ width: "100%", height: "auto", display: "block" }} fetchPriority="high" />
                 <span style={{ position: "absolute", top: 14, left: 14, backgroundColor: "#7A5535", color: "#fff", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "6px 12px", borderRadius: 4 }}>-70%</span>
                 {/* Frecce navigazione */}
                 <button onClick={goPrev} aria-label="Foto precedente" style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", width: 36, height: 36, borderRadius: "50%", backgroundColor: "rgba(255,252,247,0.88)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.15)", backdropFilter: "blur(4px)" }}>
@@ -588,7 +588,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
                       onClick={() => setSelPhoto(src)}
                       onKeyDown={(e) => e.key === "Enter" && setSelPhoto(src)}
                       style={{ flexShrink: 0, width: 68, borderRadius: 6, border: active ? "2px solid #1B3A5C" : "1px solid #E3D8CA", overflow: "hidden", backgroundColor: "#F5F0EA", cursor: "pointer", touchAction: "manipulation", opacity: active ? 1 : 0.72, transition: "opacity 0.2s, border 0.2s" }}>
-                      <img src={src} alt={`Bellavia foto ${i + 1}`} style={{ width: "100%", height: "auto", display: "block", pointerEvents: "none" }} loading="lazy" />
+                      <img src={src} alt={`Belliva foto ${i + 1}`} style={{ width: "100%", height: "auto", display: "block", pointerEvents: "none" }} loading="lazy" />
                     </div>
                   );
                 })}
@@ -606,7 +606,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
 
               {/* H1 */}
               <h1 style={{ fontFamily: FT, fontSize: "clamp(30px,4.5vw,50px)", fontWeight: 700, lineHeight: 1.1, color: "#17120E", marginBottom: 18, letterSpacing: "-0.01em" }}>
-                <span style={{ color: "#A9692D" }}>Bellavia.</span>{" "}Cammini, attivi i glutei, vedi la differenza.
+                <span style={{ color: "#A9692D" }}>Belliva.</span>{" "}Cammini, attivi i glutei, vedi la differenza.
               </h1>
 
               {/* Subheadline */}
@@ -835,7 +835,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
                 Inizia a scolpire oggi. Paghi solo quando arriva.
               </h2>
               <p style={{ fontFamily: F, fontSize: "clamp(15px,2vw,18px)", fontWeight: 400, color: "rgba(255,255,255,0.80)", lineHeight: 1.65, maxWidth: 520 }}>
-                Ordina Bellavia adesso e inizia il tuo percorso di tonificazione. Noi ti contattiamo per confermare — paghi solo al corriere quando tieni il pacco in mano.
+                Ordina Belliva adesso e inizia il tuo percorso di tonificazione. Noi ti contattiamo per confermare — paghi solo al corriere quando tieni il pacco in mano.
               </p>
             </div>
             <div>
@@ -850,7 +850,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
                 <div>
                   <Image src="/images/shop/logo.webp" alt="Calzasi" width={70} height={24} style={{ height: 18, width: "auto", objectFit: "contain", opacity: 0.9, marginBottom: 4, filter: "brightness(0) invert(1)" }} />
                   <p style={{ fontFamily: F, fontSize: 13, fontWeight: 400, color: "rgba(255,255,255,0.72)", lineHeight: 1.4, fontStyle: "italic" }}>
-                    &ldquo;Bellavia è pensata per chi vuole sentirsi più stabile e leggera ogni giorno.&rdquo;
+                    &ldquo;Belliva è pensata per chi vuole sentirsi più stabile e leggera ogni giorno.&rdquo;
                   </p>
                 </div>
               </div>
@@ -878,7 +878,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
         <div style={{ maxWidth: 1200, margin: "0 auto", paddingInline: 20, marginBottom: 40 }}>
           <p style={{ textAlign: "center", fontSize: 13, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "#6B4D2F", fontFamily: F, marginBottom: 16 }}>LE NOSTRE CLIENTI</p>
           <h2 style={{ textAlign: "center", fontFamily: FT, fontSize: "clamp(24px,4vw,38px)", fontWeight: 700, color: "#1B3A5C", marginBottom: 10, lineHeight: 1.15 }}>
-            Le storie di chi indossa Bellavia ogni giorno
+            Le storie di chi indossa Belliva ogni giorno
           </h2>
           <p style={{ textAlign: "center", fontSize: 17, color: "#6B655E", fontFamily: F }}>Donne reali, città reali, momenti veri.</p>
         </div>

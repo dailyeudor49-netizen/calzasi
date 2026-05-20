@@ -11,8 +11,8 @@ export default function PromoSection() {
           {/* Immagine — adattiva, mai tagliata */}
           <div className="cz-promo-img-wrap" style={{ backgroundColor: "#F0EDE8", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
             <img
-              src="/images/land/bellavia/carosello/1.webp"
-              alt="Bellavia — Calzasi"
+              src="/images/land/belliva/carosello/1.webp"
+              alt="Belliva — Calzasi"
               style={{ width: "100%", height: "auto", display: "block", objectFit: "contain" }}
               loading="lazy"
             />
@@ -26,7 +26,7 @@ export default function PromoSection() {
             </span>
 
             <h2 style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "clamp(1.8rem,3.2vw,3rem)", lineHeight: 1.08, letterSpacing: "-0.022em", color: "var(--color-text)", marginBottom: 18, maxWidth: 480 }}>
-              Bellavia. Cammini, attivi i glutei, vedi la differenza.
+              Belliva. Cammini, attivi i glutei, vedi la differenza.
             </h2>
 
             <p style={{ fontFamily: "var(--font-body)", fontSize: "clamp(0.9rem,1vw,1rem)", color: "var(--color-text-secondary)", marginBottom: 28, maxWidth: 400, lineHeight: 1.75 }}>
@@ -55,11 +55,11 @@ export default function PromoSection() {
               ))}
             </div>
 
-            <Link href="/land/bellavia"
+            <Link href="/land/belliva"
               style={{ fontFamily: "var(--font-heading)", fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", backgroundColor: "var(--color-primary)", color: "#fff", padding: "16px 40px", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10, alignSelf: "flex-start" }}
               className="hover:opacity-85 transition-opacity"
             >
-              Scopri Bellavia
+              Scopri Belliva
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </Link>
 
