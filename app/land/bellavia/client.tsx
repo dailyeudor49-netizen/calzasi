@@ -823,34 +823,34 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
       </section>
 
       {/* ── 13. Footer ── */}
-      <footer style={{ backgroundColor: "#1B3A5C", color: "#fff", padding: "40px 20px 24px" }}>
+      <footer style={{ backgroundColor: "#FFFCF7", borderTop: "1px solid #E9DED0", padding: "40px 20px 24px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "space-between", marginBottom: 32 }}>
             <div>
-              <Image src="/images/shop/logo.webp" alt="Calzasi" width={100} height={36} style={{ height: 30, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: 12 }} />
-              <p style={{ fontFamily: F, fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.6, maxWidth: 220 }}>
+              <Image src="/images/shop/logo.webp" alt="Calzasi" width={160} height={54} style={{ height: 48, width: "auto", objectFit: "contain", marginBottom: 12 }} />
+              <p style={{ fontFamily: F, fontSize: 13, color: "#6B655E", lineHeight: 1.6, maxWidth: 220 }}>
                 Calzasi.com. Scarpe ortopediche e comfort online.
               </p>
             </div>
             <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
               <div>
-                <p style={{ fontFamily: F, fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#8AA8C8", marginBottom: 12 }}>Shop</p>
+                <p style={{ fontFamily: F, fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#5A6E8A", marginBottom: 12 }}>Shop</p>
                 {[["Catalogo", "/catalogo"], ["Spedizioni", "/spedizioni"], ["Resi", "/politica-resi"]].map(([l, h]) => (
-                  <Link key={l} href={h} style={{ display: "block", fontFamily: F, fontSize: 14, color: "rgba(255,255,255,0.80)", textDecoration: "none", marginBottom: 8 }}>{l}</Link>
+                  <Link key={l} href={h} style={{ display: "block", fontFamily: F, fontSize: 14, color: "#4A5568", textDecoration: "none", marginBottom: 8 }}>{l}</Link>
                 ))}
               </div>
               <div>
-                <p style={{ fontFamily: F, fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#8AA8C8", marginBottom: 12 }}>Legale</p>
+                <p style={{ fontFamily: F, fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#5A6E8A", marginBottom: 12 }}>Legale</p>
                 {[["Privacy", "/privacy-policy"], ["Cookie", "/cookie-policy"], ["Termini", "/termini-e-condizioni"]].map(([l, h]) => (
-                  <Link key={l} href={h} style={{ display: "block", fontFamily: F, fontSize: 14, color: "rgba(255,255,255,0.80)", textDecoration: "none", marginBottom: 8 }}>{l}</Link>
+                  <Link key={l} href={h} style={{ display: "block", fontFamily: F, fontSize: 14, color: "#4A5568", textDecoration: "none", marginBottom: 8 }}>{l}</Link>
                 ))}
               </div>
             </div>
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", paddingTop: 20, display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "space-between", alignItems: "center" }}>
-            <p style={{ fontFamily: F, fontSize: 13, color: "rgba(255,255,255,0.45)" }}>© 2026 Calzasi. Tutti i diritti riservati.</p>
+          <div style={{ borderTop: "1px solid #E9DED0", paddingTop: 20, display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "space-between", alignItems: "center" }}>
+            <p style={{ fontFamily: F, fontSize: 13, color: "#9CA3AF" }}>© 2026 Calzasi. Tutti i diritti riservati.</p>
             <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-              <span style={{ fontFamily: F, fontSize: 18, fontWeight: 700, color: "#fff" }}>€44,99</span>
+              <span style={{ fontFamily: F, fontSize: 18, fontWeight: 700, color: "#1E7A48" }}>€44,99</span>
               <button onClick={handleCTA} style={{ fontFamily: F, fontSize: 14, fontWeight: 700, background: "linear-gradient(180deg, #FFB347 0%, #FF9900 100%)", color: "#111", padding: "10px 22px", borderRadius: 8, border: "1px solid #E68A00", cursor: "pointer", boxShadow: "0 4px 10px rgba(255,153,0,0.35)" }}>
                 Ordina ora
               </button>
