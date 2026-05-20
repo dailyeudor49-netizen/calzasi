@@ -348,7 +348,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
               {/* Main image */}
               <div style={{ borderRadius: 6, overflow: "hidden", backgroundColor: "#F5F0EA", boxShadow: "0 26px 70px rgba(52,35,21,0.14)", position: "relative" }}>
                 <img src={heroImg} alt={`Bellavia - ${selColor}`} style={{ width: "100%", height: "auto", display: "block" }} fetchPriority="high" />
-                <span style={{ position: "absolute", top: 14, left: 14, backgroundColor: "#7A5535", color: "#fff", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "6px 12px", borderRadius: 4 }}>-67%</span>
+                <span style={{ position: "absolute", top: 14, left: 14, backgroundColor: "#7A5535", color: "#fff", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "6px 12px", borderRadius: 4 }}>-70%</span>
                 {/* Frecce navigazione */}
                 <button onClick={goPrev} aria-label="Foto precedente" style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", width: 36, height: 36, borderRadius: "50%", backgroundColor: "rgba(255,252,247,0.88)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.15)", backdropFilter: "blur(4px)" }}>
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="#1B3A5C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -405,10 +405,12 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
               <div style={{ height: 1, backgroundColor: "#DDD0BF", margin: "4px 0 22px" }} />
 
               {/* Price */}
-              <div style={{ marginBottom: 6, display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+              <div style={{ marginBottom: 6, display: "flex", alignItems: "flex-end", gap: 10, flexWrap: "wrap" }}>
                 <span style={{ fontFamily: F, fontSize: 18, fontWeight: 600, color: "#6A4A46", textDecoration: "line-through" }}>€149,99</span>
-                <span style={{ fontFamily: F, fontSize: "clamp(42px,6vw,60px)", fontWeight: 700, color: "#1E7A48", lineHeight: 1, letterSpacing: "-0.045em" }}>€44,99</span>
-                <span style={{ backgroundColor: "#7A5535", color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: F, padding: "6px 12px", borderRadius: 4 }}>-67%</span>
+                <div style={{ position: "relative", display: "inline-flex", alignItems: "flex-start" }}>
+                  <span style={{ fontFamily: F, fontSize: "clamp(42px,6vw,60px)", fontWeight: 700, color: "#1E7A48", lineHeight: 1, letterSpacing: "-0.045em" }}>€44,99</span>
+                  <span style={{ position: "absolute", top: -4, right: -54, backgroundColor: "#7A5535", color: "#fff", fontSize: 12, fontWeight: 700, fontFamily: F, padding: "4px 8px", borderRadius: 4, whiteSpace: "nowrap" }}>-70%</span>
+                </div>
               </div>
               <p style={{ fontFamily: F, fontSize: 14, color: "#6B655E", marginBottom: 14 }}>+ €4,99 spedizione · Paghi tutto alla consegna</p>
 
@@ -799,7 +801,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
               <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
                 <span style={{ fontFamily: F, fontSize: 20, color: "#6A4A46", textDecoration: "line-through", fontWeight: 500 }}>€149,99</span>
                 <span style={{ fontFamily: F, fontSize: "clamp(48px,7vw,68px)", fontWeight: 600, color: "#4A6858", lineHeight: 1, letterSpacing: "-0.04em" }}>€44,99</span>
-                <span style={{ backgroundColor: "#7A5535", color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: F, padding: "6px 11px", borderRadius: 4 }}>-67%</span>
+                <span style={{ backgroundColor: "#7A5535", color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: F, padding: "6px 11px", borderRadius: 4 }}>-70%</span>
               </div>
               <p style={{ fontFamily: F, fontSize: 14, fontWeight: 400, color: "#6B7280", marginTop: 8 }}>
                 Spedizione €4,99 · Pagamento completo alla consegna
