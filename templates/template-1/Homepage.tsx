@@ -1,5 +1,6 @@
 import Hero from "./Hero";
 import CollectionsSection from "./CollectionsSection";
+import PromoSection from "./PromoSection";
 import FeaturedProducts from "./FeaturedProducts";
 import AllProductsGrid from "./AllProductsGrid";
 import ShippingSection from "./ShippingSection";
@@ -24,6 +25,7 @@ export default function Homepage({ config, products }: HomepageProps) {
         ctaHref="/catalogo"
       />
       <CollectionsSection />
+      <PromoSection />
       <FeaturedProducts products={products} />
       <ShippingSection />
       <AllProductsGrid products={products} />
