@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Recensione inviata. Sara visibile dopo approvazione.",
+      message: "Recensione inviata. Sarà visibile dopo approvazione.",
     });
   } catch {
     return NextResponse.json({ error: "Errore interno" }, { status: 500 });

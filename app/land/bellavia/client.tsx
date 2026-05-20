@@ -210,6 +210,241 @@ function BeforeAfter() {
   );
 }
 
+/* ─── Helpers ─── */
+const PER_PAGE = 5;
+
+function formatItalianDate(iso: string): string {
+  const d = new Date(iso);
+  const months = ["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"];
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+/* ─── ReviewsSection ─── */
+function ReviewsSection({ reviews, stats }: { reviews: Review[]; stats: Stats }) {
+  const [page, setPage] = useState(0);
+  const [fading, setFading] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [rvName, setRvName] = useState("");
+  const [rvRating, setRvRating] = useState(0);
+  const [rvBody, setRvBody] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const totalPages = Math.ceil(reviews.length / PER_PAGE);
+  const visible = reviews.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
+  const avgDisplay = stats.avg > 0 ? stats.avg.toFixed(1).replace(".", ",") : "4,9";
+  const countDisplay = stats.count > 0 ? stats.count.toLocaleString("it-IT") : "0";
+
+  const goTo = (p: number) => {
+    if (p === page) return;
+    setFading(true);
+    setTimeout(() => {
+      setPage(p);
+      setFading(false);
+      sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 200);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!rvName || !rvRating || !rvBody) return;
+    setSubmitting(true);
+    try {
+      await fetch("/api/reviews/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug: "bellavia", authorName: rvName, rating: rvRating, body: rvBody }),
+      });
+    } catch {}
+    setSubmitting(false);
+    setFormSubmitted(true);
+  };
+
+  const rv = {
+    text: "#1A1917",
+    textSec: "#5A5752",
+    textMuted: "#9B9790",
+    border: "#E2E4E8",
+    muted: "#FAFAF8",
+    surface: "#FFFFFF",
+    trust: "#2A7A50",
+    trustLight: "#E6F4EC",
+    brand: "#1B3A5C",
+    brandSubtle: "#E8EEF5",
+    brandDark: "#0F2340",
+    cta: "#C9813A",
+  };
+
+  return (
+    <section ref={sectionRef} id="recensioni" style={{ padding: "72px 20px 80px", backgroundColor: "#fff" }}>
+      <div style={{ maxWidth: 1120, margin: "0 auto" }}>
+
+        {/* Badge */}
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
+          <span style={{ backgroundColor: rv.brandSubtle, color: rv.brandDark, borderRadius: 4, padding: "5px 12px", fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: F }}>
+            Recensioni
+          </span>
+        </div>
+
+        {/* Header */}
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 32 }}>
+          <h2 style={{ fontFamily: FT, fontWeight: 700, fontSize: "clamp(22px,3vw,30px)", color: rv.text, margin: 0 }}>
+            Cosa dicono le clienti
+          </h2>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+            <Stars n={5} size={16} />
+            <span style={{ fontFamily: F, fontWeight: 700, fontSize: 14, color: rv.text }}>{avgDisplay}/5</span>
+            <span style={{ color: rv.textMuted }}>·</span>
+            <span style={{ fontFamily: F, fontSize: 14, color: rv.textSec }}>{countDisplay} recensioni</span>
+            <span style={{ backgroundColor: rv.trustLight, color: rv.trust, borderRadius: 4, padding: "3px 8px", fontSize: 12, fontWeight: 700, fontFamily: F }}>
+              verificate
+            </span>
+          </div>
+        </div>
+
+        {/* Review list */}
+        <div style={{ border: `1px solid ${rv.border}`, borderRadius: 12, overflow: "hidden", backgroundColor: rv.surface, opacity: fading ? 0 : 1, transition: "opacity 0.2s" }}>
+          {visible.length > 0 ? visible.map((r, i) => (
+            <div key={r.id} style={{ padding: "20px 24px", borderBottom: i < visible.length - 1 ? `1px solid ${rv.border}` : "none" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                <div style={{ width: 36, height: 36, borderRadius: "50%", backgroundColor: rv.brandSubtle, color: rv.brandDark, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, fontFamily: F, flexShrink: 0 }}>
+                  {r.author_name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <span style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: rv.text }}>{r.author_name}</span>
+                  <span style={{ fontFamily: F, fontSize: 12, color: rv.textMuted, marginLeft: 8 }}>{formatItalianDate(r.created_at)}</span>
+                </div>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                <Stars n={r.rating} size={15} />
+                <span style={{ backgroundColor: rv.trustLight, color: rv.trust, borderRadius: 4, padding: "2px 8px", fontSize: 12, fontWeight: 700, fontFamily: F }}>
+                  Acquisto verificato
+                </span>
+              </div>
+              <p style={{ fontFamily: F, fontSize: 15, color: rv.textSec, lineHeight: 1.65, margin: 0 }}>{r.body}</p>
+              {r.reply && (
+                <div style={{ marginTop: 12, borderRadius: 8, padding: "12px 16px", backgroundColor: rv.muted, borderLeft: `3px solid ${rv.brand}` }}>
+                  <p style={{ fontFamily: F, fontSize: 12, fontWeight: 700, color: rv.text, marginBottom: 4 }}>Risposta di Calzasi</p>
+                  <p style={{ fontFamily: F, fontSize: 14, color: rv.textSec, lineHeight: 1.6, margin: 0 }}>{r.reply}</p>
+                </div>
+              )}
+            </div>
+          )) : (
+            <div style={{ padding: "40px 24px", textAlign: "center" }}>
+              <p style={{ fontFamily: F, fontSize: 15, color: rv.textMuted }}>Nessuna recensione ancora. Sii la prima!</p>
+            </div>
+          )}
+        </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div style={{ marginTop: 24, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <button onClick={() => goTo(page - 1)} disabled={page === 0}
+                style={{ width: 32, height: 32, border: `1px solid ${rv.border}`, borderRadius: 8, backgroundColor: rv.surface, color: rv.textMuted, display: "flex", alignItems: "center", justifyContent: "center", cursor: page === 0 ? "default" : "pointer", opacity: page === 0 ? 0.25 : 1 }}
+                aria-label="Precedente">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none"><path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </button>
+              {(() => {
+                const maxVis = 5;
+                let start = 0; let end = totalPages;
+                if (totalPages > maxVis) {
+                  start = Math.max(0, page - Math.floor(maxVis / 2));
+                  end = start + maxVis;
+                  if (end > totalPages) { end = totalPages; start = end - maxVis; }
+                }
+                return Array.from({ length: end - start }, (_, idx) => {
+                  const pi = start + idx;
+                  return (
+                    <button key={pi} onClick={() => goTo(pi)}
+                      style={pi === page
+                        ? { width: 32, height: 32, backgroundColor: rv.text, color: "#fff", border: "none", borderRadius: 8, fontFamily: F, fontSize: 14, fontWeight: 700, cursor: "pointer" }
+                        : { width: 32, height: 32, backgroundColor: rv.surface, color: rv.textMuted, border: `1px solid ${rv.border}`, borderRadius: 8, fontFamily: F, fontSize: 14, cursor: "pointer" }}>
+                      {pi + 1}
+                    </button>
+                  );
+                });
+              })()}
+              <button onClick={() => goTo(page + 1)} disabled={page === totalPages - 1}
+                style={{ width: 32, height: 32, border: `1px solid ${rv.border}`, borderRadius: 8, backgroundColor: rv.surface, color: rv.textMuted, display: "flex", alignItems: "center", justifyContent: "center", cursor: page === totalPages - 1 ? "default" : "pointer", opacity: page === totalPages - 1 ? 0.25 : 1 }}
+                aria-label="Successiva">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </button>
+            </div>
+            {page < totalPages - 1 && (
+              <button onClick={() => goTo(page + 1)} style={{ fontFamily: F, fontSize: 14, color: rv.textSec, background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}>
+                Mostra altre recensioni
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Divider */}
+        <div style={{ height: 1, backgroundColor: rv.border, margin: "24px 0" }} />
+
+        {/* Form */}
+        <div>
+          {!showForm && !formSubmitted && (
+            <button onClick={() => setShowForm(true)}
+              style={{ width: "100%", padding: "12px 16px", backgroundColor: rv.surface, color: rv.text, border: `1px solid ${rv.border}`, borderRadius: 10, fontFamily: F, fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke={rv.textMuted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Scrivi una recensione
+            </button>
+          )}
+          {showForm && !formSubmitted && (
+            <>
+              <h3 style={{ fontFamily: FT, fontSize: 18, fontWeight: 700, color: rv.text, marginBottom: 20 }}>Scrivi una recensione</h3>
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                <div>
+                  <label style={{ display: "block", fontFamily: F, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: rv.textMuted, marginBottom: 6 }}>
+                    Nome *
+                  </label>
+                  <input type="text" value={rvName} onChange={e => setRvName(e.target.value)} placeholder="Il tuo nome" required
+                    style={{ width: "100%", border: `1px solid ${rv.border}`, borderRadius: 8, padding: "10px 14px", fontSize: 14, fontFamily: F, color: rv.text, outline: "none", boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontFamily: F, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: rv.textMuted, marginBottom: 6 }}>
+                    Valutazione *
+                  </label>
+                  <div style={{ display: "flex", flexDirection: "row-reverse", justifyContent: "flex-end", gap: 4 }}>
+                    {[5,4,3,2,1].map((v) => (
+                      <label key={v} style={{ cursor: "pointer", fontSize: 30, lineHeight: 1, color: rvRating >= v ? "#F4B860" : "#D1C9BB" }}>
+                        <input type="radio" name="bv-rating" value={v} required onChange={() => setRvRating(v)} style={{ display: "none" }} />
+                        &#9733;
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label style={{ display: "block", fontFamily: F, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: rv.textMuted, marginBottom: 6 }}>
+                    Recensione *
+                  </label>
+                  <textarea value={rvBody} onChange={e => setRvBody(e.target.value)} placeholder="Raccontaci la tua esperienza con le Bellavia..." required
+                    style={{ width: "100%", border: `1px solid ${rv.border}`, borderRadius: 8, padding: "10px 14px", fontSize: 14, fontFamily: F, color: rv.text, outline: "none", minHeight: 90, resize: "vertical", boxSizing: "border-box" }} />
+                </div>
+                <button type="submit" disabled={submitting}
+                  style={{ alignSelf: "flex-start", backgroundColor: rv.brand, color: "#fff", border: "none", borderRadius: 8, padding: "11px 28px", fontFamily: F, fontSize: 14, fontWeight: 700, cursor: submitting ? "not-allowed" : "pointer", opacity: submitting ? 0.7 : 1 }}>
+                  {submitting ? "Invio..." : "Invia recensione"}
+                </button>
+              </form>
+            </>
+          )}
+          {formSubmitted && (
+            <div style={{ padding: "32px 0", textAlign: "center" }}>
+              <p style={{ fontFamily: F, fontSize: 15, color: rv.textSec, lineHeight: 1.7 }}>
+                <strong style={{ color: rv.trust }}>Grazie per la tua recensione!</strong><br />
+                Sarà pubblicata dopo la verifica.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── Main Page ─── */
 export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) {
   const [selColor, setSelColor]       = useState("Panna Bordeaux");
@@ -781,6 +1016,9 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
           </div>
         </div>
       </div>
+
+      {/* ── Reviews ── */}
+      <ReviewsSection reviews={reviews} stats={stats} />
 
       {/* ── 12. Final CTA ── */}
       <section style={{ backgroundColor: "#1B3A5C", padding: "72px 20px 80px", color: "#fff" }}>
