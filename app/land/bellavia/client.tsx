@@ -45,12 +45,12 @@ const BENEFITS = [
 
 /* ─── Tecnologie ─── */
 const TECHS = [
-  { img: "/images/land/bellavia/tech/1.webp", metric: "01", tags: ["glutei attivi","cosce toniche"], title: "Scolpisce glutei e cosce mentre cammini", body: "La suola curva crea un'instabilità guidata che richiama i muscoli profondi di glutei e cosce a ogni passo, senza sforzo extra." },
-  { img: "/images/land/bellavia/tech/2.webp", metric: "02", tags: ["silhouette definita","4 settimane"], title: "Risultati visibili in circa 4 settimane", body: "Con 20-30 minuti di camminata quotidiana, la maggior parte delle clienti nota un cambiamento visibile nella silhouette entro il primo mese." },
-  { img: "/images/land/bellavia/tech/3.webp", metric: "03", tags: ["postura alta","effetto slimming"], title: "Postura più eretta, figura più slanciata", body: "Il plantare anatomico allinea il bacino e raddrizza la schiena: la figura appare più alta e definita senza sforzo." },
-  { img: "/images/land/bellavia/tech/4.webp", metric: "04", tags: ["calorie extra","effetto passivo"], title: "Bruci più calorie senza accorgertene", body: "La leggera destabilizzazione attiva più gruppi muscolari rispetto a una scarpa piatta: più lavoro muscolare, più calorie bruciate passivamente." },
-  { img: "/images/land/bellavia/tech/5.webp", metric: "05", tags: ["gambe leggere","circolazione"], title: "Meno gonfiore, gambe più toniche la sera", body: "Il movimento oscillante stimola la circolazione nelle gambe: arrivi a sera con meno pesantezza e gonfiore visibile." },
-  { img: "/images/land/bellavia/tech/6.webp", metric: "06", tags: ["comfort tutto il giorno","traspirante"], title: "Comode tutto il giorno, così le indossi davvero", body: "La tomaia traspirante e la suola anti-shock rendono Bellavia confortevole anche nelle giornate più lunghe." },
+  { img: "/images/land/bellavia/tech/1.webp", metric: "01", tags: ["glutei attivi","cosce toniche"], title: "Scolpisce glutei e cosce ad ogni passo", body: "La suola curva crea un'instabilità guidata che richiama i muscoli profondi di glutei e cosce automaticamente — senza palestra, senza sforzo." },
+  { img: "/images/land/bellavia/tech/2.webp", metric: "02", tags: ["ammortizzazione","protezione tallone"], title: "Tallone protetto ad ogni atterraggio", body: "Il sistema di cushioning al tallone assorbe gli impatti e distribuisce il carico uniformemente: meno stress sulle articolazioni, più energia ad ogni passo." },
+  { img: "/images/land/bellavia/tech/3.webp", metric: "03", tags: ["tomaia traspirante","piede asciutto"], title: "Piede asciutto e fresco tutto il giorno", body: "La tomaia in mesh tecnico lascia respirare il piede, evacuando calore e umidità: niente sfregamenti, niente fastidi, anche nelle giornate più lunghe." },
+  { img: "/images/land/bellavia/tech/4.webp", metric: "04", tags: ["antiscivolo","resistente all'acqua"], title: "Suola sicura: tiene sul bagnato e sul liscio", body: "I tasselli profondi e la mescola resistente garantiscono aderenza sicura su asfalto bagnato, piastrelle e superfici scivolose — in ogni stagione." },
+  { img: "/images/land/bellavia/tech/5.webp", metric: "05", tags: ["suola rocker","postura corretta"], title: "Postura dritta: la suola lavora per te", body: "La base curva oscillante bilancia il bacino e raddrizza la colonna vertebrale ad ogni passo: meno tensione alla schiena, figura più slanciata." },
+  { img: "/images/land/bellavia/tech/6.webp", metric: "06", tags: ["comfort prolungato","plantare morbido"], title: "Comfort al primo passo, e all'ultimo", body: "Il plantare sagomato distribuisce il peso su tutta la pianta del piede: zero punti di pressione, zero stanchezza, anche dopo ore di camminata." },
 ];
 
 /* ─── Carosello hero (tutte le foto) ─── */
@@ -221,8 +221,11 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
   const [activeStep, setActiveStep]   = useState(0);
   const sizeRef                       = useRef<HTMLDivElement>(null);
 
-  const colorImg = COLORS.find((c) => c.name === selColor)?.img || COLORS[0].img;
-  const heroImg  = selPhoto ?? colorImg;
+  const colorImg       = COLORS.find((c) => c.name === selColor)?.img || COLORS[0].img;
+  const heroImg        = selPhoto ?? colorImg;
+  const currentPhotoIdx = selPhoto ? HERO_GALLERY.indexOf(selPhoto) : HERO_GALLERY.indexOf(colorImg);
+  const goNext = () => setSelPhoto(HERO_GALLERY[(currentPhotoIdx + 1) % HERO_GALLERY.length]);
+  const goPrev = () => setSelPhoto(HERO_GALLERY[(currentPhotoIdx - 1 + HERO_GALLERY.length) % HERO_GALLERY.length]);
 
   /* Notify StickyOrderButton when hero selection changes */
   useEffect(() => {
@@ -311,7 +314,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
       }) }} />
 
       {/* ── 1. TopBar ── */}
-      <div style={{ backgroundColor: "#2A2E2A", color: "#C8D0C8", padding: "9px 0", overflow: "hidden", whiteSpace: "nowrap" }}>
+      <div style={{ backgroundColor: "#1A3D28", color: "#A8D8B8", padding: "9px 0", overflow: "hidden", whiteSpace: "nowrap" }}>
         <div style={{ display: "inline-flex", gap: 56, animation: "bvTopBar 28s linear infinite", willChange: "transform" }}>
           {[...Array(3)].flatMap(() =>
             ["Pagamento alla consegna", "Spedizione 2-5 giorni", "Reso 30 giorni", "Assistenza italiana"].map((t) => (
@@ -346,6 +349,28 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
               <div style={{ borderRadius: 6, overflow: "hidden", backgroundColor: "#F5F0EA", boxShadow: "0 26px 70px rgba(52,35,21,0.14)", position: "relative" }}>
                 <img src={heroImg} alt={`Bellavia - ${selColor}`} style={{ width: "100%", height: "auto", display: "block" }} fetchPriority="high" />
                 <span style={{ position: "absolute", top: 14, left: 14, backgroundColor: "#7A5535", color: "#fff", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "6px 12px", borderRadius: 4 }}>-67%</span>
+                {/* Frecce navigazione */}
+                <button onClick={goPrev} aria-label="Foto precedente" style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", width: 36, height: 36, borderRadius: "50%", backgroundColor: "rgba(255,252,247,0.88)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.15)", backdropFilter: "blur(4px)" }}>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="#1B3A5C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </button>
+                <button onClick={goNext} aria-label="Foto successiva" style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", width: 36, height: 36, borderRadius: "50%", backgroundColor: "rgba(255,252,247,0.88)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.15)", backdropFilter: "blur(4px)" }}>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="#1B3A5C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </button>
+              </div>
+
+              {/* Carosello thumbnail strip */}
+              <div style={{ overflowX: "auto", display: "flex", gap: 8, marginTop: 10, paddingBottom: 4, scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}>
+                {HERO_GALLERY.map((src, i) => {
+                  const active = heroImg === src;
+                  return (
+                    <div key={src} role="button" tabIndex={0} aria-label={`Foto ${i + 1}`}
+                      onClick={() => setSelPhoto(src)}
+                      onKeyDown={(e) => e.key === "Enter" && setSelPhoto(src)}
+                      style={{ flexShrink: 0, width: 68, borderRadius: 6, border: active ? "2px solid #1B3A5C" : "1px solid #E3D8CA", overflow: "hidden", backgroundColor: "#F5F0EA", cursor: "pointer", touchAction: "manipulation", opacity: active ? 1 : 0.72, transition: "opacity 0.2s, border 0.2s" }}>
+                      <img src={src} alt={`Bellavia foto ${i + 1}`} style={{ width: "100%", height: "auto", display: "block", pointerEvents: "none" }} loading="lazy" />
+                    </div>
+                  );
+                })}
               </div>
 
             </div>
@@ -354,8 +379,8 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
             <div className="bv-hero-info">
               {/* Badges */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 18 }}>
-                <span style={{ backgroundColor: "#6A3D35", color: "#fff", fontSize: 12, fontWeight: 700, fontFamily: F, padding: "7px 12px", borderRadius: 4, letterSpacing: "0.06em", textTransform: "uppercase" }}>Promo attiva oggi</span>
-                <span style={{ backgroundColor: "#3D5A48", color: "#fff", fontSize: 12, fontWeight: 700, fontFamily: F, padding: "7px 12px", borderRadius: 4, letterSpacing: "0.04em" }}>Pagamento alla consegna</span>
+                <span style={{ backgroundColor: "#A02828", color: "#fff", fontSize: 12, fontWeight: 700, fontFamily: F, padding: "7px 12px", borderRadius: 4, letterSpacing: "0.06em", textTransform: "uppercase" }}>Promo attiva oggi</span>
+                <span style={{ backgroundColor: "#1E6840", color: "#fff", fontSize: 12, fontWeight: 700, fontFamily: F, padding: "7px 12px", borderRadius: 4, letterSpacing: "0.04em" }}>Pagamento alla consegna</span>
               </div>
 
               {/* H1 */}
@@ -382,7 +407,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
               {/* Price */}
               <div style={{ marginBottom: 6, display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
                 <span style={{ fontFamily: F, fontSize: 18, fontWeight: 600, color: "#6A4A46", textDecoration: "line-through" }}>€149,99</span>
-                <span style={{ fontFamily: F, fontSize: "clamp(42px,6vw,60px)", fontWeight: 700, color: "#4A6858", lineHeight: 1, letterSpacing: "-0.045em" }}>€49,99</span>
+                <span style={{ fontFamily: F, fontSize: "clamp(42px,6vw,60px)", fontWeight: 700, color: "#1E7A48", lineHeight: 1, letterSpacing: "-0.045em" }}>€49,99</span>
                 <span style={{ backgroundColor: "#7A5535", color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: F, padding: "6px 12px", borderRadius: 4 }}>-67%</span>
               </div>
               <p style={{ fontFamily: F, fontSize: 14, color: "#6B655E", marginBottom: 14 }}>+ €4,99 spedizione · Paghi tutto alla consegna</p>
@@ -390,10 +415,13 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
               <div style={{ height: 1, backgroundColor: "#DDD0BF", margin: "4px 0 24px" }} />
 
               {/* Benefits */}
+              <p style={{ fontFamily: F, fontSize: 11, fontWeight: 700, letterSpacing: "0.13em", textTransform: "uppercase", color: "#1E7A48", marginBottom: 10 }}>
+                Perché funziona davvero
+              </p>
               <ul style={{ margin: "0 0 28px", padding: 0, listStyle: "none", display: "grid", gap: 8 }}>
                 {BENEFITS.map((b) => (
-                  <li key={b.name} style={{ display: "flex", alignItems: "flex-start", gap: 12, fontFamily: F, fontSize: 15, backgroundColor: "#fff", borderRadius: 10, border: "1px solid #E5E7EB", borderLeft: "4px solid #9AADA4", padding: "13px 16px", boxShadow: "0 2px 6px rgba(0,0,0,0.04)" }}>
-                    <span style={{ width: 22, height: 22, borderRadius: "50%", backgroundColor: "#9AADA4", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                  <li key={b.name} style={{ display: "flex", alignItems: "flex-start", gap: 12, fontFamily: F, fontSize: 15, backgroundColor: "#fff", borderRadius: 10, border: "1px solid #E5E7EB", borderLeft: "4px solid #2A7A50", padding: "13px 16px", boxShadow: "0 2px 6px rgba(0,0,0,0.04)" }}>
+                    <span style={{ width: 22, height: 22, borderRadius: "50%", backgroundColor: "#2A7A50", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
                       <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1.5 4.5L5 8L10.5 1.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </span>
                     <span style={{ lineHeight: 1.5 }}>
@@ -411,17 +439,14 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
                 <p style={{ fontFamily: F, fontSize: 15, fontWeight: 600, color: "#6B655E", marginBottom: 12 }}>
                   Colore: <strong style={{ color: "#1E1B18", fontWeight: 700 }}>{selColor}</strong>
                 </p>
-                <div style={{ display: "flex", gap: 10 }}>
+                <div style={{ display: "flex", gap: 8 }}>
                   {COLORS.map((c) => {
                     const sel = selColor === c.name;
                     return (
                       <button key={c.name} onClick={() => setSelColor(c.name)} aria-label={`Colore ${c.name}`}
-                        style={{ flex: 1, borderRadius: 6, border: sel ? "2px solid #211914" : "1px solid #E2D4C3", overflow: "hidden", padding: 0, backgroundColor: "#F5F0EA", cursor: "pointer", boxShadow: sel ? "0 14px 28px rgba(33,25,20,0.14)" : "none", transition: "border 0.2s, box-shadow 0.2s" }}>
-                        <img src={c.img} alt={c.name} style={{ width: "100%", height: "auto", display: "block" }} loading="lazy" />
-                        <div style={{ padding: "8px 6px", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, backgroundColor: sel ? "#211914" : "#fff" }}>
-                          <div style={{ width: 12, height: 12, borderRadius: "50%", backgroundColor: c.swatch, border: `1.5px solid ${c.border}`, flexShrink: 0 }} />
-                          <span style={{ fontFamily: F, fontSize: 13, fontWeight: 600, color: sel ? "#fff" : "#1E1B18" }}>{c.name}</span>
-                        </div>
+                        style={{ flex: 1, borderRadius: 8, border: sel ? `2px solid ${c.border}` : "1.5px solid #E2D4C3", padding: "10px 8px", backgroundColor: sel ? "#F5F0EA" : "#fff", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 7, boxShadow: sel ? "0 4px 14px rgba(33,25,20,0.12)" : "none", transition: "border 0.18s, box-shadow 0.18s" }}>
+                        <div style={{ width: 26, height: 26, borderRadius: "50%", backgroundColor: c.swatch, border: `2px solid ${c.border}`, flexShrink: 0 }} />
+                        <span style={{ fontFamily: F, fontSize: 11, fontWeight: 700, color: sel ? "#1E1B18" : "#6B655E", textAlign: "center", lineHeight: 1.25 }}>{c.name}</span>
                       </button>
                     );
                   })}
@@ -510,17 +535,20 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
               Prenoti ora, paghi solo quando arriva
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 520, margin: "0 auto" }}>
             {[
-              { n: "1", title: "Scegli taglia e colore" },
-              { n: "2", title: "Ti richiamiamo per confermare" },
-              { n: "3", title: "Paghi al corriere all'arrivo" },
+              { n: "1", title: "Scegli taglia e colore", sub: "Seleziona la variante preferita dal modulo" },
+              { n: "2", title: "Ti richiamiamo per confermare", sub: "Un operatore verifica il tuo ordine entro poche ore" },
+              { n: "3", title: "Paghi al corriere all'arrivo", sub: "Nessuna carta, nessun anticipo — paghi solo quando ricevi" },
             ].map((s, i) => {
               const lit = activeStep === i;
               return (
-                <div key={s.n} style={{ borderRadius: 8, backgroundColor: lit ? "#1B3A5C" : "#fff", border: lit ? "none" : "1px solid #C4CDD8", padding: "18px 16px", display: "flex", alignItems: "center", gap: 14, boxShadow: lit ? "0 8px 24px rgba(27,58,92,0.18)" : "0 4px 14px rgba(27,58,92,0.06)", transition: "background 0.35s, box-shadow 0.35s" }}>
-                  <span style={{ width: 26, height: 26, borderRadius: "50%", backgroundColor: lit ? "#C9813A" : "#DDE2E8", color: lit ? "#fff" : "#7A8898", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F, fontSize: 12, fontWeight: 700, flexShrink: 0, transition: "background 0.35s, color 0.35s" }}>{s.n}</span>
-                  <span style={{ fontFamily: F, fontSize: "clamp(14px,2vw,16px)", fontWeight: 700, color: lit ? "#fff" : "#1B3A5C", lineHeight: 1.3, transition: "color 0.35s" }}>{s.title}</span>
+                <div key={s.n} style={{ borderRadius: 10, backgroundColor: lit ? "#1B3A5C" : "#fff", border: lit ? "none" : "1px solid #C4CDD8", padding: "16px 20px", display: "flex", alignItems: "center", gap: 16, boxShadow: lit ? "0 8px 24px rgba(27,58,92,0.18)" : "0 2px 8px rgba(27,58,92,0.05)", transition: "background 0.35s, box-shadow 0.35s" }}>
+                  <span style={{ width: 32, height: 32, borderRadius: "50%", backgroundColor: lit ? "#C9813A" : "#DDE2E8", color: lit ? "#fff" : "#7A8898", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F, fontSize: 14, fontWeight: 700, flexShrink: 0, transition: "background 0.35s, color 0.35s" }}>{s.n}</span>
+                  <div>
+                    <div style={{ fontFamily: F, fontSize: 15, fontWeight: 700, color: lit ? "#fff" : "#1B3A5C", lineHeight: 1.2, transition: "color 0.35s" }}>{s.title}</div>
+                    <div style={{ fontFamily: F, fontSize: 13, fontWeight: 400, color: lit ? "rgba(255,255,255,0.72)" : "#6B655E", marginTop: 3, transition: "color 0.35s" }}>{s.sub}</div>
+                  </div>
                 </div>
               );
             })}
