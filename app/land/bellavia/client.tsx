@@ -59,7 +59,7 @@ const HERO_GALLERY = Array.from({ length: 10 }, (_, i) => `/images/land/bellavia
 /* ─── FAQ ─── */
 const FAQS = [
   { q: "Quali sono i tempi e i costi di spedizione?",               a: "Consegna in 2-5 giorni dalla conferma dell'ordine. Il costo di spedizione è €4,99." },
-  { q: "Come funziona il pagamento alla consegna?",                 a: "Paghi €49,99 direttamente al corriere quando ricevi il pacco. Nessun pagamento anticipato, nessuna carta di credito richiesta." },
+  { q: "Come funziona il pagamento alla consegna?",                 a: "Paghi €44,99 direttamente al corriere quando ricevi il pacco. Nessun pagamento anticipato, nessuna carta di credito richiesta." },
   { q: "Cosa succede se al momento della consegna non sono in casa?", a: "Il corriere ti contatta prima di consegnare. Se non sei disponibile lascia un avviso di giacenza e riprova il giorno successivo, senza costi aggiuntivi." },
   { q: "Posso restituire il prodotto?",                             a: "Sì, hai 30 giorni dalla consegna. Il prodotto deve essere integro e nell'imballaggio originale. Scrivi a info@calzasi.com per ricevere le istruzioni di reso." },
   { q: "Come scelgo la taglia corretta?",                          a: "La calzata è regolare. Scegli la tua taglia abituale. Se sei tra due numeri o hai il piede largo, prendi la taglia superiore." },
@@ -309,7 +309,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
         "@type": "Product",
         "name": "Bellavia - Scarpe ortopediche con suola attiva",
         "brand": { "@type": "Brand", "name": "Calzasi" },
-        "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": "49.99", "priceValidUntil": "2026-12-31", "availability": "https://schema.org/InStock" },
+        "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": "44.99", "priceValidUntil": "2026-12-31", "availability": "https://schema.org/InStock" },
         ...(stats.count > 0 ? { "aggregateRating": { "@type": "AggregateRating", "ratingValue": String(stats.avg), "reviewCount": String(stats.count), "bestRating": "5", "worstRating": "1" } } : {}),
       }) }} />
 
@@ -407,7 +407,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
               {/* Price */}
               <div style={{ marginBottom: 6, display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
                 <span style={{ fontFamily: F, fontSize: 18, fontWeight: 600, color: "#6A4A46", textDecoration: "line-through" }}>€149,99</span>
-                <span style={{ fontFamily: F, fontSize: "clamp(42px,6vw,60px)", fontWeight: 700, color: "#1E7A48", lineHeight: 1, letterSpacing: "-0.045em" }}>€49,99</span>
+                <span style={{ fontFamily: F, fontSize: "clamp(42px,6vw,60px)", fontWeight: 700, color: "#1E7A48", lineHeight: 1, letterSpacing: "-0.045em" }}>€44,99</span>
                 <span style={{ backgroundColor: "#7A5535", color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: F, padding: "6px 12px", borderRadius: 4 }}>-67%</span>
               </div>
               <p style={{ fontFamily: F, fontSize: 14, color: "#6B655E", marginBottom: 14 }}>+ €4,99 spedizione · Paghi tutto alla consegna</p>
@@ -798,7 +798,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
               <p style={{ fontFamily: F, fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#7A3D38", marginBottom: 10 }}>Prezzo promozionale</p>
               <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
                 <span style={{ fontFamily: F, fontSize: 20, color: "#6A4A46", textDecoration: "line-through", fontWeight: 500 }}>€149,99</span>
-                <span style={{ fontFamily: F, fontSize: "clamp(48px,7vw,68px)", fontWeight: 600, color: "#4A6858", lineHeight: 1, letterSpacing: "-0.04em" }}>€49,99</span>
+                <span style={{ fontFamily: F, fontSize: "clamp(48px,7vw,68px)", fontWeight: 600, color: "#4A6858", lineHeight: 1, letterSpacing: "-0.04em" }}>€44,99</span>
                 <span style={{ backgroundColor: "#7A5535", color: "#fff", fontSize: 13, fontWeight: 700, fontFamily: F, padding: "6px 11px", borderRadius: 4 }}>-67%</span>
               </div>
               <p style={{ fontFamily: F, fontSize: 14, fontWeight: 400, color: "#6B7280", marginTop: 8 }}>
@@ -850,7 +850,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", paddingTop: 20, display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "space-between", alignItems: "center" }}>
             <p style={{ fontFamily: F, fontSize: 13, color: "rgba(255,255,255,0.45)" }}>© 2026 Calzasi. Tutti i diritti riservati.</p>
             <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-              <span style={{ fontFamily: F, fontSize: 18, fontWeight: 700, color: "#fff" }}>€49,99</span>
+              <span style={{ fontFamily: F, fontSize: 18, fontWeight: 700, color: "#fff" }}>€44,99</span>
               <button onClick={handleCTA} style={{ fontFamily: F, fontSize: 14, fontWeight: 700, background: "linear-gradient(180deg, #FFB347 0%, #FF9900 100%)", color: "#111", padding: "10px 22px", borderRadius: 8, border: "1px solid #E68A00", cursor: "pointer", boxShadow: "0 4px 10px rgba(255,153,0,0.35)" }}>
                 Ordina ora
               </button>

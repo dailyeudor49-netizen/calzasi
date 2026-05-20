@@ -159,7 +159,7 @@ const ORDER_CONFIGS: Record<string, OrderConfig> = {
     accentColor: "#9B7BC8",
   },
   "bellavia": {
-    title: "Bellavia", slug: "bellavia", price: 49.99, comparePrice: 149.99,
+    title: "Bellavia", slug: "bellavia", price: 44.99, comparePrice: 149.99,
     colors: [
       { name: "Panna Bordeaux", bg: "#F0E4D8", border: "#7A1F35", dot: "#7A1F35", image: "/images/land/bellavia/carosello/1.webp" },
       { name: "Panna Cacao",    bg: "#F0E4D8", border: "#3D2314", dot: "#3D2314", image: "/images/land/bellavia/carosello/2.webp" },
