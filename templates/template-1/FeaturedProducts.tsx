@@ -49,10 +49,10 @@ export default function FeaturedProducts({ products }: { products: Product[] }) 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 20 }}
           className="cz-feat-grid">
           {displayed.map((product) => (
-            <Link key={product.id} href={`/land/${product.slug}`} style={{ textDecoration: "none", display: "block" }} className="group">
+            <Link key={product.id} href={`/land/${product.slug}`} style={{ textDecoration: "none", display: "block", borderRadius: 2, overflow: "hidden", transition: "box-shadow 0.25s ease", boxShadow: "0 0 0 1px var(--color-border)" }} className="group hover:[box-shadow:0_8px_32px_rgba(0,0,0,0.10)]">
 
               {/* Image — 3:4 portrait */}
-              <div style={{ position: "relative", paddingBottom: "125%", backgroundColor: "var(--color-bg-alt)", overflow: "hidden" }}>
+              <div style={{ position: "relative", paddingBottom: "120%", backgroundColor: "var(--color-bg-alt)", overflow: "hidden" }}>
                 {product.image ? (
                   <img
                     src={product.image}
@@ -67,54 +67,33 @@ export default function FeaturedProducts({ products }: { products: Product[] }) 
                     </svg>
                   </div>
                 )}
-
-                {/* Discount badge */}
                 {product.original_price > product.price && (
-                  <div style={{
-                    position: "absolute", top: 12, left: 12,
-                    backgroundColor: "var(--color-cta)", color: "#fff",
-                    padding: "4px 9px",
-                    fontFamily: "var(--font-heading)", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em",
-                  }}>
+                  <div style={{ position: "absolute", top: 12, left: 12, backgroundColor: "var(--color-cta)", color: "#fff", padding: "4px 9px", fontFamily: "var(--font-heading)", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em" }}>
                     -{Math.round((1 - product.price / product.original_price) * 100)}%
                   </div>
                 )}
-
-                {/* Hover CTA */}
-                <div style={{
-                  position: "absolute", inset: 0,
-                  display: "flex", alignItems: "flex-end", justifyContent: "center",
-                  paddingBottom: 16,
-                  opacity: 0, transition: "opacity 0.25s ease",
-                }} className="group-hover:[opacity:1]">
-                  <span style={{
-                    fontFamily: "var(--font-heading)", fontSize: 10.5, fontWeight: 700,
-                    letterSpacing: "0.12em", textTransform: "uppercase",
-                    backgroundColor: "var(--color-primary)", color: "#fff",
-                    padding: "10px 24px",
-                    transform: "translateY(6px)", transition: "transform 0.25s ease",
-                    display: "inline-block",
-                  }} className="group-hover:[transform:translateY(0)]">
-                    Acquista
+                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "flex-end", justifyContent: "center", paddingBottom: 16, opacity: 0, transition: "opacity 0.25s ease" }} className="group-hover:[opacity:1]">
+                  <span style={{ fontFamily: "var(--font-heading)", fontSize: 10.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", backgroundColor: "var(--color-primary)", color: "#fff", padding: "10px 24px", transform: "translateY(8px)", transition: "transform 0.25s ease", display: "inline-block" }} className="group-hover:[transform:translateY(0)]">
+                    Acquista ora
                   </span>
                 </div>
               </div>
 
               {/* Info */}
-              <div style={{ paddingTop: 14 }}>
+              <div style={{ padding: "14px 16px 18px", backgroundColor: "#fff" }}>
                 <p style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 14, color: "var(--color-text)", marginBottom: 3, letterSpacing: "-0.01em" }}>
                   {product.name}
                 </p>
-                <p style={{ fontFamily: "var(--font-body)", fontSize: 12.5, color: "var(--color-text-secondary)", marginBottom: 8, lineHeight: 1.4 }}>
+                <p style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--color-text-secondary)", marginBottom: 10, lineHeight: 1.4 }}>
                   {product.subtitle}
                 </p>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <span style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: 15, color: "var(--color-primary)" }}>
-                    {product.price.toFixed(2).replace(".", ",")} &euro;
+                    {product.price.toFixed(2).replace(".", ",")} €
                   </span>
                   {product.original_price > product.price && (
-                    <span style={{ fontFamily: "var(--font-body)", fontSize: 12.5, color: "var(--color-text-secondary)", textDecoration: "line-through" }}>
-                      {product.original_price.toFixed(2).replace(".", ",")} &euro;
+                    <span style={{ fontFamily: "var(--font-body)", fontSize: 12, color: "var(--color-text-secondary)", textDecoration: "line-through" }}>
+                      {product.original_price.toFixed(2).replace(".", ",")} €
                     </span>
                   )}
                 </div>

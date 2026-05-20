@@ -2,7 +2,6 @@ import Hero from "./Hero";
 import CollectionsSection from "./CollectionsSection";
 import FeaturedProducts from "./FeaturedProducts";
 import AllProductsGrid from "./AllProductsGrid";
-import OwnerSection from "./OwnerSection";
 import ShippingSection from "./ShippingSection";
 import Newsletter from "./Newsletter";
 import type { TemplateConfig } from "@/lib/template";
@@ -24,11 +23,10 @@ export default function Homepage({ config, products }: HomepageProps) {
         ctaText={config.hero.ctaText}
         ctaHref="/catalogo"
       />
-      <FeaturedProducts products={products} />
       <CollectionsSection />
-      <AllProductsGrid products={products} />
+      <FeaturedProducts products={products} />
       <ShippingSection />
-      <OwnerSection />
+      <AllProductsGrid products={products} />
       <Newsletter />
     </>
   );
