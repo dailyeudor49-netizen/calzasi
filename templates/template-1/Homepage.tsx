@@ -5,6 +5,7 @@ import FeaturedProducts from "./FeaturedProducts";
 import AllProductsGrid from "./AllProductsGrid";
 import ShippingSection from "./ShippingSection";
 import OwnerSection from "./OwnerSection";
+import StoreSection from "./StoreSection";
 import Newsletter from "./Newsletter";
 import type { TemplateConfig } from "@/lib/template";
 
@@ -31,6 +32,7 @@ export default function Homepage({ config, products }: HomepageProps) {
       <ShippingSection />
       <AllProductsGrid products={products} />
       <OwnerSection />
+      <StoreSection />
       <Newsletter />
     </>
   );
