@@ -354,22 +354,6 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
                 })}
               </div>
 
-              {/* Thumbnail varianti colore */}
-              <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
-                {COLORS.map((c) => {
-                  const sel = selColor === c.name;
-                  return (
-                    <button key={c.name} onClick={() => { setSelColor(c.name); setSelPhoto(null); }} aria-label={`Colore ${c.name}`}
-                      style={{ flex: 1, borderRadius: 6, border: sel ? "2px solid #211914" : "1px solid #E3D8CA", overflow: "hidden", padding: 0, backgroundColor: "#F5F0EA", cursor: "pointer", boxShadow: sel ? "0 10px 26px rgba(33,25,20,0.16)" : "none", transition: "border 0.2s, box-shadow 0.2s" }}>
-                      <img src={c.img} alt={c.name} style={{ width: "100%", height: "auto", display: "block", pointerEvents: "none" }} loading="lazy" />
-                      <div style={{ padding: "7px 4px", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 5, backgroundColor: sel ? "#1B3A5C" : "#fff" }}>
-                        <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: c.swatch, border: `1.5px solid ${c.border}`, flexShrink: 0 }} />
-                        <span style={{ fontSize: 12, fontWeight: 700, color: sel ? "#fff" : "#1E1B18", fontFamily: F }}>{c.name}</span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
             </div>
 
             {/* Info column */}
@@ -414,8 +398,8 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
               {/* Benefits */}
               <ul style={{ margin: "0 0 28px", padding: 0, listStyle: "none", display: "grid", gap: 8 }}>
                 {BENEFITS.map((b) => (
-                  <li key={b.name} style={{ display: "flex", alignItems: "flex-start", gap: 12, fontFamily: F, fontSize: 15, backgroundColor: "#fff", borderRadius: 10, border: "1px solid #E5E7EB", borderLeft: "4px solid #5A7D65", padding: "13px 16px", boxShadow: "0 2px 6px rgba(0,0,0,0.04)" }}>
-                    <span style={{ width: 22, height: 22, borderRadius: "50%", backgroundColor: "#5A7D65", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                  <li key={b.name} style={{ display: "flex", alignItems: "flex-start", gap: 12, fontFamily: F, fontSize: 15, backgroundColor: "#fff", borderRadius: 10, border: "1px solid #E5E7EB", borderLeft: "4px solid #9AADA4", padding: "13px 16px", boxShadow: "0 2px 6px rgba(0,0,0,0.04)" }}>
+                    <span style={{ width: 22, height: 22, borderRadius: "50%", backgroundColor: "#9AADA4", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
                       <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1.5 4.5L5 8L10.5 1.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </span>
                     <span style={{ lineHeight: 1.5 }}>
@@ -524,18 +508,23 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
       {/* ── 4. Come ordinare (3 step compact) ── */}
       <section style={{ background: "#ECEEF2", padding: "32px 20px" }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
-          <p style={{ textAlign: "center", fontFamily: F, fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#5A6E8A", marginBottom: 20 }}>
-            Ordine protetto · Prenoti ora, paghi solo quando arriva
-          </p>
+          <div style={{ textAlign: "center", marginBottom: 22 }}>
+            <span style={{ display: "inline-block", fontFamily: F, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#8A96A8", marginBottom: 6 }}>
+              Ordine protetto
+            </span>
+            <p style={{ fontFamily: FT, fontSize: "clamp(18px,2.8vw,24px)", fontWeight: 700, color: "#1B3A5C", margin: 0, lineHeight: 1.2 }}>
+              Prenoti ora, paghi solo quando arriva
+            </p>
+          </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
             {[
-              { n: "1", title: "Scegli taglia e colore", icon: "👟" },
-              { n: "2", title: "Ti richiamiamo per confermare", icon: "📞" },
-              { n: "3", title: "Paghi al corriere all'arrivo", icon: "✅" },
+              { n: "1", title: "Scegli taglia e colore" },
+              { n: "2", title: "Ti richiamiamo per confermare" },
+              { n: "3", title: "Paghi al corriere all'arrivo" },
             ].map((s, i) => (
-              <div key={s.n} style={{ borderRadius: 8, backgroundColor: i === 2 ? "#1B3A5C" : "#fff", border: i === 2 ? "none" : "1px solid #C4CDD8", padding: "18px 16px", display: "flex", alignItems: "center", gap: 12, boxShadow: "0 4px 14px rgba(27,58,92,0.08)" }}>
-                <span style={{ width: 36, height: 36, borderRadius: "50%", backgroundColor: i === 2 ? "#5A7D65" : "#E4E8EF", color: i === 2 ? "#fff" : "#4A5E7A", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F, fontSize: 16, fontWeight: 600, flexShrink: 0 }}>{s.n}</span>
-                <span style={{ fontFamily: F, fontSize: 15, fontWeight: 600, color: i === 2 ? "#fff" : "#1B3A5C", lineHeight: 1.3 }}>{s.title}</span>
+              <div key={s.n} style={{ borderRadius: 8, backgroundColor: i === 2 ? "#1B3A5C" : "#fff", border: i === 2 ? "none" : "1px solid #C4CDD8", padding: "18px 16px", display: "flex", alignItems: "center", gap: 14, boxShadow: "0 4px 14px rgba(27,58,92,0.08)" }}>
+                <span style={{ width: 26, height: 26, borderRadius: "50%", backgroundColor: i === 2 ? "#5A7D65" : "#DDE2E8", color: i === 2 ? "#fff" : "#7A8898", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F, fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{s.n}</span>
+                <span style={{ fontFamily: F, fontSize: "clamp(14px,2vw,16px)", fontWeight: 700, color: i === 2 ? "#fff" : "#1B3A5C", lineHeight: 1.3 }}>{s.title}</span>
               </div>
             ))}
           </div>
