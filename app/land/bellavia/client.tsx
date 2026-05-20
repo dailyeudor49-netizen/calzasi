@@ -327,7 +327,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
       </div>
 
       {/* ── 2. Header ── */}
-      <header style={{ borderBottom: "1px solid #E9DED0", padding: "14px 20px", backgroundColor: "rgba(255,252,247,0.96)", position: "sticky", top: 0, zIndex: 100, boxShadow: "0 10px 30px rgba(46,31,20,0.06)", backdropFilter: "blur(14px)" }}>
+      <header style={{ borderBottom: "1px solid #E9DED0", padding: "14px 20px", backgroundColor: "rgba(254,254,254,0.96)", position: "sticky", top: 0, zIndex: 100, boxShadow: "0 10px 30px rgba(46,31,20,0.06)", backdropFilter: "blur(14px)" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/">
             <Image src="/images/shop/logo.webp" alt="Calzasi" width={160} height={54} style={{ height: 48, width: "auto", objectFit: "contain" }} />
@@ -825,7 +825,7 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
       </section>
 
       {/* ── 13. Footer ── */}
-      <footer style={{ backgroundColor: "#FFFCF7", borderTop: "1px solid #E9DED0", padding: "40px 20px 24px" }}>
+      <footer style={{ backgroundColor: "#fefefe", borderTop: "1px solid #E9DED0", padding: "40px 20px 24px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "space-between", marginBottom: 32 }}>
             <div>
