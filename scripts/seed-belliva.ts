@@ -38,7 +38,7 @@ async function main() {
       'Suola curva attiva che ti spinge in avanti ad ogni passo: cammini con meno fatica, attivi i glutei e migliori la postura. Plantare anatomico con supporto all''arco e al tallone per un comfort duraturo. Tomaia traspirante e suola anti-scivolo per ogni superficie.',
       49.99,
       149.99,
-      '/images/categories/tabacca.webp',
+      '/images/land/belliva/carosello/1.webp',
       ${cat.id},
       ${features},
       '#C9813A'
