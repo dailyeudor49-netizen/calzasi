@@ -444,9 +444,12 @@ export function BellaviaPage({ orderConfig, reviews, stats, shopEmail }: Props) 
                     const sel = selColor === c.name;
                     return (
                       <button key={c.name} onClick={() => setSelColor(c.name)} aria-label={`Colore ${c.name}`}
-                        style={{ flex: 1, borderRadius: 8, border: sel ? `2px solid ${c.border}` : "1.5px solid #E2D4C3", padding: "10px 8px", backgroundColor: sel ? "#F5F0EA" : "#fff", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 7, boxShadow: sel ? "0 4px 14px rgba(33,25,20,0.12)" : "none", transition: "border 0.18s, box-shadow 0.18s" }}>
-                        <div style={{ width: 26, height: 26, borderRadius: "50%", backgroundColor: c.swatch, border: `2px solid ${c.border}`, flexShrink: 0 }} />
-                        <span style={{ fontFamily: F, fontSize: 11, fontWeight: 700, color: sel ? "#1E1B18" : "#6B655E", textAlign: "center", lineHeight: 1.25 }}>{c.name}</span>
+                        style={{ flex: 1, borderRadius: 8, border: sel ? `2px solid ${c.border}` : "1.5px solid #E2D4C3", overflow: "hidden", padding: 0, backgroundColor: "#F5F0EA", cursor: "pointer", boxShadow: sel ? "0 6px 18px rgba(33,25,20,0.14)" : "none", transition: "border 0.18s, box-shadow 0.18s" }}>
+                        <img src={c.img} alt={c.name} style={{ width: "100%", height: "auto", display: "block", pointerEvents: "none" }} loading="lazy" />
+                        <div style={{ padding: "7px 6px", display: "flex", alignItems: "center", justifyContent: "center", gap: 5, backgroundColor: sel ? "#1E1B18" : "#fff" }}>
+                          <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: c.swatch, border: `1.5px solid ${c.border}`, flexShrink: 0 }} />
+                          <span style={{ fontFamily: F, fontSize: 11, fontWeight: 700, color: sel ? "#fff" : "#1E1B18", lineHeight: 1.2 }}>{c.name}</span>
+                        </div>
                       </button>
                     );
                   })}
