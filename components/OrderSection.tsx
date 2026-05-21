@@ -9,8 +9,8 @@ const COMUNI = comuniData as [string, string, string | null][];
 
 /* ═══════════════════ Anti-spam ═══════════════════ */
 
-const STORE_KEY = "cf_ord";
-const SHOP_NAME = "calzasi";
+const STORE_KEY = "sp_recent_order";
+const SHOP_NAME = "mondocalzature";
 
 function isBlocked(): boolean {
   try { return localStorage.getItem(STORE_KEY) === "1"; } catch { return false; }
@@ -70,7 +70,7 @@ function fmtPrice(n: number) {
 /* ═══════════════════ Main Component ═══════════════════ */
 
 export function OrderSection({ config, image }: { config: OrderConfig; image: string }) {
-  const accent = "#1E3560"; // fisso per tutte le landing
+  const accent = "#7a1a1a"; // fisso per tutte le landing
   const hasColors = config.colors.length > 0;
   const [color, setColor] = useState(config.colors[0]?.name || "");
   const currentImage = config.colors.find((c) => c.name === color)?.image || image || "/images/placeholder-product.svg";
@@ -84,22 +84,16 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const [source] = useState(() => {
-    if (typeof window === "undefined") return "organica";
-    const params = new URLSearchParams(window.location.search);
-    const clean = (v: string | null) => {
-      if (!v) return "";
-      const s = v.split("#")[0].split("&")[0].trim();
-      if (!s || s.includes("{") || s.includes("}")) return "";
-      return s;
-    };
-    const ggm = clean(params.get("ggm"));
-    if (ggm) return ggm;
-    const mt = clean(params.get("matchtype")).toLowerCase();
-    if (mt === "e" || mt === "p" || mt === "exact" || mt === "phrase") return "key";
-    if (mt === "b" || mt === "broad") return "broad";
-    return "organica";
-  });
+  const [source, setSource] = useState("organica");
+  // ggm va letto SOLO dopo mount client — la lazy init di useState si esegue sul server (SSR)
+  // dove window è undefined e il valore "organica" verrebbe poi idratato sul client senza
+  // ri-eseguire la funzione → tutte le leads finivano come "organica".
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const raw = new URLSearchParams(window.location.search).get("ggm") || "";
+    const cleaned = raw.split("#")[0].split("&")[0].trim();
+    if (cleaned) setSource(cleaned);
+  }, []);
 
   const [csrfToken, setCsrfToken] = useState("");
   const [tokenError, setTokenError] = useState(false);
@@ -370,7 +364,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
 
     /* Save for TY page */
     try {
-      localStorage.setItem("cf_thankyou", JSON.stringify({
+      localStorage.setItem("mc_order_payload", JSON.stringify({
         product: { title: config.title, image: currentImage },
         variant: { color: color || undefined, size, price: config.price.toFixed(2) },
         customer: payload.customer,
@@ -409,7 +403,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
       }
       recordOrder();
       setOrderSubmitted(true);
-      window.location.href = `/land/${config.slug}/ty`;
+      window.location.href = `/ordine-confermato`;
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "riprova";
       alert("Errore di rete: " + message);
@@ -470,11 +464,11 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
   /* shared input class */
   const inputCls = (field: string) =>
     `w-full py-3.5 px-4 border-[1.5px] rounded-[10px] text-[15px] text-gray-700 bg-white outline-none transition-colors ${
-      errors[field] ? "border-red-500 bg-red-50" : "border-gray-300 focus:border-[#1E3560] focus:shadow-[0_0_0_3px_rgba(30,53,96,0.1)]"
+      errors[field] ? "border-red-500 bg-red-50" : "border-gray-300 focus:border-[#7a1a1a] focus:shadow-[0_0_0_3px_rgba(122,26,26,0.1)]"
     }`;
 
   const goldBtnCls = "w-full py-4 rounded-full text-white text-base font-bold cursor-pointer transition-all flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(30,53,96,0.3)] hover:shadow-[0_6px_22px_rgba(30,53,96,0.4)]";
-  const goldBg = { background: "linear-gradient(to bottom, #2A4A7A, #1E3560)" };
+  const goldBg = { background: "linear-gradient(to bottom, #a83a3a, #7a1a1a)" };
 
   return (
     <>
@@ -529,7 +523,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
                 style={{
                   borderRadius: 10,
                   ...(size === s
-                    ? { borderColor: "#1E3560", backgroundColor: "#1E3560", color: "#fff", borderWidth: 2, boxShadow: "0 0 0 1px #1E3560" }
+                    ? { borderColor: "#7a1a1a", backgroundColor: "#7a1a1a", color: "#fff", borderWidth: 2, boxShadow: "0 0 0 1px #7a1a1a" }
                     : { borderColor: "#D7DCE2", backgroundColor: "#FFFFFF", color: "#5A5752", borderWidth: 1 }),
                 }}
               >
@@ -539,10 +533,10 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
           </div>
           <div className="mt-2.5 flex items-start gap-2 border px-3 py-2.5"
             style={{ backgroundColor: "#F4F6FA", borderColor: "#D1D8E6", borderRadius: 10 }}>
-            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 mt-0.5 shrink-0" fill="#1E3560">
+            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 mt-0.5 shrink-0" fill="#7a1a1a">
               <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm.75 10.5h-1.5v-5h1.5v5zm0-6.5h-1.5V3.5h1.5V5z"/>
             </svg>
-            <p className="text-xs leading-relaxed" style={{ color: "#1E3560" }}>
+            <p className="text-xs leading-relaxed" style={{ color: "#7a1a1a" }}>
               <strong>Calzata regolare.</strong>{" "}
               Se sei tra due misure, scegli la più grande.
             </p>
@@ -557,7 +551,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
           className="w-full py-4 text-base font-bold text-white transition-opacity hover:opacity-90 cursor-pointer"
           style={{
             borderRadius: 12,
-            backgroundColor: "#1E3560",
+            backgroundColor: "#7a1a1a",
             fontFamily: "var(--font-heading)",
             letterSpacing: "-0.01em",
             boxShadow: "0 4px 16px rgba(30,53,96,0.28)",
@@ -575,13 +569,13 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
       {/* ─── Modal Overlay ─── */}
       {modalOpen && (
         <div
-          data-cf-modal
-          className={`fixed inset-0 z-[2147483647] flex items-center justify-center ${step === "form" && isMobile ? "bg-white" : "bg-black/80 p-4"}`}
+          data-sp-checkout
+          className={`fixed inset-0 z-[99990] flex items-center justify-center ${step === "form" && isMobile ? "bg-white" : "bg-black/80 p-4"}`}
           onClick={(e) => { if (e.target === e.currentTarget && !(step === "form" && isMobile)) closeModal(); }}
         >
           <div
             ref={modalRef}
-            className={`animate-cf-slide-up bg-white relative overflow-y-auto ${step === "form" && isMobile ? "w-full h-full" : "rounded-2xl w-full max-w-[480px] shadow-[0_25px_60px_rgba(0,0,0,0.2)] max-h-[92vh]"}`}
+            className={`animate-sp-rise bg-white relative overflow-y-auto ${step === "form" && isMobile ? "w-full h-full" : "rounded-2xl w-full max-w-[480px] shadow-[0_25px_60px_rgba(0,0,0,0.2)] max-h-[92vh]"}`}
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             {/* ── Header ── */}
@@ -661,7 +655,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
                     <svg viewBox="0 0 24 24" className={`w-[13px] h-[13px] stroke-white fill-none transition-opacity ${upsell ? "opacity-100" : "opacity-0"}`} strokeWidth={3} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
                   </div>
                   <div className="w-16 h-16 rounded-lg border border-gray-200 overflow-hidden shrink-0 bg-[#fafafa]">
-                    <img src="https://www.otomedical.it/wp-content/uploads/2023/01/plantari-ortopedici.png" alt="Plantare Ortopedico" className="w-full h-full object-cover" />
+                    <img src="/images/plantare.webp" alt="Plantare Ortopedico" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-[14px] font-bold text-gray-900 mb-0.5">Aggiungi al tuo ordine</p>
@@ -692,7 +686,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
 
                 <div className="mb-3.5">
                   <label className="block text-[15px] font-semibold text-gray-700 mb-1.5">Telefono <span className="text-red-500">*</span></label>
-                  <div className={`flex items-stretch border-[1.5px] rounded-[10px] overflow-hidden transition-colors ${errors.phoneNumber ? "border-red-500 bg-red-50" : "border-gray-300 focus-within:border-[#1E3560] focus-within:shadow-[0_0_0_3px_rgba(30,53,96,0.1)]"}`}>
+                  <div className={`flex items-stretch border-[1.5px] rounded-[10px] overflow-hidden transition-colors ${errors.phoneNumber ? "border-red-500 bg-red-50" : "border-gray-300 focus-within:border-[#7a1a1a] focus-within:shadow-[0_0_0_3px_rgba(122,26,26,0.1)]"}`}>
                     <span className="py-3.5 px-3.5 text-[15px] font-semibold text-gray-500 bg-gray-100 border-r-[1.5px] border-gray-300 flex items-center shrink-0">+39</span>
                     <input type="tel" name="tel" autoComplete="tel-national" inputMode="tel" placeholder="333 123 4567" value={form.phoneNumber} onChange={(e) => updateForm("phoneNumber", e.target.value)} className="flex-1 py-3.5 px-4 text-[15px] text-gray-700 outline-none bg-transparent" />
                   </div>
@@ -751,14 +745,14 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
                 {/* Note corriere (collapsible) */}
                 <div className="mb-3.5">
                   {!showNotes ? (
-                    <button type="button" onClick={() => setShowNotes(true)} className="text-[13px] font-semibold text-[#1E3560] hover:underline flex items-center gap-1">
+                    <button type="button" onClick={() => setShowNotes(true)} className="text-[13px] font-semibold text-[#7a1a1a] hover:underline flex items-center gap-1">
                       <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current" strokeWidth={2}><path d="M12 5v14m-7-7h14" strokeLinecap="round" /></svg>
                       Aggiungi note per il corriere <span className="text-xs font-normal text-[#22c55e]">(facoltativo)</span>
                     </button>
                   ) : (
                     <>
                       <label className="block text-[15px] font-semibold text-gray-700 mb-1.5">Note per il corriere <span className="text-xs font-normal text-[#22c55e]">(facoltativo)</span></label>
-                      <textarea placeholder="Es. citofono non funzionante, lasciare al vicino, secondo piano..." rows={2} value={form.shippingNotes} onChange={(e) => updateForm("shippingNotes", e.target.value)} className="w-full py-3 px-3.5 border-[1.5px] border-gray-300 rounded-[10px] text-sm text-gray-700 bg-white outline-none transition-colors resize-y min-h-[56px] focus:border-[#1E3560] focus:shadow-[0_0_0_3px_rgba(30,53,96,0.1)]" />
+                      <textarea placeholder="Es. citofono non funzionante, lasciare al vicino, secondo piano..." rows={2} value={form.shippingNotes} onChange={(e) => updateForm("shippingNotes", e.target.value)} className="w-full py-3 px-3.5 border-[1.5px] border-gray-300 rounded-[10px] text-sm text-gray-700 bg-white outline-none transition-colors resize-y min-h-[56px] focus:border-[#7a1a1a] focus:shadow-[0_0_0_3px_rgba(122,26,26,0.1)]" />
                     </>
                   )}
                 </div>
@@ -833,7 +827,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
                 </div>
                 <h3 className="text-lg font-extrabold text-red-500 mb-2">Ordine non disponibile</h3>
                 <p className="text-sm text-gray-500 mb-5 leading-relaxed">Hai già effettuato un ordine. Se stai cercando di ottenere un reso, scrivici tramite il modulo della pagina Contatti.</p>
-                <a href="/contatti" className="inline-block py-3.5 px-8 text-white rounded-full text-[15px] font-semibold cursor-pointer w-full text-center no-underline" style={{ backgroundColor: "#1E3560" }}>Vai a Contatti</a>
+                <a href="/contatti" className="inline-block py-3.5 px-8 text-white rounded-full text-[15px] font-semibold cursor-pointer w-full text-center no-underline" style={{ backgroundColor: "#7a1a1a" }}>Vai a Contatti</a>
               </div>
             )}
 
@@ -843,7 +837,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
 
       {/* ══════════ CIVIC NUMBER POPUP (fuori dal modal scrollabile) ══════════ */}
       {civicPopup && (
-        <div className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-black/50 p-5">
+        <div className="fixed inset-0 z-[99990] flex items-center justify-center bg-black/50 p-5">
           <div className="relative w-full max-w-[380px] rounded-2xl bg-white p-6 shadow-xl">
             <button
               onClick={() => { setCivicPopup(false); setCivicNumber(""); }}
@@ -856,7 +850,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
             </button>
             <div className="mb-4 flex justify-center">
               <div className="flex h-14 w-14 items-center justify-center rounded-full" style={{ backgroundColor: "#fff3cd" }}>
-                <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="#1E3560" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="#7a1a1a" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 9v4m0 4h.01" />
                   <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
                 </svg>
@@ -870,7 +864,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
               value={civicNumber}
               onChange={(e) => setCivicNumber(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter" && civicNumber.trim()) handleCivicConfirm(); }}
-              className="mb-3 w-full rounded-[10px] border-[1.5px] border-gray-300 bg-white px-4 py-3.5 text-[15px] text-gray-700 outline-none transition-colors focus:border-[#1E3560] focus:shadow-[0_0_0_3px_rgba(30,53,96,0.1)]"
+              className="mb-3 w-full rounded-[10px] border-[1.5px] border-gray-300 bg-white px-4 py-3.5 text-[15px] text-gray-700 outline-none transition-colors focus:border-[#7a1a1a] focus:shadow-[0_0_0_3px_rgba(122,26,26,0.1)]"
               autoFocus
             />
             <button
@@ -909,7 +903,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
           setModalOpen(false);
         }}
         accent={config.accentColor || "#E8922A"}
-        giftImage="/plantare-1.webp"
+        giftImage="/images/plantare.webp"
       />
     </>
   );
