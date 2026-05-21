@@ -86,8 +86,19 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
 
   const [source] = useState(() => {
     if (typeof window === "undefined") return "organica";
-    const raw = new URLSearchParams(window.location.search).get("ggm") || "";
-    return raw.split("#")[0].split("&")[0].trim() || "organica";
+    const params = new URLSearchParams(window.location.search);
+    const clean = (v: string | null) => {
+      if (!v) return "";
+      const s = v.split("#")[0].split("&")[0].trim();
+      if (!s || s.includes("{") || s.includes("}")) return "";
+      return s;
+    };
+    const ggm = clean(params.get("ggm"));
+    if (ggm) return ggm;
+    const mt = clean(params.get("matchtype")).toLowerCase();
+    if (mt === "e" || mt === "p" || mt === "exact" || mt === "phrase") return "key";
+    if (mt === "b" || mt === "broad") return "broad";
+    return "organica";
   });
 
   const [csrfToken, setCsrfToken] = useState("");

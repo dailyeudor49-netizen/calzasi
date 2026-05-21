@@ -293,6 +293,30 @@ export async function getCategories() {
   return await sql`SELECT * FROM categories ORDER BY id`;
 }
 
+/* ── Prodotti suggeriti: 4 prodotti della stessa categoria escludendo il corrente ── */
+export async function getSuggestedProducts(currentSlug: string, categoryId: number, limit = 4) {
+  await migrate();
+  const sql = getSQL();
+  const sameCat = await sql`
+    SELECT id, slug, name, subtitle, price, original_price, image, color
+    FROM products
+    WHERE category_id = ${categoryId} AND slug <> ${currentSlug} AND hidden = false AND is_upsell = false
+    ORDER BY RANDOM()
+    LIMIT ${limit}
+  `;
+  if (sameCat.length >= limit) return sameCat;
+  // Fallback: completa con prodotti di altre categorie
+  const need = limit - sameCat.length;
+  const fromOthers = await sql`
+    SELECT id, slug, name, subtitle, price, original_price, image, color
+    FROM products
+    WHERE category_id <> ${categoryId} AND slug <> ${currentSlug} AND hidden = false AND is_upsell = false
+    ORDER BY RANDOM()
+    LIMIT ${need}
+  `;
+  return [...sameCat, ...fromOthers];
+}
+
 /* ══════════════════════════════════════════════════════
    Reviews
    ══════════════════════════════════════════════════════ */
@@ -350,7 +374,8 @@ export async function phoneExists(phone: string): Promise<boolean> {
   if (process.env.SHARED_DB_URL) {
     try {
       const sharedSql = getSharedSQL();
-      const sharedRows = await sharedSql`SELECT 1 FROM blocked_phones WHERE phone = ${phone} LIMIT 1`;
+      // Confronta gli ultimi 10 cifre — robusto a varianti di formato e prefisso (+39, 0039, nessuno)
+      const sharedRows = await sharedSql`SELECT 1 FROM blocked_phones WHERE RIGHT(REGEXP_REPLACE(phone, '[^0-9]', '', 'g'), 10) = RIGHT(REGEXP_REPLACE(${phone}, '[^0-9]', '', 'g'), 10) LIMIT 1`;
       if (sharedRows.length > 0) return true;
     } catch {
       // shared DB down — local check already done
@@ -383,7 +408,7 @@ export interface OrderData {
 export async function registerOrder(data: OrderData): Promise<number | null> {
   await migrate();
   const sql = getSQL();
-  const shop = data.shopName || "calzasi";
+  const shop = data.shopName || "mondocalzature";
 
   // Always save locally — don't let shared DB failures lose the order
   const rows = await sql`INSERT INTO orders (
