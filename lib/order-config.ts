@@ -32,9 +32,10 @@ const FULLSHIP_5901: Record<string, number> = {
   "40": 5906, "41": 5907, "42": 5908, "43": 5909, "44": 5910,
 };
 
-const FULLSHIP_5911: Record<string, number> = {
-  "35": 5911, "36": 5912, "37": 5913, "38": 5914, "39": 5915,
-  "40": 5916, "41": 5917, "42": 5918, "43": 5919, "44": 5920,
+/* Sandalo Ortopedico — range 5973-5982 (era FULLSHIP_5911 inesistente) */
+const FULLSHIP_5973: Record<string, number> = {
+  "35": 5973, "36": 5974, "37": 5975, "38": 5976, "39": 5977,
+  "40": 5978, "41": 5979, "42": 5980, "43": 5981, "44": 5982,
 };
 
 const FULLSHIP_5921: Record<string, number> = {
@@ -60,13 +61,13 @@ const ORDER_CONFIGS: Record<string, OrderConfig> = {
   "miele": {
     title: "Miele", slug: "miele", price: 74.99, comparePrice: 149.99,
     colors: [{ name: "Cuoio", bg: "#A0633A", border: "#7A4727", image: "/images/categories/miele.webp" }],
-    sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5911, upsellPrice: 4.99, upsellFullshipId: 5932,
+    sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5973, upsellPrice: 4.99, upsellFullshipId: 5932,
     accentColor: "#A0633A",
   },
   "perla": {
     title: "Perla", slug: "perla", price: 79.99, comparePrice: 79.99,
     colors: [{ name: "Bianco", bg: "#F0EBE0", border: "#D9D0C0", image: "/images/categories/perla.webp" }],
-    sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5911, upsellPrice: 4.99, upsellFullshipId: 5932,
+    sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5973, upsellPrice: 4.99, upsellFullshipId: 5932,
     accentColor: "#B89F6F",
   },
   "corsa": {
@@ -102,13 +103,13 @@ const ORDER_CONFIGS: Record<string, OrderConfig> = {
   "estate": {
     title: "Estate", slug: "estate", price: 84.99, comparePrice: 169.99,
     colors: [{ name: "Cuoio/Rafia", bg: "#C4A07A", border: "#A07A50", image: "/images/categories/estate.webp" }],
-    sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5911, upsellPrice: 4.99, upsellFullshipId: 5932,
+    sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5973, upsellPrice: 4.99, upsellFullshipId: 5932,
     accentColor: "#8B5C30",
   },
   "notte": {
     title: "Notte", slug: "notte", price: 89.99, comparePrice: 179.99,
     colors: [{ name: "Nero", bg: "#1A1917", border: "#000", image: "/images/categories/notte.webp" }],
-    sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5911, upsellPrice: 4.99, upsellFullshipId: 5932,
+    sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5973, upsellPrice: 4.99, upsellFullshipId: 5932,
     accentColor: "#444444",
   },
   "cielo": {
@@ -144,7 +145,7 @@ const ORDER_CONFIGS: Record<string, OrderConfig> = {
   "bianca": {
     title: "Bianca", slug: "bianca", price: 74.99, comparePrice: 74.99,
     colors: [{ name: "Bianco", bg: "#F0EBE0", border: "#D9D0C0", image: "/images/categories/bianca.webp" }],
-    sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5911, upsellPrice: 4.99, upsellFullshipId: 5932,
+    sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5973, upsellPrice: 4.99, upsellFullshipId: 5932,
     accentColor: "#1B3A5C",
   },
   "tabacca": {
