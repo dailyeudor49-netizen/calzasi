@@ -221,7 +221,7 @@ export default function ThankYouContent({
   const upsell = data.upsell || null;
   const upsellPrice = upsell ? parseFloat(upsell.price || "0") || 0 : 0;
   const freeGift = data.freeGift || null;
-  const totalPrice = price + upsellPrice;
+  const totalPrice = price + upsellPrice + 4.99;
 
   void landingSlug;
 
