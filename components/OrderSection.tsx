@@ -364,7 +364,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
 
     /* Save for TY page */
     try {
-      localStorage.setItem("mc_order_payload", JSON.stringify({
+      localStorage.setItem("cf_thankyou", JSON.stringify({
         product: { title: config.title, image: currentImage },
         variant: { color: color || undefined, size, price: config.price.toFixed(2) },
         customer: payload.customer,
