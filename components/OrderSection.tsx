@@ -403,7 +403,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
       }
       recordOrder();
       setOrderSubmitted(true);
-      window.location.href = `/ordine-confermato`;
+      window.location.href = `/land/${config.slug}/ty`;
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "riprova";
       alert("Errore di rete: " + message);
