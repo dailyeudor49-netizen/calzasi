@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
 
     const customer = body?.customer || {};
     const phone: string = customer.phoneNumber || "";
-    const product: string = body?.cart?.code || body?.cart?.productName || "Sconosciuto";
+    const product: string = body?.cart?.productName || body?.cart?.code || "Sconosciuto";
     const utmSource: string = body?.meta?.utm_source || body?.source || "organica";
     const utmContent: string = body?.meta?.utm_content || "";
     const utmCampaign: string = body?.meta?.utm_campaign || "";
