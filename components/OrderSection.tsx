@@ -655,7 +655,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
                     <svg viewBox="0 0 24 24" className={`w-[13px] h-[13px] stroke-white fill-none transition-opacity ${upsell ? "opacity-100" : "opacity-0"}`} strokeWidth={3} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
                   </div>
                   <div className="w-16 h-16 rounded-lg border border-gray-200 overflow-hidden shrink-0 bg-[#fafafa]">
-                    <img src="/images/plantare.webp" alt="Plantare Ortopedico" className="w-full h-full object-cover" />
+                    <img src="/plantare-1.webp" alt="Plantare Ortopedico" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-[14px] font-bold text-gray-900 mb-0.5">Aggiungi al tuo ordine</p>
@@ -903,7 +903,7 @@ export function OrderSection({ config, image }: { config: OrderConfig; image: st
           setModalOpen(false);
         }}
         accent={config.accentColor || "#E8922A"}
-        giftImage="/images/plantare.webp"
+        giftImage="/plantare-1.webp"
       />
     </>
   );
