@@ -54,7 +54,7 @@ const TECHS = [
 ];
 
 /* ─── Carosello hero (tutte le foto) ─── */
-const HERO_GALLERY = Array.from({ length: 10 }, (_, i) => `/images/land/belliva/carosello/${i + 1}.webp`);
+const HERO_GALLERY = Array.from({ length: 11 }, (_, i) => `/images/land/belliva/carosello/${i + 1}.webp`);
 
 /* ─── FAQ ─── */
 const FAQS = [
