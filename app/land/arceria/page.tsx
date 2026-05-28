@@ -17,11 +17,8 @@ import { StickyOrderButton } from "@/components/StickyOrderButton";
 import HowToOrder from "@/components/HowToOrder";
 import RefundGuarantee from "@/components/RefundGuarantee";
 import LandingShipping from "@/components/LandingShipping";
-import LandingRefund from "@/components/LandingRefund";
 import LandingFAQ from "@/components/LandingFAQ";
-import TopBar from "@/components/landing/TopBar";
-import LandingHeader from "@/components/landing/LandingHeader";
-import LandingFooter from "@/components/landing/LandingFooter";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -386,10 +383,10 @@ function WhySection() {
         <div className="mt-6 md:mt-8">
           <div className="text-center">
             <CtaOrderButton
-              className="inline-flex items-center justify-center rounded-xl px-8 py-3.5 text-[16px] font-bold text-white transition-opacity hover:opacity-90 cursor-pointer"
-              style={{ backgroundColor: DS.brand, fontFamily: "var(--font-heading)" }}
+              className="inline-flex items-center justify-center px-8 py-3.5 text-[16px] font-bold transition-opacity hover:opacity-90 cursor-pointer"
+              style={{ background: "linear-gradient(180deg, #FFB347 0%, #FF9900 100%)", color: "#111", borderRadius: 8, border: "1px solid #E68A00", boxShadow: "0 4px 12px rgba(255,153,0,0.40)", fontFamily: "'Poppins', system-ui, sans-serif", letterSpacing: "0.02em", textTransform: "uppercase" }}
             >
-              Ordina ora – Paga alla Consegna
+              Ordina ora → Paghi alla consegna
             </CtaOrderButton>
           </div>
         </div>
@@ -599,8 +596,36 @@ export default async function ArceriaLanding() {
     <div>
       <StickyOrderButton config={orderConfig} />
 
-      <TopBar />
-      <LandingHeader />
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes arTopBar { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+      `}} />
+
+      {/* TopBar ticker */}
+      <div style={{ backgroundColor: "#1A3D28", color: "#A8D8B8", padding: "9px 0", overflow: "hidden", whiteSpace: "nowrap" }}>
+        <div style={{ display: "inline-flex", gap: 56, animation: "arTopBar 28s linear infinite", willChange: "transform" }}>
+          {[...Array(3)].map((_, k) =>
+            ["Pagamento alla consegna", "Spedizione 2-5 giorni", "Reso 30 giorni", "Assistenza italiana"].map((t, j) => (
+              <span key={`${k}-${j}`} style={{ fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.03em" }}>
+                {t}
+              </span>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* Header sticky */}
+      <header style={{ borderBottom: "1px solid #E9DED0", padding: "14px 20px", backgroundColor: "rgba(254,254,254,0.96)", position: "sticky", top: 0, zIndex: 100, boxShadow: "0 10px 30px rgba(46,31,20,0.06)", backdropFilter: "blur(14px)" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Link href="/">
+            <Image src="/images/shop/logo.webp" alt="Calzasi" width={160} height={54} style={{ height: 48, width: "auto", objectFit: "contain" }} />
+          </Link>
+          <CtaOrderButton
+            style={{ fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 14, fontWeight: 600, background: "linear-gradient(180deg, #FFB347 0%, #FF9900 100%)", color: "#111", padding: "11px 24px", borderRadius: 8, border: "1px solid #E68A00", cursor: "pointer", whiteSpace: "nowrap", boxShadow: "0 4px 10px rgba(255,153,0,0.35)" }}
+          >
+            Ordina ora
+          </CtaOrderButton>
+        </div>
+      </header>
 
       {/* 1. Hero */}
       <HeroSection />
@@ -649,10 +674,72 @@ export default async function ArceriaLanding() {
       {/* 8. Shipping */}
       <LandingShipping accentColor={DS.brand} />
 
-      {/* 9. Refund */}
-      <LandingRefund accentColor={DS.brand} />
+      {/* 9. Resi & Assistenza */}
+      <div style={{ backgroundColor: "#FFFCF7", padding: "58px 20px" }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto", display: "grid", gap: 26, gridTemplateColumns: "1.05fr 0.95fr", alignItems: "center" }} className="ar-resi-grid">
+          <div style={{ borderRadius: 8, overflow: "hidden", boxShadow: "0 18px 54px rgba(30,27,24,0.12)" }}>
+            <Image src="/images/shop/store-interior.webp" alt="Calzasi - il nostro negozio" width={640} height={360} style={{ width: "100%", height: "auto", display: "block", objectFit: "cover" }} />
+          </div>
+          <div>
+            <p style={{ fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#9B5A22", marginBottom: 12 }}>Resi e assistenza</p>
+            <h3 style={{ fontFamily: "'Poppins', system-ui, sans-serif", fontSize: "clamp(28px,4vw,44px)", fontWeight: 700, color: "#17120E", marginBottom: 16, letterSpacing: "-0.035em", lineHeight: 1.06 }}>
+              Non spariamo dopo l&apos;ordine. Rispondiamo davvero.
+            </h3>
+            <p style={{ fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 17, color: "#5F554C", lineHeight: 1.7, marginBottom: 18, maxWidth: 560 }}>
+              Se qualcosa non va, scrivi a{" "}
+              <a href={`mailto:${shopEmail}`} style={{ color: "#9B5A22", fontWeight: 600 }}>{shopEmail}</a>
+              {" "}con numero ordine e motivo. Ricevi risposta entro 24 ore e, se serve, rimborso in 3-5 giorni lavorativi.
+            </p>
+            <p style={{ fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 15, fontWeight: 600, color: "#17120E", backgroundColor: "#F0E2CF", border: "1px solid #DFD0BD", borderRadius: 6, padding: "14px 16px", display: "inline-flex" }}>
+              Hai 30 giorni dalla consegna per restituire il prodotto.
+            </p>
+          </div>
+        </div>
+        <style dangerouslySetInnerHTML={{ __html: `
+          @media (max-width: 860px) {
+            .ar-resi-grid { grid-template-columns: 1fr !important; }
+          }
+        `}} />
+      </div>
 
-      <LandingFooter />
+      {/* Footer */}
+      <footer style={{ backgroundColor: "#fefefe", borderTop: "1px solid #E9DED0", padding: "40px 20px 24px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "space-between", marginBottom: 32 }}>
+            <div>
+              <Image src="/images/shop/logo.webp" alt="Calzasi" width={160} height={54} style={{ height: 48, width: "auto", objectFit: "contain", marginBottom: 12 }} />
+              <p style={{ fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 13, color: "#6B655E", lineHeight: 1.6, maxWidth: 220 }}>
+                Calzasi.com. Scarpe ortopediche e comfort online.
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
+              <div>
+                <p style={{ fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#5A6E8A", marginBottom: 12 }}>Shop</p>
+                {[["Catalogo", "/catalogo"], ["Spedizioni", "/spedizioni"], ["Resi", "/politica-resi"]].map(([l, h]) => (
+                  <Link key={l} href={h} style={{ display: "block", fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 14, color: "#4A5568", textDecoration: "none", marginBottom: 8 }}>{l}</Link>
+                ))}
+              </div>
+              <div>
+                <p style={{ fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#5A6E8A", marginBottom: 12 }}>Legale</p>
+                {[["Privacy", "/privacy-policy"], ["Cookie", "/cookie-policy"], ["Termini", "/termini-e-condizioni"]].map(([l, h]) => (
+                  <Link key={l} href={h} style={{ display: "block", fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 14, color: "#4A5568", textDecoration: "none", marginBottom: 8 }}>{l}</Link>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div style={{ borderTop: "1px solid #E9DED0", paddingTop: 20, display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "space-between", alignItems: "center" }}>
+            <p style={{ fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 13, color: "#9CA3AF" }}>© 2026 Calzasi. Tutti i diritti riservati.</p>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+              <span style={{ fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 18, fontWeight: 700, color: "#1E7A48" }}>€44,99</span>
+              <CtaOrderButton
+                style={{ fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 14, fontWeight: 700, background: "linear-gradient(180deg, #FFB347 0%, #FF9900 100%)", color: "#111", padding: "10px 22px", borderRadius: 8, border: "1px solid #E68A00", cursor: "pointer", boxShadow: "0 4px 10px rgba(255,153,0,0.35)" }}
+              >
+                Ordina ora
+              </CtaOrderButton>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
