@@ -11,6 +11,8 @@ import {
   SolutionBridgeAnimated,
   InstaCarousel,
   CtaOrderButton,
+  ArceriaSelector,
+  OrderSteps,
 } from "./client";
 import { OrderSection } from "@/components/OrderSection";
 import { StickyOrderButton } from "@/components/StickyOrderButton";
@@ -215,8 +217,13 @@ async function HeroSection() {
             ))}
           </div>
 
-          {/* Order section */}
+          {/* Selector (color + size + scarcity + CTA) */}
           <div className="mt-6">
+            <ArceriaSelector />
+          </div>
+
+          {/* Hidden OrderSection: riceve "sticky-order" e apre il modal */}
+          <div style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }} aria-hidden="true">
             <OrderSection config={orderConfig} image={images[0] || ""} />
           </div>
 
@@ -632,6 +639,9 @@ export default async function ArceriaLanding() {
 
       {/* 2. Trust strip */}
       <TrustStrip />
+
+      {/* 2b. Come ordinare (3 step animati) */}
+      <OrderSteps />
 
       {/* 3. Why */}
       <div style={{ backgroundColor: "#FFFFFF" }}>

@@ -395,6 +395,182 @@ export function InstaCarousel({ photos }: { photos: string[] }) {
   );
 }
 
+/* ───────────────────────── Arceria Selector (color + size + CTA) ───────────────────────── */
+
+const AR_COLORS = [
+  { name: "Champagne", img: "/images/land/arceria/carosello/1.webp", swatch: "#D4B896", border: "#C4A67A" },
+  { name: "Caffè",     img: "/images/land/arceria/carosello/2.webp", swatch: "#6F4E37", border: "#5A3D2B" },
+  { name: "Nude Rose", img: "/images/land/arceria/carosello/3.webp", swatch: "#D4A5A5", border: "#C09090" },
+];
+const AR_SIZES = ["35","36","37","38","39","40","41","42","43"];
+const AR_SOLDOUT = ["35", "43"];
+const AR_STOCK: Record<string, Record<string, number>> = {
+  "Champagne": { "36": 4, "37": 6, "38": 2, "39": 3, "40": 5, "41": 4, "42": 2 },
+  "Caffè":     { "36": 5, "37": 2, "38": 3, "39": 1, "40": 4, "41": 6, "42": 3 },
+  "Nude Rose": { "36": 3, "37": 5, "38": 4, "39": 2, "40": 6, "41": 3, "42": 5 },
+};
+
+const F = "'Poppins', system-ui, sans-serif";
+
+export function ArceriaSelector() {
+  const [selColor, setSelColor] = useState("Champagne");
+  const [selSize, setSelSize] = useState("");
+  const [pulseSize, setPulseSize] = useState(false);
+  const sizeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("hero-variant", { detail: { color: selColor, size: selSize } }));
+  }, [selColor, selSize]);
+
+  const handleCTA = () => {
+    if (!selSize) {
+      setPulseSize(true);
+      setTimeout(() => setPulseSize(false), 2400);
+      sizeRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    window.dispatchEvent(new CustomEvent("sticky-order", { detail: { size: selSize, color: selColor } }));
+  };
+
+  return (
+    <div>
+      <style>{`
+        .ar-size-pulse { animation: arPulse 0.6s ease 4; }
+        @keyframes arPulse { 0%,100%{box-shadow:none}50%{box-shadow:0 0 0 4px rgba(255,153,0,0.45)} }
+      `}</style>
+
+      {/* Color selector */}
+      <div style={{ marginBottom: 22 }}>
+        <p style={{ fontFamily: F, fontSize: 15, fontWeight: 600, color: "#6B655E", marginBottom: 12 }}>
+          Colore: <strong style={{ color: "#1E1B18", fontWeight: 700 }}>{selColor}</strong>
+        </p>
+        <div style={{ display: "flex", gap: 8 }}>
+          {AR_COLORS.map((c) => {
+            const sel = selColor === c.name;
+            return (
+              <button key={c.name} onClick={() => setSelColor(c.name)} aria-label={`Colore ${c.name}`}
+                style={{ flex: 1, borderRadius: 8, border: sel ? `2px solid ${c.border}` : "1.5px solid #E2D4C3", overflow: "hidden", padding: 0, backgroundColor: "#F5F0EA", cursor: "pointer", boxShadow: sel ? "0 6px 18px rgba(33,25,20,0.14)" : "none", transition: "border 0.18s, box-shadow 0.18s" }}>
+                <img src={c.img} alt={c.name} style={{ width: "100%", height: "auto", display: "block", pointerEvents: "none" }} loading="lazy" />
+                <div style={{ padding: "7px 6px", display: "flex", alignItems: "center", justifyContent: "center", gap: 5, backgroundColor: sel ? "#1E1B18" : "#fff" }}>
+                  <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: c.swatch, border: `1.5px solid ${c.border}`, flexShrink: 0 }} />
+                  <span style={{ fontFamily: F, fontSize: 11, fontWeight: 700, color: sel ? "#fff" : "#1E1B18", lineHeight: 1.2 }}>{c.name}</span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Size grid */}
+      <div ref={sizeRef} style={{ marginBottom: 24 }}>
+        <p style={{ fontFamily: F, fontSize: 15, fontWeight: 600, color: "#6B655E", marginBottom: 12 }}>
+          Taglia: <strong style={{ color: "#1E1B18", fontWeight: 700 }}>{selSize || "non selezionata"}</strong>
+        </p>
+        <div className={pulseSize ? "ar-size-pulse" : ""} style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 8, borderRadius: 10, padding: 2 }}>
+          {AR_SIZES.map((s) => {
+            const so = AR_SOLDOUT.includes(s);
+            const sel = selSize === s;
+            return (
+              <button key={s} onClick={() => !so && setSelSize(s)} disabled={so}
+                style={{ height: 56, borderRadius: 6, fontSize: "clamp(16px,2vw,18px)", fontWeight: 700, fontFamily: F, border: sel ? "2px solid #4A5E7A" : "1px solid #D1D5DB", backgroundColor: sel ? "#5A6E8A" : "#fff", color: sel ? "#fff" : so ? "#C9B89C" : "#1B3A5C", opacity: so ? 0.38 : 1, position: "relative", overflow: "hidden", cursor: so ? "not-allowed" : "pointer", transition: "background 0.15s, border 0.15s, color 0.15s" }}>
+                {s}
+                {so && <span style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, color: "#888", backgroundColor: "rgba(200,190,180,0.35)" }}>esaurita</span>}
+              </button>
+            );
+          })}
+        </div>
+        <p style={{ marginTop: 10, fontFamily: F, fontSize: 14, fontStyle: "italic", color: "#6B655E", lineHeight: 1.55 }}>
+          Calzata regolare. Scegli la tua taglia abituale. Se sei tra due numeri, scegli il numero superiore.
+        </p>
+
+        {(() => {
+          const visible = !!selSize && !AR_SOLDOUT.includes(selSize);
+          const qty = AR_STOCK[selColor]?.[selSize] ?? 5;
+          const color = qty <= 2 ? "#8E2D23" : qty <= 4 ? "#8B4A13" : "#2B4C3A";
+          const bg = qty <= 2 ? "#FFF2EE" : qty <= 4 ? "#FFF4E2" : "#F1F4EC";
+          const brd = qty <= 2 ? "#E8B9AE" : qty <= 4 ? "#EBCB8E" : "#CBD9C3";
+          return (
+            <div style={{ overflow: "hidden", maxHeight: visible ? 80 : 0, marginTop: visible ? 14 : 0, transition: "max-height 0.3s ease, margin-top 0.3s ease" }}>
+              <div style={{ borderRadius: 10, border: `1.5px solid ${brd}`, backgroundColor: bg, padding: "10px 14px", display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                <span style={{ fontFamily: F, fontSize: "clamp(13px,1.8vw,14px)", fontWeight: 700, color }}>
+                  Solo {qty} {qty === 1 ? "paio rimasto" : "paia rimaste"} per {selColor}, taglia {selSize || ""}
+                </span>
+                <span style={{ fontFamily: F, fontSize: 13, color: "#6B655E" }}>
+                  Disponibilità aggiornata da poco
+                </span>
+              </div>
+            </div>
+          );
+        })()}
+      </div>
+
+      <div style={{ height: 1, backgroundColor: "#E8DFD1", margin: "4px 0 24px" }} />
+
+      <button onClick={handleCTA}
+        style={{ width: "100%", height: 70, borderRadius: 8, background: "linear-gradient(180deg, #FFB347 0%, #FF9900 100%)", color: "#111", fontSize: "clamp(16px,2.5vw,18px)", fontWeight: 600, letterSpacing: "0.02em", fontFamily: F, border: "1px solid #E68A00", boxShadow: "0 4px 12px rgba(255,153,0,0.40)", cursor: "pointer", marginBottom: 10, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, textTransform: "uppercase" }}>
+        ORDINA ORA → PAGHI ALLA CONSEGNA
+      </button>
+
+      <div style={{ display: "flex", justifyContent: "center", gap: 14, flexWrap: "wrap", marginBottom: 8 }}>
+        {["Spedizione €4,99", "Paghi al corriere", "Reso 30 giorni"].map((t) => (
+          <span key={t} style={{ fontFamily: F, fontSize: "clamp(13px,1.8vw,14px)", fontWeight: 500, color: "#6B7280" }}>{t}</span>
+        ))}
+      </div>
+      <p style={{ textAlign: "center", fontFamily: F, fontSize: 13, color: "#6B655E", marginBottom: 0 }}>
+        Nessun pagamento anticipato — paghi solo al momento della consegna.
+      </p>
+    </div>
+  );
+}
+
+/* ───────────────────────── Order Steps (3-step animated) ───────────────────────── */
+
+const FT = "'Montserrat', system-ui, sans-serif";
+
+export function OrderSteps() {
+  const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    const iv = setInterval(() => setActiveStep((p) => (p + 1) % 3), 1400);
+    return () => clearInterval(iv);
+  }, []);
+
+  const steps = [
+    { n: "1", title: "Scegli taglia e colore", sub: "Seleziona la variante preferita dal modulo" },
+    { n: "2", title: "Ti richiamiamo per confermare", sub: "Un operatore verifica il tuo ordine entro poche ore" },
+    { n: "3", title: "Paghi al corriere all'arrivo", sub: "Nessuna carta, nessun anticipo — paghi solo quando ricevi" },
+  ];
+
+  return (
+    <section style={{ background: "#ECEEF2", padding: "32px 20px" }}>
+      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 22 }}>
+          <span style={{ display: "inline-block", fontFamily: F, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#8A96A8", marginBottom: 6 }}>
+            Ordine protetto
+          </span>
+          <p style={{ fontFamily: FT, fontSize: "clamp(18px,2.8vw,24px)", fontWeight: 700, color: "#1B3A5C", margin: 0, lineHeight: 1.2 }}>
+            Prenoti ora, paghi solo quando arriva
+          </p>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 520, margin: "0 auto" }}>
+          {steps.map((s, i) => {
+            const lit = activeStep === i;
+            return (
+              <div key={s.n} style={{ borderRadius: 10, backgroundColor: lit ? "#1B3A5C" : "#fff", border: lit ? "none" : "1px solid #C4CDD8", padding: "16px 20px", display: "flex", alignItems: "center", gap: 16, boxShadow: lit ? "0 8px 24px rgba(27,58,92,0.18)" : "0 2px 8px rgba(27,58,92,0.05)", transition: "background 0.35s, box-shadow 0.35s" }}>
+                <span style={{ width: 32, height: 32, borderRadius: "50%", backgroundColor: lit ? "#FF9900" : "#DDE2E8", color: lit ? "#fff" : "#7A8898", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F, fontSize: 14, fontWeight: 700, flexShrink: 0, transition: "background 0.35s, color 0.35s" }}>{s.n}</span>
+                <div>
+                  <div style={{ fontFamily: F, fontSize: 15, fontWeight: 700, color: lit ? "#fff" : "#1B3A5C", lineHeight: 1.2, transition: "color 0.35s" }}>{s.title}</div>
+                  <div style={{ fontFamily: F, fontSize: 13, fontWeight: 400, color: lit ? "rgba(255,255,255,0.72)" : "#6B655E", marginTop: 3, transition: "color 0.35s" }}>{s.sub}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ───────────────────────── CTA Order Button ───────────────────────── */
 
 export function CtaOrderButton({ children, className, style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) {
