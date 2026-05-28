@@ -26,6 +26,7 @@ export interface OrderConfig {
 /* ─── Shared constants ─── */
 
 const SIZES_35_44 = ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44"];
+const SIZES_35_43 = ["35", "36", "37", "38", "39", "40", "41", "42", "43"];
 
 const FULLSHIP_5901: Record<string, number> = {
   "35": 5901, "36": 5902, "37": 5903, "38": 5904, "39": 5905,
@@ -159,6 +160,17 @@ const ORDER_CONFIGS: Record<string, OrderConfig> = {
     colors: [{ name: "Bianco/Lilla", bg: "#E8E0F5", border: "#C0A8E8", image: "/images/categories/viola.webp" }],
     sizes: SIZES_35_44, sizeToFullship: FULLSHIP_5921, upsellPrice: 4.99, upsellFullshipId: 5932,
     accentColor: "#9B7BC8",
+  },
+  "arceria": {
+    title: "Arceria", slug: "arceria", price: 44.99, comparePrice: 149.99,
+    colors: [
+      { name: "Champagne", bg: "#D4B896", border: "#C4A67A", dot: "#C4A67A", image: "/images/land/arceria/carosello/1.webp", text: "#1a1a1a" },
+      { name: "Caffè",     bg: "#6F4E37", border: "#5A3D2B", dot: "#5A3D2B", image: "/images/land/arceria/carosello/2.webp" },
+      { name: "Nude Rose", bg: "#D4A5A5", border: "#C09090", dot: "#C09090", image: "/images/land/arceria/carosello/3.webp", text: "#1a1a1a" },
+    ],
+    sizes: SIZES_35_43, sizeToFullship: FULLSHIP_5973, upsellPrice: 4.99, upsellFullshipId: 5932,
+    accentColor: "#1B3A5C",
+    landingPath: "/land/arceria",
   },
   "belliva": {
     title: "Belliva", slug: "belliva", price: 44.99, comparePrice: 149.99,
