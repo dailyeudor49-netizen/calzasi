@@ -523,6 +523,29 @@ export function ArceriaSelector() {
   );
 }
 
+/* ───────────────────────── Client photos infinity loop ───────────────────────── */
+
+export function ClientLoop({ photos }: { photos: string[] }) {
+  if (!photos || photos.length === 0) return null;
+  const duped = [...photos, ...photos];
+  const duration = Math.max(photos.length * 3, 18);
+  return (
+    <div style={{ overflow: "hidden", width: "100%" }}>
+      <style>{`
+        @keyframes arClientLoop { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+        .ar-client-track { animation: arClientLoop ${duration}s linear infinite; }
+      `}</style>
+      <div className="ar-client-track" style={{ display: "flex", gap: 14, width: "max-content", willChange: "transform" }}>
+        {duped.map((src, i) => (
+          <img key={i} src={src} alt={`Cliente ${(i % photos.length) + 1}`}
+            style={{ height: "clamp(360px, 56vw, 520px)", width: "auto", borderRadius: 12, flexShrink: 0, display: "block", objectFit: "cover" }}
+            loading="lazy" />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ───────────────────────── How To Order — animated 4 step ───────────────────────── */
 
 export function AnimatedHowToOrder() {

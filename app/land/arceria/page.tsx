@@ -9,10 +9,10 @@ import {
   ReviewsSection,
   FeatureCard,
   SolutionBridgeAnimated,
-  InstaCarousel,
   CtaOrderButton,
   ArceriaSelector,
   AnimatedHowToOrder,
+  ClientLoop,
 } from "./client";
 import { OrderSection } from "@/components/OrderSection";
 import { StickyOrderButton } from "@/components/StickyOrderButton";
@@ -531,53 +531,19 @@ function InstaExperiencesSection() {
   if (photos.length === 0) return null;
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 md:py-16" id="insta-experiences" aria-label="Insta Experiences">
-      <div className="rounded-3xl border p-4 md:p-6" style={{ borderColor: DS.border, backgroundColor: DS.bg }}>
-        <svg width="0" height="0" className="absolute" aria-hidden="true">
-          <defs>
-            <linearGradient id="ig-grad-ar" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#FCAF45" />
-              <stop offset="25%" stopColor="#F77737" />
-              <stop offset="50%" stopColor="#E1306C" />
-              <stop offset="75%" stopColor="#C13584" />
-              <stop offset="100%" stopColor="#833AB4" />
-            </linearGradient>
-          </defs>
-        </svg>
-
-        <header className="mb-6 text-center">
-          <div className="mb-2 flex items-center justify-center gap-2">
-            <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" stroke="url(#ig-grad-ar)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" />
-              <circle cx="12" cy="12" r="5" />
-              <circle cx="17.5" cy="6.5" r="1.5" fill="url(#ig-grad-ar)" stroke="none" />
-            </svg>
-            <span className="text-[12px] font-bold uppercase tracking-[0.1em]" style={{
-              background: "linear-gradient(135deg, #833AB4, #C13584, #E1306C, #F77737, #FCAF45)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}>Insta Experiences</span>
-          </div>
-          <h2 className="mb-1 text-xl font-extrabold md:text-2xl" style={{ color: DS.text, fontFamily: "var(--font-heading)" }}>
-            Le nostre clienti ci taggano
-          </h2>
-          <p className="text-[15px]" style={{ color: DS.textSec }}>
-            Foto reali di chi ha scelto <b>Arceria</b> e condivide la propria esperienza.
-          </p>
-        </header>
-
-        <InstaCarousel photos={photos} />
-
-        <p className="mt-4 text-center text-[13px] leading-relaxed" style={{ color: DS.textMuted }}>
-          Pubblica una foto dopo l&apos;acquisto e usa l&apos;hashtag{" "}
-          <span className="font-bold" style={{
-            background: "linear-gradient(135deg, #833AB4, #C13584, #E1306C, #F77737, #FCAF45)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}>#arceria</span>{" "}
-          per essere pubblicata sul nostro sito.
+    <section className="py-12 md:py-16" aria-label="Le nostre clienti ci amano" style={{ overflow: "hidden" }}>
+      <header className="mb-6 text-center px-4">
+        <span className="inline-block text-[12px] font-bold uppercase tracking-[0.14em]" style={{ color: DS.brandDark, marginBottom: 8 }}>
+          Le nostre clienti ci amano
+        </span>
+        <h2 className="text-xl font-extrabold md:text-2xl" style={{ color: DS.text, fontFamily: "var(--font-heading)", marginBottom: 6 }}>
+          Foto reali di chi indossa Arceria
+        </h2>
+        <p className="text-[15px]" style={{ color: DS.textSec }}>
+          Donne reali che hanno scelto <b>Arceria</b> e raccontano la loro esperienza.
         </p>
-      </div>
+      </header>
+      <ClientLoop photos={photos} />
     </section>
   );
 }

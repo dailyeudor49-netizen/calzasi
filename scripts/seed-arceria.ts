@@ -80,8 +80,8 @@ async function main() {
   for (const r of reviews) {
     const createdAt = new Date(Date.now() - r.days * 86400000).toISOString();
     await sql`
-      INSERT INTO reviews (product_id, author_name, rating, body, reply, created_at)
-      VALUES (${prod.id}, ${r.author}, ${r.rating}, ${r.body}, ${r.reply ?? null}, ${createdAt})
+      INSERT INTO reviews (product_id, author_name, rating, body, reply, created_at, approved)
+      VALUES (${prod.id}, ${r.author}, ${r.rating}, ${r.body}, ${r.reply ?? null}, ${createdAt}, true)
     `;
     ok++;
   }
