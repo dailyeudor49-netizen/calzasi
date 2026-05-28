@@ -91,8 +91,8 @@ export async function sendOrderConfirmation(data: OrderEmailData) {
 
         <!-- LOGO BAR -->
         <tr>
-          <td style="background-color:${PRIMARY};padding:14px 20px;text-align:center;border-radius:0 0 12px 12px;">
-            <img src="https://${DOMAIN}/images/logo-white.svg" alt="${SHOP_NAME}" height="28" style="display:inline-block;height:28px;width:auto;" />
+          <td style="background-color:${PRIMARY};padding:16px 20px;text-align:center;border-radius:0 0 12px 12px;">
+            <span style="display:inline-block;font-family:'Poppins','Helvetica Neue','Helvetica',Arial,sans-serif;font-size:22px;font-weight:700;letter-spacing:0.5px;color:#ffffff;text-decoration:none;line-height:1;">${SHOP_NAME}</span>
           </td>
         </tr>
 
