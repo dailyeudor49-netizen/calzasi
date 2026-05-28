@@ -403,11 +403,11 @@ const AR_COLORS = [
   { name: "Nude Rose", img: "/images/land/arceria/carosello/3.webp", swatch: "#D4A5A5", border: "#C09090" },
 ];
 const AR_SIZES = ["35","36","37","38","39","40","41","42","43"];
-const AR_SOLDOUT = ["35", "43"];
+const AR_SOLDOUT = ["35"];
 const AR_STOCK: Record<string, Record<string, number>> = {
-  "Champagne": { "36": 4, "37": 6, "38": 2, "39": 3, "40": 5, "41": 4, "42": 2 },
-  "Caffè":     { "36": 5, "37": 2, "38": 3, "39": 1, "40": 4, "41": 6, "42": 3 },
-  "Nude Rose": { "36": 3, "37": 5, "38": 4, "39": 2, "40": 6, "41": 3, "42": 5 },
+  "Champagne": { "36": 4, "37": 6, "38": 2, "39": 3, "40": 5, "41": 4, "42": 2, "43": 3 },
+  "Caffè":     { "36": 5, "37": 2, "38": 3, "39": 1, "40": 4, "41": 6, "42": 3, "43": 2 },
+  "Nude Rose": { "36": 3, "37": 5, "38": 4, "39": 2, "40": 6, "41": 3, "42": 5, "43": 4 },
 };
 
 const F = "'Poppins', system-ui, sans-serif";
