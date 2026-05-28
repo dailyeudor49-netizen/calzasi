@@ -150,7 +150,7 @@ async function HeroSection() {
           {/* Title */}
           <h1 style={{ marginBottom: 12, color: "#1B1B1B", fontFamily: "var(--font-heading)", fontSize: 28, lineHeight: 1.1, letterSpacing: "-0.02em" }}
             className="font-extrabold md:text-[44px]">
-            ARCERIA — <span style={{ color: "#4A4A4A" }}>Lo infili come un calzino. Comfort ortopedico.</span>
+            <span style={{ color: "#FF9900" }}>ARCERIA</span> — <span style={{ color: "#4A4A4A" }}>Lo infili come un calzino. Comfort ortopedico.</span>
           </h1>
 
           {/* Description */}
