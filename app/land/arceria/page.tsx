@@ -12,7 +12,7 @@ import {
   InstaCarousel,
   CtaOrderButton,
   ArceriaSelector,
-  OrderSteps,
+  AnimatedHowToOrder,
 } from "./client";
 import { OrderSection } from "@/components/OrderSection";
 import { StickyOrderButton } from "@/components/StickyOrderButton";
@@ -242,7 +242,7 @@ async function HeroSection() {
           </div>
 
           <RefundGuarantee accentColor={DS.brand} />
-          <HowToOrder accentColor={DS.trust} />
+          <AnimatedHowToOrder />
         </div>
       </div>
       </div>
@@ -639,9 +639,6 @@ export default async function ArceriaLanding() {
 
       {/* 2. Trust strip */}
       <TrustStrip />
-
-      {/* 2b. Come ordinare (3 step animati) */}
-      <OrderSteps />
 
       {/* 3. Why */}
       <div style={{ backgroundColor: "#FFFFFF" }}>

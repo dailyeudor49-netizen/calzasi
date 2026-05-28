@@ -523,51 +523,50 @@ export function ArceriaSelector() {
   );
 }
 
-/* ───────────────────────── Order Steps (3-step animated) ───────────────────────── */
+/* ───────────────────────── How To Order — animated 4 step ───────────────────────── */
 
-const FT = "'Montserrat', system-ui, sans-serif";
-
-export function OrderSteps() {
+export function AnimatedHowToOrder() {
   const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
-    const iv = setInterval(() => setActiveStep((p) => (p + 1) % 3), 1400);
+    const iv = setInterval(() => setActiveStep((p) => (p + 1) % 4), 1400);
     return () => clearInterval(iv);
   }, []);
 
   const steps = [
-    { n: "1", title: "Scegli taglia e colore", sub: "Seleziona la variante preferita dal modulo" },
-    { n: "2", title: "Ti richiamiamo per confermare", sub: "Un operatore verifica il tuo ordine entro poche ore" },
-    { n: "3", title: "Paghi al corriere all'arrivo", sub: "Nessuna carta, nessun anticipo — paghi solo quando ricevi" },
+    { num: "1", title: "Scegli taglia e colore", desc: "Seleziona la tua misura EU. Se sei tra due taglie, scegli la più grande." },
+    { num: "2", title: "Clicca Ordina ora",       desc: "Inserisci i dati di spedizione. Nessun pagamento anticipato." },
+    { num: "3", title: "Conferma e spedizione",   desc: "Ti contattiamo per conferma. Se non rispondi, spediamo direttamente." },
+    { num: "4", title: "Ricevi e paga al corriere", desc: "Arriva in 2-5 giorni con GLS. Paghi in contanti alla consegna." },
   ];
 
   return (
-    <section style={{ background: "#ECEEF2", padding: "32px 20px" }}>
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 22 }}>
-          <span style={{ display: "inline-block", fontFamily: F, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#8A96A8", marginBottom: 6 }}>
-            Ordine protetto
-          </span>
-          <p style={{ fontFamily: FT, fontSize: "clamp(18px,2.8vw,24px)", fontWeight: 700, color: "#1B3A5C", margin: 0, lineHeight: 1.2 }}>
-            Prenoti ora, paghi solo quando arriva
-          </p>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 520, margin: "0 auto" }}>
-          {steps.map((s, i) => {
-            const lit = activeStep === i;
-            return (
-              <div key={s.n} style={{ borderRadius: 10, backgroundColor: lit ? "#1B3A5C" : "#fff", border: lit ? "none" : "1px solid #C4CDD8", padding: "16px 20px", display: "flex", alignItems: "center", gap: 16, boxShadow: lit ? "0 8px 24px rgba(27,58,92,0.18)" : "0 2px 8px rgba(27,58,92,0.05)", transition: "background 0.35s, box-shadow 0.35s" }}>
-                <span style={{ width: 32, height: 32, borderRadius: "50%", backgroundColor: lit ? "#FF9900" : "#DDE2E8", color: lit ? "#fff" : "#7A8898", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: F, fontSize: 14, fontWeight: 700, flexShrink: 0, transition: "background 0.35s, color 0.35s" }}>{s.n}</span>
-                <div>
-                  <div style={{ fontFamily: F, fontSize: 15, fontWeight: 700, color: lit ? "#fff" : "#1B3A5C", lineHeight: 1.2, transition: "color 0.35s" }}>{s.title}</div>
-                  <div style={{ fontFamily: F, fontSize: 13, fontWeight: 400, color: lit ? "rgba(255,255,255,0.72)" : "#6B655E", marginTop: 3, transition: "color 0.35s" }}>{s.sub}</div>
-                </div>
+    <div className="mt-5 rounded-xl border p-4" style={{ borderColor: "#E2E4E8", backgroundColor: "#FFFFFF" }}>
+      <p className="mb-3.5 font-bold" style={{ fontSize: 16, color: "#1A1917", fontFamily: "var(--font-heading)" }}>
+        Come funziona l&apos;ordine?
+      </p>
+      <div className="space-y-3.5">
+        {steps.map((s, i) => {
+          const lit = activeStep === i;
+          return (
+            <div key={s.num}
+              className="flex items-start gap-3"
+              style={{ borderRadius: 10, padding: "10px 12px", margin: "-10px -12px", backgroundColor: lit ? "#F0F4F1" : "transparent", boxShadow: lit ? "0 6px 18px rgba(27,58,92,0.10)" : "none", transition: "background 0.35s, box-shadow 0.35s, transform 0.35s", transform: lit ? "translateX(2px)" : "translateX(0)" }}>
+              <span
+                className="flex h-6 w-6 min-w-[24px] shrink-0 items-center justify-center rounded-full text-[11px] font-bold text-white"
+                style={{ backgroundColor: lit ? "#FF9900" : "#4D6E58", transition: "background 0.35s, transform 0.35s", transform: lit ? "scale(1.15)" : "scale(1)" }}
+              >
+                {s.num}
+              </span>
+              <div className="min-w-0">
+                <p className="font-semibold leading-snug" style={{ fontSize: 15, color: lit ? "#1B3A5C" : "#1A1917", transition: "color 0.35s" }}>{s.title}</p>
+                <p className="leading-relaxed" style={{ fontSize: 14, color: lit ? "#4B5563" : "#9B9790", transition: "color 0.35s" }}>{s.desc}</p>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
-    </section>
+    </div>
   );
 }
 
