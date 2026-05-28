@@ -19,6 +19,9 @@ import RefundGuarantee from "@/components/RefundGuarantee";
 import LandingShipping from "@/components/LandingShipping";
 import LandingRefund from "@/components/LandingRefund";
 import LandingFAQ from "@/components/LandingFAQ";
+import TopBar from "@/components/landing/TopBar";
+import LandingHeader from "@/components/landing/LandingHeader";
+import LandingFooter from "@/components/landing/LandingFooter";
 
 export const dynamic = "force-dynamic";
 
@@ -596,6 +599,9 @@ export default async function ArceriaLanding() {
     <div>
       <StickyOrderButton config={orderConfig} />
 
+      <TopBar />
+      <LandingHeader />
+
       {/* 1. Hero */}
       <HeroSection />
 
@@ -645,6 +651,8 @@ export default async function ArceriaLanding() {
 
       {/* 9. Refund */}
       <LandingRefund accentColor={DS.brand} />
+
+      <LandingFooter />
     </div>
   );
 }
