@@ -1034,13 +1034,23 @@ export function BellivaPage({ orderConfig, reviews, stats, shopEmail }: Props) {
             </div>
           </div>
           <div style={{ borderTop: "1px solid #E9DED0", paddingTop: 20, display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "space-between", alignItems: "center" }}>
-            <p style={{ fontFamily: F, fontSize: 13, color: "#9CA3AF" }}>© 2026 Calzasi. Tutti i diritti riservati.</p>
             <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
               <span style={{ fontFamily: F, fontSize: 18, fontWeight: 700, color: "#1E7A48" }}>€44,99</span>
               <button onClick={handleCTA} style={{ fontFamily: F, fontSize: 14, fontWeight: 700, background: "linear-gradient(180deg, #FFB347 0%, #FF9900 100%)", color: "#111", padding: "10px 22px", borderRadius: 8, border: "1px solid #E68A00", cursor: "pointer", boxShadow: "0 4px 10px rgba(255,153,0,0.35)" }}>
                 Ordina ora
               </button>
             </div>
+          </div>
+
+          {/* Bottom bar legale */}
+          <div style={{ marginTop: 24, paddingTop: 18, borderTop: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, fontSize: 11, color: "#999", fontFamily: F }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <Link href="/privacy-policy" style={{ color: "#999", textDecoration: "none" }}>Privacy Policy</Link>
+              <span>|</span>
+              <Link href="/cookie-policy" style={{ color: "#999", textDecoration: "none" }}>Cookie Policy</Link>
+            </div>
+            <p style={{ margin: 0 }}>© {new Date().getFullYear()} Calzasi S.r.l.. Tutti i diritti riservati.</p>
+            <p style={{ margin: 0, color: "#bbb" }}>Powered by <span style={{ color: "#bbb" }}>CORA</span></p>
           </div>
         </div>
       </footer>

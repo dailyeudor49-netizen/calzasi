@@ -738,7 +738,6 @@ export default async function ArceriaLanding() {
             </div>
           </div>
           <div style={{ borderTop: "1px solid #E9DED0", paddingTop: 20, display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "space-between", alignItems: "center" }}>
-            <p style={{ fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 13, color: "#9CA3AF" }}>© 2026 Calzasi. Tutti i diritti riservati.</p>
             <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
               <span style={{ fontFamily: "'Poppins', system-ui, sans-serif", fontSize: 18, fontWeight: 700, color: "#1E7A48" }}>€44,99</span>
               <CtaOrderButton
@@ -747,6 +746,17 @@ export default async function ArceriaLanding() {
                 Ordina ora
               </CtaOrderButton>
             </div>
+          </div>
+
+          {/* Bottom bar legale */}
+          <div style={{ marginTop: 24, paddingTop: 18, borderTop: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, fontSize: 11, color: "#999", fontFamily: "'Poppins', system-ui, sans-serif" }} className="ar-bottom-bar">
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <Link href="/privacy-policy" style={{ color: "#999", textDecoration: "none" }}>Privacy Policy</Link>
+              <span>|</span>
+              <Link href="/cookie-policy" style={{ color: "#999", textDecoration: "none" }}>Cookie Policy</Link>
+            </div>
+            <p style={{ margin: 0 }}>© {new Date().getFullYear()} Calzasi S.r.l.. Tutti i diritti riservati.</p>
+            <p style={{ margin: 0, color: "#bbb" }}>Powered by <span style={{ color: "#bbb" }}>CORA</span></p>
           </div>
         </div>
       </footer>
