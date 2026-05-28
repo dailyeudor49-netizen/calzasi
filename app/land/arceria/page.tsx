@@ -464,7 +464,7 @@ function FeaturesSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <SolutionBridgeAnimated
         bg="transparent"
-        textColor={DS.text}
+        textColor="#FF9900"
         brandColor={DS.brand}
       />
 
