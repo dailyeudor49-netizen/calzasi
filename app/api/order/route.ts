@@ -18,6 +18,20 @@ const FULLSHIP_API_URL =
   process.env.FULLSHIP_API_URL ||
   "https://fullship-proxy.marco-quaranta-info.workers.dev";
 
+// Anhub optin — dual-send dei lead in parallelo al gestionale principale.
+// NB: Anhub accetta SOLO multipart/form-data; con urlencoded risponde 404.
+const ANHUB_OPTIN_URL =
+  process.env.ANHUB_OPTIN_URL || "https://flow.anhub.io/ikoru/optin";
+
+function normalizePhoneIT(raw: string): string {
+  const p = (raw || "").replace(/[^\d+]/g, "");
+  if (p.startsWith("+")) return p;
+  if (p.startsWith("0039")) return "+" + p.slice(2);
+  if (p.startsWith("39") && p.length >= 11) return "+" + p;
+  if (p.startsWith("3")) return "+39" + p;
+  return p ? "+39" + p : "";
+}
+
 function isAllowedOrigin(req: NextRequest): boolean {
   const origin = req.headers.get("origin");
   const referer = req.headers.get("referer");
@@ -149,6 +163,55 @@ export async function POST(req: NextRequest) {
     if (body.cart) {
       body.cart.shopName = "Calzasi";
       if (!body.cart.id) body.cart.id = Date.now();
+    }
+
+    // ── Forward to Anhub (best-effort) — FLAT 49,99 ──
+    // Regola fissa: scontrino sempre 49,99€ (54,98€ con plantare/upsell),
+    // a prescindere da come lo shop suddivide prezzo + spedizione.
+    try {
+      const _c = body.customer || {};
+      const _v = body.variant || {};
+      const _m = body.meta || {};
+      const _cart = body.cart || {};
+      const _main = (_cart.products || [])[0] || null;
+      const anhubName = [_c.firstName, _c.lastName].filter(Boolean).join(" ").trim();
+      const anhubVariant = [_v.color || _m.color, _v.size || _m.size].filter(Boolean).join(" / ");
+      const anhubTotal = (upsell ? 54.98 : 49.99).toFixed(2);
+      const anhubSource = (body.source && body.source !== "organica" ? body.source : "") || _m.utm_source || "organica";
+
+      const fd = new FormData();
+      fd.append("x01", anhubName);
+      fd.append("x02", normalizePhoneIT(phone));
+      fd.append("x03", _c.email || "");
+      fd.append("x04", _c.address || "");
+      fd.append("x05", _c.city || "");
+      fd.append("x06", _c.state || "");
+      fd.append("x07", _c.zip || "");
+      fd.append("x08", _cart.productType || _cart.category || "Scarpa Donna");
+      fd.append("x09", _cart.productName || product);
+      fd.append("x10", anhubVariant);
+      fd.append("x11", _cart.code || "");
+      fd.append("x12", String(_main?.quantity ?? 1));
+      fd.append("x13", "49.99");
+      fd.append("x14", anhubTotal);
+      fd.append("x15", "COD");
+      fd.append("x16", anhubSource);
+      fd.append("x17", _m.utm_source || "");
+      fd.append("x18", _m.utm_medium || "");
+      fd.append("x19", _m.utm_campaign || "");
+      fd.append("x20", _m.fbclid || body.fbclid || "");
+      fd.append("x21", JSON.stringify({
+        shopName: "Calzasi",
+        orderId: body.orderTimestamp ?? null,
+        ip: ip || "",
+        upsell,
+        size: _v.size || _m.size || "",
+        color: _v.color || _m.color || "",
+      }));
+
+      await fetch(ANHUB_OPTIN_URL, { method: "POST", body: fd });
+    } catch (err) {
+      console.error("[anhub] Errore invio lead:", err);
     }
 
     // Forward to Fullship
