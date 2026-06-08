@@ -30,7 +30,7 @@ async function main() {
       'Si adatta come un calzino.',
       'Sandalo estivo dalla tomaia in maglia elastica che si adatta al piede come un calzino, avvolgendolo senza stringere e senza creare punti di sfregamento. La soletta in memory foam si modella alla forma del piede e aiuta ad alleviare la pressione ad ogni passo, mentre la suola curva accompagna il rollio della camminata. La caviglia resta sostenuta per un appoggio stabile e sicuro. Comfort estivo dalla mattina alla sera, leggero e traspirante.',
       44.99,
-      149.99,
+      89.98,
       '/images/land/lunera/carosello/1.webp',
       ${cat.id},
       ${features},

@@ -196,7 +196,7 @@ const ORDER_CONFIGS: Record<string, OrderConfig> = {
     landingPath: "/land/melvia",
   },
   "lunera": {
-    title: "Lunera", slug: "lunera", price: 44.99, comparePrice: 149.99,
+    title: "Lunera", slug: "lunera", price: 44.99, comparePrice: 89.98,
     colors: [
       { name: "Tortora",       bg: "#A39484", border: "#8A7B6C", dot: "#8A7B6C", image: "/images/land/lunera/carosello/1.webp" },
       { name: "Azzurro",       bg: "#87CEEB", border: "#5BA3C9", dot: "#5BA3C9", image: "/images/land/lunera/carosello/2.webp", text: "#1a1a1a" },
