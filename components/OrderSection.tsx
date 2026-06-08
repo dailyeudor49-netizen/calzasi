@@ -70,7 +70,7 @@ function fmtPrice(n: number) {
 /* ═══════════════════ Main Component ═══════════════════ */
 
 export function OrderSection({ config, image }: { config: OrderConfig; image: string }) {
-  const accent = "#7a1a1a"; // fisso per tutte le landing
+  const accent = config.accentColor || "#7a1a1a"; // per-landing (fallback bordeaux)
   const hasColors = config.colors.length > 0;
   const [color, setColor] = useState(config.colors[0]?.name || "");
   const currentImage = config.colors.find((c) => c.name === color)?.image || image || "/images/placeholder-product.svg";

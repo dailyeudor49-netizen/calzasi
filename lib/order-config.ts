@@ -184,6 +184,50 @@ const ORDER_CONFIGS: Record<string, OrderConfig> = {
     accentColor: "#C9813A",
     landingPath: "/land/belliva",
   },
+  "melvia": {
+    title: "Melvia", slug: "melvia", price: 44.99, comparePrice: 149.99,
+    colors: [
+      { name: "Tortora",  bg: "#A39484", border: "#8A7B6C", dot: "#8A7B6C", image: "/images/land/melvia/carosello/1.webp" },
+      { name: "Verde",    bg: "#5B7A5E", border: "#4A6A4E", dot: "#4A6A4E", image: "/images/land/melvia/carosello/2.webp" },
+      { name: "Blu Navy", bg: "#2A3B58", border: "#1E2C44", dot: "#1E2C44", image: "/images/land/melvia/carosello/3.webp" },
+    ],
+    sizes: SIZES_35_43, sizeToFullship: FULLSHIP_5973, upsellPrice: 4.99, upsellFullshipId: 5932,
+    accentColor: "#1B3A5C",
+    landingPath: "/land/melvia",
+  },
+  "lunera": {
+    title: "Lunera", slug: "lunera", price: 44.99, comparePrice: 149.99,
+    colors: [
+      { name: "Tortora",       bg: "#A39484", border: "#8A7B6C", dot: "#8A7B6C", image: "/images/land/lunera/carosello/1.webp" },
+      { name: "Azzurro",       bg: "#87CEEB", border: "#5BA3C9", dot: "#5BA3C9", image: "/images/land/lunera/carosello/2.webp", text: "#1a1a1a" },
+      { name: "Bianco Avorio", bg: "#F5F0E6", border: "#E0D8C8", dot: "#FBF7EF", image: "/images/land/lunera/carosello/3.webp", text: "#1a1a1a" },
+    ],
+    sizes: SIZES_35_43, sizeToFullship: FULLSHIP_5973, upsellPrice: 4.99, upsellFullshipId: 5932,
+    accentColor: "#1B3A5C",
+    landingPath: "/land/lunera",
+  },
+  "mireva": {
+    title: "Mireva", slug: "mireva", price: 44.99, comparePrice: 149.99,
+    colors: [
+      { name: "Nero",    bg: "#1A1A1A", border: "#000000", dot: "#000000", image: "/images/land/mireva/carosello/1.webp" },
+      { name: "Tortora", bg: "#A39484", border: "#8A7B6C", dot: "#8A7B6C", image: "/images/land/mireva/carosello/2.webp" },
+      { name: "Bianco",  bg: "#FFFFFF", border: "#D1D1D1", dot: "#F0F0F0", image: "/images/land/mireva/carosello/3.webp", text: "#1a1a1a" },
+    ],
+    sizes: SIZES_35_43, sizeToFullship: FULLSHIP_5973, upsellPrice: 4.99, upsellFullshipId: 5932,
+    accentColor: "#1B3A5C",
+    landingPath: "/land/mireva",
+  },
+  "soleva": {
+    title: "Soleva", slug: "soleva", price: 44.99, comparePrice: 149.99,
+    colors: [
+      { name: "Bianco-Beige", bg: "#E9DFCB", border: "#D5C9B0", dot: "#F2EBDD", image: "/images/land/soleva/carosello/1.webp", text: "#1a1a1a" },
+      { name: "Tortora",      bg: "#A39484", border: "#8A7B6C", dot: "#8A7B6C", image: "/images/land/soleva/carosello/2.webp" },
+      { name: "Nero",         bg: "#1A1A1A", border: "#000000", dot: "#000000", image: "/images/land/soleva/carosello/3.webp" },
+    ],
+    sizes: SIZES_35_43, sizeToFullship: FULLSHIP_5973, upsellPrice: 4.99, upsellFullshipId: 5932,
+    accentColor: "#1B3A5C",
+    landingPath: "/land/soleva",
+  },
 };
 
 export function getOrderConfig(slug: string): OrderConfig {
