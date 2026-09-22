@@ -1,0 +1,26 @@
+[
+ {
+  "id": 5,
+  "slug": "classiche",
+  "name": "Classiche",
+  "label": "Scarpe Classiche"
+ },
+ {
+  "id": 6,
+  "slug": "sandali",
+  "name": "Sandali",
+  "label": "Sandali"
+ },
+ {
+  "id": 7,
+  "slug": "sportive",
+  "name": "Sportive",
+  "label": "Scarpe Sportive"
+ },
+ {
+  "id": 9,
+  "slug": "ortopediche",
+  "name": "Scarpe Ortopediche",
+  "label": "Ortopediche"
+ }
+]
